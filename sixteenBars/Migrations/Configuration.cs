@@ -22,8 +22,20 @@ namespace sixteenBars.Migrations
             //
             context.Quotes.AddOrUpdate(
               q => q.Text,
-              new Quote() { Id=1, Text = "Con Edison flow, I'm connected to a higher power.", Artist = new Artist() { Id=1, Name = "Jay-Z" }, Track = new Track() { Id=1,Title="Light Up"} },
-              new Quote() { Id=2, Text = "I'm winning so they have to dump the Gatorade.", Artist = new Artist() { Id=2, Name = "Childish Gambino" }, Track = new Track() {Id=2, Title = "Sweatpants" } }
+              new Quote() { 
+                  Id=1, Text = "Con Edison flow, I'm connected to a higher power.", Explanation = "Play on words and Dual meaning. \"Con Edison\" is a utility company that supplies energy to the New York city area. The direct meaning is \"I rap so well it is like I am drawing energy from the powergrid.\" The other meaning uses the colloquial usage of \"higher power.\" \"My rap ability is God-given.\"",
+                  DateModified = DateTime.Now,
+                  Explicit = false,
+                  Artist = new Artist() { Id = 1, Name = "Jay-Z", DateModified = DateTime.Now },
+                  Track = new Track() { Id = 1, Title = "Light Up", DateModified = DateTime.Now, ReleaseDate=new DateTime(2010,6,15)}
+              },
+              new Quote() { 
+                  Id=2, Text = "I'm winning so they have to dump the Gatorade.", Explanation="Play on words. Gatorade is dumped on the head of the coach for a winning athletic team. The meaning is \"I should be recognized as a winner in my profession and/or in life.\"",
+                  DateModified = DateTime.Now,
+                  Explicit = false,
+                  Artist = new Artist() { Id=2, Name = "Childish Gambino", DateModified=DateTime.Now},
+                  Track = new Track() { Id = 2, Title = "IV. Sweatpants", DateModified = DateTime.Now, ReleaseDate = new DateTime(2014, 3, 11) }
+              }
             );
             //
         }

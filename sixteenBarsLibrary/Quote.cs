@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace sixteenBars.Library
 {
@@ -12,7 +9,11 @@ namespace sixteenBars.Library
         [Required]
         [Display(Name = "Quote")]
         public String Text { get; set; }
+        public String Explanation { get; set; }
         public DateTime DateCreated { get; set; }
+        public DateTime DateModified { get; set; }
+        [Required]
+        public Boolean Explicit { get; set; }
         [Required]
         public Boolean Enabled { get; set; }
         [Display(Name="Said By")]
@@ -23,6 +24,7 @@ namespace sixteenBars.Library
         public Quote()
         {
             Enabled = true;
+            Explicit = false;
             DateCreated = DateTime.Now;
         }
     }
