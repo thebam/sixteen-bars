@@ -313,6 +313,7 @@
     <Content Include="Views\Quote\Create.cshtml" />
     <Content Include="Views\Quote\Edit.cshtml" />
     <Content Include="Views\Quote\Delete.cshtml" />
+    <Content Include="Views\Shared\_QuoteOfTheDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

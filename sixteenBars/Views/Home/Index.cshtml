@@ -1,6 +1,10 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+
+
+@{Html.RenderAction("QOTD", "Quote");}
+
 @section featured {
     <section class="featured">
         <div class="content-wrapper">

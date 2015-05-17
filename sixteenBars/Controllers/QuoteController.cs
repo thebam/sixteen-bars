@@ -14,6 +14,15 @@ namespace sixteenBars.Controllers
     {
         private SixteenBarsDb db = new SixteenBarsDb();
 
+        [ChildActionOnly]
+        public ActionResult QOTD() {
+            Random rand = new Random();
+            int toSkip = rand.Next(0, db.Quotes.Count()-1);
+            Quote quote = db.Quotes.OrderBy(q=>q.Id).Skip(toSkip).Take(1).First();
+            return PartialView("_QuoteOfTheDay",quote);
+        }
+
+
         //
         // GET: /Quote/
 
