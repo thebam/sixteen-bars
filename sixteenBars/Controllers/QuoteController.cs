@@ -56,6 +56,12 @@ namespace sixteenBars.Controllers
             var tracks = db.Tracks.ToList();
             tracks.Add(new Track() { Title = "Add New Song", Id = -1 });
             quoteVM.Tracks = new SelectList(tracks, "Id", "Title");
+
+            var albums = db.Albums.ToList();
+            albums.Add(new Album() { Title = "Add New Album", Id = -1 });
+            quoteVM.Albums = new SelectList(albums, "Id", "Title");
+
+
             return View(quoteVM);
         }
 
@@ -68,38 +74,87 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (quoteVM.ArtistId == -1)
+                {
+                    Artist artist = db.Artists.FirstOrDefault(a => a.Name == quoteVM.ArtistName);
+                    if (artist == null) {
+                        db.Artists.Add(new Artist() { Name=quoteVM.ArtistName,DateModified=DateTime.Now});
+                        db.SaveChanges();
+                    }
+                }
+
+                if (quoteVM.AlbumArtistId == -1)
+                {
+                    Artist artist = db.Artists.FirstOrDefault(a => a.Name == quoteVM.AlbumArtistName);
+                    if (artist == null)
+                    {
+                        db.Artists.Add(new Artist() { Name = quoteVM.AlbumArtistName, DateModified = DateTime.Now });
+                        db.SaveChanges();
+                    }
+                }
+
+
+
                 Quote quote = new Quote();
                 quote.Text = quoteVM.Text;
+                quote.DateModified = DateTime.Now;
+                quote.Explicit = quoteVM.Explicit;
+                quote.Explanation = quoteVM.Explanation;
+
                 if (quoteVM.ArtistId != -1)
                 {
                     quote.Artist = db.Artists.Find(quoteVM.ArtistId);
                 }
                 else {
-
-                    Artist artist = db.Artists.FirstOrDefault(a => a.Name == quoteVM.ArtistName);
-                    if (artist == null)
-                    {
-                        quote.Artist = new Artist() { Name = quoteVM.ArtistName };
-                    }
-                    else {
-                        quote.Artist = artist;
-                    }
+                    quote.Artist = db.Artists.SingleOrDefault(a=>a.Name == quoteVM.ArtistName);
                 }
+
                 if (quoteVM.TrackId != -1)
                 {
                     quote.Track = db.Tracks.Find(quoteVM.TrackId);
                 }
-                else {
+                else
+                {
                     Track track = db.Tracks.FirstOrDefault(t => t.Title == quoteVM.TrackName);
                     if (track == null)
                     {
-                        quote.Track = new Track() { Title = quoteVM.TrackName };
+                        quote.Track = new Track() { Title = quoteVM.TrackName, DateModified = DateTime.Now,ReleaseDate=quoteVM.TrackReleaseDate };
                     }
                     else
                     {
                         quote.Track = track;
                     }
                 }
+
+
+                if (quoteVM.AlbumId != -1)
+                {
+                    quote.Track.Album = db.Albums.Find(quoteVM.AlbumId);
+                }
+                else
+                {
+                    Album album = db.Albums.FirstOrDefault(a => a.Title == quoteVM.AlbumName);
+                    if (album == null)
+                    {
+
+                        quote.Track.Album = new Album() { Title = quoteVM.AlbumName, DateModified = DateTime.Now,ReleaseDate=quoteVM.AlbumReleaseDate};
+
+                        if (quoteVM.AlbumArtistId != -1)
+                        {
+                            quote.Track.Album.Artist = db.Artists.Find(quoteVM.AlbumArtistId);
+                        }
+                        else
+                        {
+                            quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.AlbumArtistName);
+                        }
+                    }
+                    else
+                    {
+                        quote.Track.Album = album;
+                    }
+                }
+
                 db.Quotes.Add(quote);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -177,7 +232,7 @@ namespace sixteenBars.Controllers
                     Track track = db.Tracks.FirstOrDefault(t => t.Title == quoteVM.TrackName);
                     if (track == null)
                     {
-                        quote.Track = new Track() { Title = quoteVM.TrackName };
+                        quote.Track = new Track() { Title = quoteVM.TrackName,ReleaseDate=quoteVM.TrackReleaseDate };
                     }
                     else
                     {

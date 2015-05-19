@@ -8,13 +8,18 @@ namespace sixteenBars.Library
         public Int32 Id { get; set; }
         [Required]
         public String Title { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
+        [Required]
         public DateTime DateCreated { get; set; }
+        [Required]
         public DateTime DateModified { get; set; }
+        [Required]
         public Boolean Enabled { get; set; }
+        public virtual Album Album { get; set; }
 
         public Track() { 
             DateCreated = DateTime.Now;
+            DateModified = DateTime.Now;
             Enabled = true;
         }
     }

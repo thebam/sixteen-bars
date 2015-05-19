@@ -10,12 +10,15 @@ namespace sixteenBars.Library
         [Display(Name = "Quote")]
         public String Text { get; set; }
         public String Explanation { get; set; }
+        [Required]
         public DateTime DateCreated { get; set; }
+        [Required]
         public DateTime DateModified { get; set; }
         [Required]
         public Boolean Explicit { get; set; }
         [Required]
         public Boolean Enabled { get; set; }
+        [Required]
         [Display(Name="Said By")]
         public virtual Artist Artist { get; set; }
         [Display(Name="From Song")]
@@ -26,6 +29,7 @@ namespace sixteenBars.Library
             Enabled = true;
             Explicit = false;
             DateCreated = DateTime.Now;
+            DateModified = DateTime.Now;
         }
     }
 

@@ -3,11 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace sixteenBars.Library
 {
-    public class Artist
+    public class Album
     {
         public Int32 Id { get; set; }
         [Required]
-        public String Name { get; set; }
+        public String Title { get; set; }
+        [Required]
+        public virtual Artist Artist { get; set; }
+        public DateTime? ReleaseDate { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
         [Required]
@@ -15,7 +18,7 @@ namespace sixteenBars.Library
         [Required]
         public Boolean Enabled { get; set; }
 
-        public Artist()
+        public Album()
         { 
             DateCreated = DateTime.Now;
             DateModified = DateTime.Now;
