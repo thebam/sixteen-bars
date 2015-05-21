@@ -1,18 +1,14 @@
 ﻿@model sixteenBars.Models.QuoteViewModel
 
-@{
-    ViewBag.Title = "Create";
-}
+
 @Styles.Render("~/Content/themes/base/css")
-<h2>Create</h2>
+<h2>Add new Quote</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Quote</legend>
-
         <div class="editor-label">
             @Html.LabelFor(model => model.Text)
         </div>
@@ -20,7 +16,12 @@
             @Html.EditorFor(model => model.Text)
             @Html.ValidationMessageFor(model => model.Text)
         </div>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Explicit)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Explicit)
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.Explanation)
         </div>
@@ -29,28 +30,30 @@
         </div>
 
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Explicit)
-        </div>
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.Explicit)
-        </div>
-
+        
+        <hr/>
         <div class="editor-label">
             @Html.LabelFor(model => model.Artists)
         </div>
+        <div id="artistImage"></div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.ArtistId,Model.Artists,"Select Artist")
-            @Html.EditorFor(model => model.ArtistName)
+            <div id="newArtistName">
+                @Html.LabelFor(model => model.ArtistName)
+                @Html.EditorFor(model => model.ArtistName)
+            </div>
             @Html.ValidationMessageFor(model => model.ArtistId)
         </div>
-
+        <hr/>
         <div class="editor-label">
             @Html.LabelFor(model => model.Tracks)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.TrackId,Model.Tracks,"Select Track")
-            @Html.EditorFor(model => model.TrackName)
+            @Html.DropDownListFor(model => model.TrackId,Model.Tracks,"Select Song")
+            <div id="newTrackName">
+                @Html.LabelFor(model => model.TrackName)
+                @Html.EditorFor(model => model.TrackName)
+            </div>
             @Html.ValidationMessageFor(model => model.TrackId)
         </div>
         <div class="editor-label">
@@ -60,7 +63,7 @@
             @Html.EditorFor(model=>model.TrackReleaseDate)
         </div>
 
-
+        <hr/>
         <div class="editor-label">
             @Html.LabelFor(model => model.Albums)
         </div>
@@ -73,6 +76,7 @@
             <div class="editor-label">
                 @Html.LabelFor(model => model.AlbumArtists)
             </div>
+            <div id="albumArtistImage"></div>
             <div class="editor-field">
                 @Html.DropDownListFor(model => model.AlbumArtistId, Model.Artists, "Select Artist")
                 @Html.EditorFor(model => model.AlbumArtistName)
@@ -87,7 +91,7 @@
             </div>
         </div>
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Add New Quote" />
         </p>
     </fieldset>
 }
@@ -100,4 +104,54 @@
     @Scripts.Render("/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/sixteenbars")
+    <script type="text/javascript" src="/Scripts/lastfm.api.js"></script>
+<script type="text/javascript" src="/Scripts/lastfm.api.cache.js"></script>
+<script type="text/javascript" src="/Scripts/lastfm.api.md5.js"></script>
+    <script>
+        /* Create a cache object */
+        var cache = new LastFMCache();
+
+        /* Create a LastFM object */
+        var lastfm = new LastFM({
+            apiKey: '3c370219a92b83bf8804de92f4ec26d4',
+            apiSecret: 'c6feb385db08a59a0f0b848b941fb65a',
+            cache: cache
+        });
+        
+
+        $(document).ready(function () {
+            $("#ArtistId").change(function () {
+                getArtistInfo($("#ArtistId option:selected").text(), "artistImage");
+            });
+
+            $("#ArtistName").blur(function () {
+                getArtistInfo($("#ArtistName").val(), "artistImage");
+            });
+
+            $("#AlbumArtistId").change(function () {
+                getArtistInfo($("#AlbumArtistId option:selected").text(), "albumArtistImage");
+            });
+
+            $("#AlbumArtistName").blur(function () {
+                getArtistInfo($("#AlbumArtistName").val(), "albumArtistImage");
+            });
+        });
+
+        function getArtistInfo(artistName,elementToUpdate) {
+            $("#" + elementToUpdate).html("");
+            /* Load some artist info. */
+            lastfm.artist.getInfo({ artist: artistName }, {
+                success: function (data) {
+                    //alert(data.artist.image[2]["#text"]);
+                    $("<img src='" + data.artist.image[2]["#text"] + "' />").appendTo("#" + elementToUpdate)
+
+
+                    /* Use data. */
+                }, error: function (code, message) {
+                    /* Show error message. */
+                }
+            });
+        }
+
+    </script>
 }

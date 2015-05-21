@@ -1,16 +1,16 @@
 ﻿var toggleNewArtist = function () {
     if ($("#ArtistId").val() === "-1") {
-        $("#ArtistName").show();
+        $("#newArtistName").show();
     } else {
-        $("#ArtistName").hide();
+        $("#newArtistName").hide();
     }
 };
 
 var toggleNewTrack = function () {
     if ($("#TrackId").val() === "-1") {
-        $("#TrackName").show();
+        $("#newTrackName").show();
     } else {
-        $("#TrackName").hide();
+        $("#newTrackName").hide();
     }
 };
 
@@ -38,10 +38,15 @@ $(document).ready(function () {
     toggleNewAlbum();
     toggleNewAlbumArtist();
 
+    var minimumDate = new Date(1978, 1 - 1, 1);
 
-    $("#TrackReleaseDate").datepicker();
-    $("#AlbumReleaseDate").datepicker();
-    today = new Date();
+    var today = new Date();
+
+    var maximumDate = new Date(today.getFullYear(),today.getMonth(), today.getDate());
+
+
+    $("#TrackReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
+    $("#AlbumReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
     $('#TrackReleaseDate').datepicker('setDate', today);
     $('#AlbumReleaseDate').datepicker('setDate', today);
 
