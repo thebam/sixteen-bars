@@ -35,7 +35,7 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Artists)
         </div>
-        <div id="artistImage"></div>
+        <div id="artistInfo"></div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.ArtistId,Model.Artists,"Select Artist")
             <div id="newArtistName">
@@ -67,6 +67,7 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Albums)
         </div>
+        <div id="albumImage"></div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.AlbumId, Model.Albums, "Select Album")
             @Html.EditorFor(model => model.AlbumName)
@@ -76,7 +77,7 @@
             <div class="editor-label">
                 @Html.LabelFor(model => model.AlbumArtists)
             </div>
-            <div id="albumArtistImage"></div>
+            <div id="albumArtistInfo"></div>
             <div class="editor-field">
                 @Html.DropDownListFor(model => model.AlbumArtistId, Model.Artists, "Select Artist")
                 @Html.EditorFor(model => model.AlbumArtistName)
@@ -104,54 +105,6 @@
     @Scripts.Render("/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/sixteenbars")
-    <script type="text/javascript" src="/Scripts/lastfm.api.js"></script>
-<script type="text/javascript" src="/Scripts/lastfm.api.cache.js"></script>
-<script type="text/javascript" src="/Scripts/lastfm.api.md5.js"></script>
-    <script>
-        /* Create a cache object */
-        var cache = new LastFMCache();
-
-        /* Create a LastFM object */
-        var lastfm = new LastFM({
-            apiKey: '3c370219a92b83bf8804de92f4ec26d4',
-            apiSecret: 'c6feb385db08a59a0f0b848b941fb65a',
-            cache: cache
-        });
-        
-
-        $(document).ready(function () {
-            $("#ArtistId").change(function () {
-                getArtistInfo($("#ArtistId option:selected").text(), "artistImage");
-            });
-
-            $("#ArtistName").blur(function () {
-                getArtistInfo($("#ArtistName").val(), "artistImage");
-            });
-
-            $("#AlbumArtistId").change(function () {
-                getArtistInfo($("#AlbumArtistId option:selected").text(), "albumArtistImage");
-            });
-
-            $("#AlbumArtistName").blur(function () {
-                getArtistInfo($("#AlbumArtistName").val(), "albumArtistImage");
-            });
-        });
-
-        function getArtistInfo(artistName,elementToUpdate) {
-            $("#" + elementToUpdate).html("");
-            /* Load some artist info. */
-            lastfm.artist.getInfo({ artist: artistName }, {
-                success: function (data) {
-                    //alert(data.artist.image[2]["#text"]);
-                    $("<img src='" + data.artist.image[2]["#text"] + "' />").appendTo("#" + elementToUpdate)
-
-
-                    /* Use data. */
-                }, error: function (code, message) {
-                    /* Show error message. */
-                }
-            });
-        }
-
-    </script>
+    @Scripts.Render("~/bundles/lastfm")
+    <script src="~/Scripts/sixteenbars-lastfm.js"></script>
 }
