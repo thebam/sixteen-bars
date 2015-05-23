@@ -140,13 +140,19 @@ namespace sixteenBars.Controllers
 
                         quote.Track.Album = new Album() { Title = quoteVM.AlbumName, DateModified = DateTime.Now,ReleaseDate=quoteVM.AlbumReleaseDate};
 
-                        if (quoteVM.AlbumArtistId != -1)
+                        if (quoteVM.AlbumArtistId > -1)
                         {
                             quote.Track.Album.Artist = db.Artists.Find(quoteVM.AlbumArtistId);
                         }
                         else
                         {
-                            quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.AlbumArtistName);
+                            if (quoteVM.AlbumArtistId == -1)
+                            {
+                                quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.AlbumArtistName);
+                            } else {
+                                //get the value of the newly added artist
+                                quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.ArtistName);
+                            }
                         }
                     }
                     else

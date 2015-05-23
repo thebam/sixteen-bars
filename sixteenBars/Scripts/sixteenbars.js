@@ -54,6 +54,12 @@ $(document).ready(function () {
     $("#ArtistId").change(function () {
         toggleNewArtist();
     });
+
+    $("#ArtistName").blur(function () {
+        $("#AlbumArtistId").append($("<option></option>").val("-2").html($("#ArtistName").val()));
+    });
+
+
     $("#TrackId").change(function () {
         toggleNewTrack();
     });
