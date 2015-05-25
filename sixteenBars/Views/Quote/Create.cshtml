@@ -32,18 +32,22 @@
 
         
         <hr/>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Artists)
-        </div>
-        <div id="artistInfo"></div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.ArtistId,Model.Artists,"Select Artist")
-            <div id="newArtistName">
-                @Html.LabelFor(model => model.ArtistName)
-                @Html.EditorFor(model => model.ArtistName)
+        <div class="col-md-3">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Artists)
             </div>
-            @Html.ValidationMessageFor(model => model.ArtistId)
+
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.ArtistId, Model.Artists, "Select Artist")
+                <div id="newArtistName">
+                    @Html.LabelFor(model => model.ArtistName)
+                    @Html.EditorFor(model => model.ArtistName)
+                </div>
+                @Html.ValidationMessageFor(model => model.ArtistId)
+            </div>
         </div>
+        <div id="artistInfo" class="col-md-9"></div>
+        <div class="clear-fix"></div>
         <hr/>
         <div class="editor-label">
             @Html.LabelFor(model => model.Tracks)
@@ -106,5 +110,10 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/sixteenbars")
     @Scripts.Render("~/bundles/lastfm")
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script>
+    var blnEditMode = false;
+</script>
+
     <script src="~/Scripts/sixteenbars-lastfm.js"></script>
 }

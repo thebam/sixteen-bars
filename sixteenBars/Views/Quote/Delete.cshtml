@@ -1,15 +1,9 @@
-﻿@model sixteenBars.Library.Quote
-
-@{
-    ViewBag.Title = "Delete";
-}
+﻿@model sixteenBars.Models.QuoteViewModel
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete this quote?</h3>
 <fieldset>
-    <legend>Quote</legend>
-
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Text)
     </div>
@@ -18,17 +12,17 @@
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateCreated)
+         @Html.DisplayNameFor(model => model.Artists)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateCreated)
+        @Html.DisplayFor(model => model.ArtistName)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Enabled)
+        @Html.DisplayNameFor(model => model.Tracks)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Enabled)
+        @Html.DisplayFor(model => model.TrackName)
     </div>
 </fieldset>
 @using (Html.BeginForm()) {

@@ -8,24 +8,86 @@ var lastfm = new LastFM({
     cache: cache
 });
 
+var blnMakingLastFMAlbumRequest = false;
+var blnMakingLastFMArtistRequest = false;
+var blnMakingLastFMTrackRequest = false;
+
 
 $(document).ready(function () {
     $("#ArtistId").change(function () {
-        getArtistInfo($("#ArtistId option:selected").text(), "artistInfo");
+        if (blnMakingLastFMArtistRequest == false) {
+            var artistName = $("#ArtistId option:selected").text();
+            if (artistName !== "" && artistName !== "Add New Artist") {
+                blnMakingLastFMArtistRequest = true;
+                getArtistInfo(artistName, "artistInfo","");
+            }
+        }
     });
 
     $("#ArtistName").blur(function () {
-        getArtistInfo($("#ArtistName").val(), "artistInfo");
+        if (blnMakingLastFMArtistRequest == false) {
+            blnMakingLastFMArtistRequest = true;
+            getArtistInfo($("#ArtistName").val(), "artistInfo", "ArtistName");
+        }
     });
 
     $("#AlbumArtistId").change(function () {
-        getArtistInfo($("#AlbumArtistId option:selected").text(), "albumArtistInfo");
+        if (blnMakingLastFMArtistRequest == false) {
+            var artistName = $("#AlbumArtistId option:selected").text();
+            if (artistName !== "" && artistName !== "Add New Artist") {
+                blnMakingLastFMArtistRequest = true;
+                getArtistInfo($("#AlbumArtistId option:selected").text(), "albumArtistInfo","");
+            }
+        }
     });
 
     $("#AlbumArtistName").blur(function () {
-        getArtistInfo($("#AlbumArtistName").val(), "albumArtistInfo");
+        if (blnMakingLastFMArtistRequest == false) {
+            blnMakingLastFMArtistRequest = true;
+            getArtistInfo($("#AlbumArtistName").val(), "albumArtistInfo", "AlbumArtistName");
+        }
     });
 
+    $("#TrackId").change(function () {
+        if (blnMakingLastFMTrackRequest == false) {
+            var artistId = $("#AlbumArtistId option:selected").val();
+            var artistName="";
+
+            if (artistId != "") {
+                if (artistId != -1) {
+                    artistName = $("#AlbumArtistId option:selected").text();
+                } else {
+                    artistName = $("#AlbumArtistName").val();
+                }
+
+                if (artistName.length > 0) {
+                    blnMakingLastFMTrackRequest = true;
+                    getTrackInfo($("#TrackId option:selected").text(), artistName, "artistInfo");
+                }
+            }
+        }
+    });
+
+    $("#TrackName").change(function () {
+        if (blnMakingLastFMTrackRequest == false) {
+            var artistId = $("#AlbumArtistId option:selected").val();
+            var artistName = "";
+
+            if (artistId != "") {
+                if (artistId != -1) {
+                    artistName = $("#AlbumArtistId option:selected").text();
+                } else {
+                    artistName = $("#AlbumArtistName").val();
+                }
+
+                if(artistName.length>0){
+                    blnMakingLastFMTrackRequest = true;
+                    getTrackInfo($("#TrackName").text(), artistName, "artistInfo");
+                }
+            }
+        }
+    });
+    
 
 
     //TODO - You will need to get album artist for prepopulated items in album dropdown.
@@ -50,23 +112,22 @@ $(document).ready(function () {
 
 });
 
-function getArtistInfo(artistName, elementToUpdate) {
+function getArtistInfo(artistName, elementToUpdate, nameElement) {
     $("#" + elementToUpdate).html("");
-    /* Load some artist info. */
     lastfm.artist.getInfo({ artist: artistName }, {
         success: function (data) {
-            //alert(data.artist.image[2]["#text"]);
             $("<img src='" + data.artist.image[2]["#text"] + "' />").appendTo("#" + elementToUpdate);
             $("<p>" + data.artist.bio.summary + "</p>").appendTo("#" + elementToUpdate);
 
-            /* Use data. */
+            if (nameElement.length > 0) {
+                $("#"+nameElement).val(data.artist.name);
+            }
+            blnMakingLastFMArtistRequest = false;
         }, error: function (code, message) {
-            /* Show error message. */
+            blnMakingLastFMArtistRequest = false;
         }
     });
 }
-
-
 
 function getAlbumInfo(artistName, albumName, elementToUpdate) {
     $("#" + elementToUpdate).html("");
@@ -79,6 +140,25 @@ function getAlbumInfo(artistName, albumName, elementToUpdate) {
 
             /* Use data. */
         }, error: function (code, message) {
+            /* Show error message. */
+        }
+    });
+}
+
+function getTrackInfo(trackName, artistName, elementToUpdate) {
+    $("#" + elementToUpdate).html("");
+    lastfm.track.getTrackInfo({ track: trackName,artist: artistName }, {
+        success: function (data) {
+            //alert(data.artist.image[2]["#text"]);
+            //$("<img src='" + data.album.image[2]["#text"] + "' />").appendTo("#" + elementToUpdate)
+
+
+            alert(data.track.album.title);
+            alert(data.track.album.image[2]["#text"]);
+            blnMakingLastFMTrackRequest = false;
+            /* Use data. */
+        }, error: function (code, message) {
+            blnMakingLastFMTrackRequest = false;
             /* Show error message. */
         }
     });

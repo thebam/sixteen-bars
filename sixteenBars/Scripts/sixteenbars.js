@@ -47,9 +47,10 @@ $(document).ready(function () {
 
     $("#TrackReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
     $("#AlbumReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
-    $('#TrackReleaseDate').datepicker('setDate', today);
-    $('#AlbumReleaseDate').datepicker('setDate', today);
-
+    if(blnEditMode==false){
+        $('#TrackReleaseDate').datepicker('setDate', today);
+        $('#AlbumReleaseDate').datepicker('setDate', today);
+    }
 
     $("#ArtistId").change(function () {
         toggleNewArtist();
