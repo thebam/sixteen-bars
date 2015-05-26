@@ -1,0 +1,43 @@
+﻿@model sixteenBars.Library.Artist
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Artist</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateCreated)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateCreated)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateModified)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateModified)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Enabled)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Enabled)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

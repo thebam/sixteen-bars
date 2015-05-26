@@ -10,6 +10,7 @@ namespace sixteenBars.Library
         public String Title { get; set; }
         [Required]
         public virtual Artist Artist { get; set; }
+        [Display(Name="Release Date")]
         public DateTime? ReleaseDate { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
