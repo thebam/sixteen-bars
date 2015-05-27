@@ -22,27 +22,13 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.ReleaseDate)
     </div>
-
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateCreated)
+        @Html.DisplayNameFor(model => model.Artist.Name)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateCreated)
+        @Html.DisplayFor(model => model.Artist.Name)
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateModified)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DateModified)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Enabled)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Enabled)
-    </div>
+   
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |

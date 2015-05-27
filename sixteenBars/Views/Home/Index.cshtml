@@ -3,7 +3,7 @@
 }
 
 
-@{Html.RenderAction("QOTD", "Quote");}
+@{Html.RenderAction("QOTD", "Quote", new {isExplicit = false });}
 
 @section featured {
     <section class="featured">
