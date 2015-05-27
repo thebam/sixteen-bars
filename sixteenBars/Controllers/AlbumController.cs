@@ -97,8 +97,13 @@ namespace sixteenBars.Controllers
                 album.Title = albumVM.Title;
                 album.ReleaseDate = albumVM.ReleaseDate;
                 album.DateModified = DateTime.Now;
-                album.Artist = db.Artists.Find(albumVM.ArtistId);
-
+                if (albumVM.ArtistId == -1)
+                {
+                    album.Artist = new Artist() { Name = albumVM.ArtistName, DateModified = DateTime.Now };
+                }
+                else {
+                    album.Artist = db.Artists.Find(albumVM.ArtistId);
+                }
 
                 db.Entry(album).State = EntityState.Modified;
                 db.SaveChanges();

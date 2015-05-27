@@ -33,8 +33,12 @@
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.ArtistId,Model.Artists,"Select Artist")
-            @Html.ValidationMessageFor(model => model.Artists)
-        </div>
+            <div id="newArtistName">
+                @Html.LabelFor(model => model.ArtistName)
+                @Html.EditorFor(model => model.ArtistName)
+                </div>
+                @Html.ValidationMessageFor(model => model.Artists)
+            </div>
 
         <p>
             <input type="submit" value="Save" />
@@ -47,5 +51,15 @@
 </div>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryval")
-}
+@Scripts.Render("~/bundles/sixteenbars")
+<script>
+
+    $(document).ready(function () {
+        initialize("", "ReleaseDate",true);
+    });
+
+
+</script>
+    }

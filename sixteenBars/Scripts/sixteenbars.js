@@ -32,24 +32,28 @@ var toggleNewAlbumArtist = function () {
     }
 };
 
-$(document).ready(function () {
-    toggleNewArtist();
-    toggleNewTrack();
-    toggleNewAlbum();
-    toggleNewAlbumArtist();
-
+var _trackDateElement = "";
+var _albumDateElement = "";
+var _blnEditMode =false;
+var initialize = function (trackDateElement, albumDateElement, blnEditMode) {
     var minimumDate = new Date(1978, 1 - 1, 1);
-
     var today = new Date();
+    var maximumDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    _albumDateElement = albumDateElement;
+    _trackDateElement = trackDateElement;
+    _blnEditMode = blnEditMode;
 
-    var maximumDate = new Date(today.getFullYear(),today.getMonth(), today.getDate());
-
-
-    $("#TrackReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
-    $("#AlbumReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
-    if(blnEditMode==false){
-        $('#TrackReleaseDate').datepicker('setDate', today);
-        $('#AlbumReleaseDate').datepicker('setDate', today);
+    if ($("#" + _trackDateElement).length > 0) {
+        $("#" + _trackDateElement).datepicker({ minDate: minimumDate, maxDate: maximumDate });
+        if (blnEditMode == false) {
+            $('#' + _trackDateElement).datepicker('setDate', today);
+        }
+    }
+    if ($("#" + _albumDateElement).length > 0) {
+        $("#ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
+        if (blnEditMode == false) {
+            $('#' + _albumDateElement).datepicker('setDate', today);
+        }
     }
 
     $("#ArtistId").change(function () {
@@ -70,6 +74,13 @@ $(document).ready(function () {
     $("#AlbumArtistId").change(function () {
         toggleNewAlbumArtist();
     });
-});
+
+
+    toggleNewArtist();
+    toggleNewTrack();
+    toggleNewAlbum();
+    toggleNewAlbumArtist();
+
+};
 
 
