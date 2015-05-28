@@ -115,7 +115,9 @@
     @Scripts.Render("~/bundles/lastfm")
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script>
-        var blnEditMode = true;
+        $(document).ready(function () {
+            initialize("TrackReleaseDate", "AlbumReleaseDate", false);
+        });
     </script>
     <script src="~/Scripts/sixteenbars-lastfm.js"></script>
 }

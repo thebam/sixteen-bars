@@ -50,7 +50,7 @@ var initialize = function (trackDateElement, albumDateElement, blnEditMode) {
         }
     }
     if ($("#" + _albumDateElement).length > 0) {
-        $("#ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
+        $("#"+_albumDateElement).datepicker({ minDate: minimumDate, maxDate: maximumDate });
         if (blnEditMode == false) {
             $('#' + _albumDateElement).datepicker('setDate', today);
         }

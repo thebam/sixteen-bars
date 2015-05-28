@@ -47,6 +47,7 @@
             </div>
         </div>
         <div id="artistInfo" class="col-md-9"></div>
+        
         <div class="clear-fix"></div>
         <hr/>
         <div class="editor-label">
@@ -112,7 +113,9 @@
     @Scripts.Render("~/bundles/lastfm")
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script>
-    var blnEditMode = false;
+    $(document).ready(function () {
+        initialize("TrackReleaseDate", "AlbumReleaseDate", false);
+    });
 </script>
 
     <script src="~/Scripts/sixteenbars-lastfm.js"></script>

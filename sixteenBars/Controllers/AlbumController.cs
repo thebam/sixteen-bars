@@ -19,7 +19,10 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Albums.ToList());
+            var albumsAttachedToQuotes = (from q in db.Quotes
+                       where q.Enabled == true
+                       select q.Track.Album).ToList();
+            return View(albumsAttachedToQuotes);
         }
 
         //

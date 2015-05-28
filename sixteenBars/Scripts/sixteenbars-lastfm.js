@@ -11,6 +11,7 @@ var lastfm = new LastFM({
 var blnMakingLastFMAlbumRequest = false;
 var blnMakingLastFMArtistRequest = false;
 var blnMakingLastFMTrackRequest = false;
+var blnMakingLastFMTopTrackRequest = false;
 
 
 $(document).ready(function () {
@@ -123,6 +124,9 @@ function getArtistInfo(artistName, elementToUpdate, nameElement) {
                 $("#"+nameElement).val(data.artist.name);
             }
             blnMakingLastFMArtistRequest = false;
+            if (blnMakingLastFMTopTrackRequest==false) {
+                getTopTracks(artistName, elementToUpdate);
+            }
         }, error: function (code, message) {
             blnMakingLastFMArtistRequest = false;
         }
@@ -159,6 +163,41 @@ function getTrackInfo(trackName, artistName, elementToUpdate) {
             /* Use data. */
         }, error: function (code, message) {
             blnMakingLastFMTrackRequest = false;
+            /* Show error message. */
+        }
+    });
+}
+
+function getTopAlbums(artistName, elementToUpdate) {
+    $("#" + elementToUpdate).html("");
+    lastfm.artist.getTopAlbums({ artist: artistName, limit:10 }, {
+        success: function (data) {
+            for (var i = 0; i < data.topalbums.album.length ;i++){
+                $("<img src='" + data.topalbums.album[i].image[2]["#text"] + "' />").appendTo("#" + elementToUpdate);
+                $("<p>" + data.topalbums.album[i].name + "</p>").appendTo("#" + elementToUpdate);
+            }
+            blnMakingLastFMTrackRequest = false;
+            /* Use data. */
+        }, error: function (code, message) {
+            blnMakingLastFMTrackRequest = false;
+            /* Show error message. */
+        }
+    });
+}
+
+function getTopTracks(artistName, elementToUpdate) {
+    lastfm.artist.getTopTracks({ artist: artistName, limit: 10 }, {
+        success: function (data) {
+            if (data.toptracks.track.length > 0) {
+                $("<h3>Top Tracks</h3>").appendTo("#" + elementToUpdate);
+                for (var i = 0; i < data.toptracks.track.length ; i++) {
+                    $("<p>" + data.toptracks.track[i].name + "</p>").appendTo("#" + elementToUpdate);
+                }
+            }
+            blnMakingLastFMTopTrackRequest = false;
+            /* Use data. */
+        }, error: function (code, message) {
+            blnMakingLastFMTopTrackRequest = false;
             /* Show error message. */
         }
     });
