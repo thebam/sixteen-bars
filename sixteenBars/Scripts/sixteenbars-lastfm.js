@@ -11,6 +11,7 @@ var lastfm = new LastFM({
 var blnMakingLastFMAlbumRequest = false;
 var blnMakingLastFMArtistRequest = false;
 var blnMakingLastFMTrackRequest = false;
+var blnMakingLastFMTopAlbumRequest = false;
 var blnMakingLastFMTopTrackRequest = false;
 
 
@@ -89,7 +90,7 @@ $(document).ready(function () {
         }
     });
     
-
+    
 
     //TODO - You will need to get album artist for prepopulated items in album dropdown.
     //$("#AlbumId").change(function () {
@@ -176,10 +177,10 @@ function getTopAlbums(artistName, elementToUpdate) {
                 $("<img src='" + data.topalbums.album[i].image[2]["#text"] + "' />").appendTo("#" + elementToUpdate);
                 $("<p>" + data.topalbums.album[i].name + "</p>").appendTo("#" + elementToUpdate);
             }
-            blnMakingLastFMTrackRequest = false;
+            blnMakingLastFMTopAlbumRequest = false;
             /* Use data. */
         }, error: function (code, message) {
-            blnMakingLastFMTrackRequest = false;
+            blnMakingLastFMTopAlbumRequest = false;
             /* Show error message. */
         }
     });
@@ -191,9 +192,12 @@ function getTopTracks(artistName, elementToUpdate) {
             if (data.toptracks.track.length > 0) {
                 $("<h3>Top Tracks</h3>").appendTo("#" + elementToUpdate);
                 for (var i = 0; i < data.toptracks.track.length ; i++) {
-                    $("<p>" + data.toptracks.track[i].name + "</p>").appendTo("#" + elementToUpdate);
+                    $("<p class='topTrack'>" + data.toptracks.track[i].name + "</p>").appendTo("#" + elementToUpdate);
                 }
             }
+            $(".topTrack").click(function () {
+                setQuoteTrack($(this).html());
+            });
             blnMakingLastFMTopTrackRequest = false;
             /* Use data. */
         }, error: function (code, message) {
@@ -201,4 +205,21 @@ function getTopTracks(artistName, elementToUpdate) {
             /* Show error message. */
         }
     });
+}
+
+function setQuoteTrack(trackTitle) {
+    var trackFound = false;
+    $("#TrackId option").each(function () {
+        if ($(this).text() == trackTitle) {
+            $(this).attr('selected', 'selected');
+            toggleNewTrack();
+            trackFound = true;
+            return false;
+        }
+    });
+    if (trackFound == false) {
+        $("#TrackId").val("-1");
+        toggleNewTrack();
+        $("#TrackName").val(trackTitle);
+    }
 }
