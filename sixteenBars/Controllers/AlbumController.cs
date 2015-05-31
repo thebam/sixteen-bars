@@ -19,10 +19,18 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
-            var albumsAttachedToQuotes = (from q in db.Quotes
-                       where q.Enabled == true
-                       select q.Track.Album).ToList();
-            return View(albumsAttachedToQuotes);
+            //Select * from Albums if Quote attached set isdeleteable to false
+            var albumQuotes = (from a in db.Albums
+                              from q in db.Quotes.Where(q=>q.Enabled == true && q.Track.Album.Id == a.Id).DefaultIfEmpty()
+                              select new AlbumIndexViewModel
+                              {
+                                  Id = a.Id,
+                                  Title = a.Title,
+                                  ArtistName = a.Artist.Name,
+                                  IsDeleteable = (q == null)? true: false
+                              }).ToList();
+
+            return View(albumQuotes);
         }
 
         //

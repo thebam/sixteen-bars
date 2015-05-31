@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,9 +11,28 @@ namespace sixteenBars.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
+            
             return View();
+        }
+
+        public JsonResult Search(String searchTerm = null, String searchType="quote")
+        {
+            sixteenBars.Models.SixteenBarsDb db = new Models.SixteenBarsDb();
+
+            List<Library.Quote> SearchResults = new List<Library.Quote>();
+            switch (searchType) { 
+                case "artist":
+                    SearchResults = (from q in db.Quotes
+                                     where q.Artist.Name.Contains(searchTerm)
+                                     select q).ToList();
+                    break;
+                default:
+                    SearchResults = (from q in db.Quotes
+                                     where q.Text.Contains(searchTerm)
+                                     select q).ToList();
+                    break;
+        }
+            return this.Json(SearchResults);
         }
 
         public ActionResult About()

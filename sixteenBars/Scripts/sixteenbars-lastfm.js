@@ -14,7 +14,6 @@ var blnMakingLastFMTrackRequest = false;
 var blnMakingLastFMTopAlbumRequest = false;
 var blnMakingLastFMTopTrackRequest = false;
 
-
 $(document).ready(function () {
     $("#ArtistId").change(function () {
         if (blnMakingLastFMArtistRequest == false) {

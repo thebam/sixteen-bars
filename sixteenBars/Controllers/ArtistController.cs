@@ -19,7 +19,20 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Artists.ToList());
+
+            var ArtistTrackAlbum = (from artist in db.Artists
+                                    join track in db.Tracks on artist.Id equals track.Album.Artist.Id into tracks
+                                    from artistTrack in tracks.DefaultIfEmpty()
+                                    join quote in db.Quotes on artist.Id equals quote.Artist.Id into quotes
+                                    from artistQuote in quotes.DefaultIfEmpty()
+                        select new ArtistIndexViewModel()
+                        {
+                            Id = artist.Id,
+                            Name = artist.Name,
+                            IsDeleteable = (artistTrack == null && artistQuote == null) ? true : false
+                        }).Distinct().OrderBy(a => a.Name).ToList();
+
+            return View(ArtistTrackAlbum);
         }
 
         //
@@ -110,8 +123,19 @@ namespace sixteenBars.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Artist artist = db.Artists.Find(id);
-            db.Artists.Remove(artist);
-            db.SaveChanges();
+            if (artist != null)
+            {
+                //make sure that the artist doesn't have any ablums or quotes in the database to avoid any orphaned records.
+                Quote quote = db.Quotes.SingleOrDefault(q => q.Artist.Id == id);
+                if (quote == null) {
+                    Album album = db.Albums.SingleOrDefault(a => a.Artist.Id == id);
+                    if (album == null) {
+                        db.Artists.Remove(artist);
+                        db.SaveChanges();
+                    }
+                }
+            }
+
             return RedirectToAction("Index");
         }
 
