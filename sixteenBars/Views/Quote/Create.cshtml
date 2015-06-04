@@ -3,120 +3,140 @@
 
 @Styles.Render("~/Content/themes/base/css")
 <h2>Add new Quote</h2>
+<div ng-app="QuoteApp">
+    <div ng-controller="QuoteController">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "quoteForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Text)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Text)
-            @Html.ValidationMessageFor(model => model.Text)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Explicit)
-        </div>
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.Explicit)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Explanation)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Explanation)
-        </div>
-
-
-        
-        <hr/>
-        <div class="col-md-3">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Artists)
-            </div>
-
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.ArtistId, Model.Artists, "Select Artist")
-                <div id="newArtistName">
-                    @Html.LabelFor(model => model.ArtistName)
-                    @Html.EditorFor(model => model.ArtistName)
+            <fieldset>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Text)
                 </div>
-                @Html.ValidationMessageFor(model => model.ArtistId)
-            </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Text)
+                    @Html.ValidationMessageFor(model => model.Text)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Explicit)
+                </div>
+                <div class="editor-field">
+                    @Html.CheckBoxFor(model => model.Explicit)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Explanation)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Explanation)
+                </div>
+
+
+
+                <hr />
+                <div class="col-md-3">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Artists)
+                    </div>
+
+                    <div class="editor-field">
+                        <input type="text" id="ArtistName" ng-keyup="autoCompleteArtist()" ng-model="ArtistName" name="ArtistName" placeholder="Artist Name" />
+                    </div>
+                    <div ng-repeat="artist in artists">
+                        {{artist.Name}}
+                    </div>
+                </div>
+                <div id="artistInfo" class="col-md-9"></div>
+
+                <div class="clear-fix"></div>
+                <hr />
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Tracks)
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.TrackId, Model.Tracks, "Select Song")
+                    <div id="newTrackName">
+                        @Html.LabelFor(model => model.TrackName)
+                        @Html.EditorFor(model => model.TrackName)
+                    </div>
+                    @Html.ValidationMessageFor(model => model.TrackId)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.TrackReleaseDate)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.TrackReleaseDate)
+                </div>
+
+                <hr />
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Albums)
+                </div>
+                <div id="albumImage"></div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.AlbumId, Model.Albums, "Select Album")
+                    @Html.EditorFor(model => model.AlbumName)
+                    @Html.ValidationMessageFor(model => model.AlbumId)
+                </div>
+                <div id="albumInfo">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.AlbumArtists)
+                    </div>
+                    <div id="albumArtistInfo"></div>
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.AlbumArtistId, Model.Artists, "Select Artist")
+                        @Html.EditorFor(model => model.AlbumArtistName)
+                        @Html.ValidationMessageFor(model => model.AlbumArtistId)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.AlbumReleaseDate)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.AlbumReleaseDate)
+                    </div>
+                </div>
+                <p>
+                    <input type="submit" value="Add New Quote" />
+                </p>
+            </fieldset>
+        }
         </div>
-        <div id="artistInfo" class="col-md-9"></div>
-        
-        <div class="clear-fix"></div>
-        <hr/>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Tracks)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.TrackId,Model.Tracks,"Select Song")
-            <div id="newTrackName">
-                @Html.LabelFor(model => model.TrackName)
-                @Html.EditorFor(model => model.TrackName)
-            </div>
-            @Html.ValidationMessageFor(model => model.TrackId)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model =>model.TrackReleaseDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model=>model.TrackReleaseDate)
+    </div>
+        <div>
+            @Html.ActionLink("Back to List", "Index")
         </div>
 
-        <hr/>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Albums)
-        </div>
-        <div id="albumImage"></div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.AlbumId, Model.Albums, "Select Album")
-            @Html.EditorFor(model => model.AlbumName)
-            @Html.ValidationMessageFor(model => model.AlbumId)
-        </div>
-        <div id="albumInfo">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.AlbumArtists)
-            </div>
-            <div id="albumArtistInfo"></div>
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.AlbumArtistId, Model.Artists, "Select Artist")
-                @Html.EditorFor(model => model.AlbumArtistName)
-                @Html.ValidationMessageFor(model => model.AlbumArtistId)
-            </div>
+        @section Scripts {
+            @Scripts.Render("/bundles/jqueryui")
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/sixteenbars")
+            @Scripts.Render("~/bundles/lastfm")
+            <script src="~/Scripts/bootstrap.min.js"></script>
+            <script src="~/Scripts/angular.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    initialize("TrackReleaseDate", "AlbumReleaseDate", false);
+                });
 
-            <div class="editor-label">
-                @Html.LabelFor(model => model.AlbumReleaseDate)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.AlbumReleaseDate)
-            </div>
-        </div>
-        <p>
-            <input type="submit" value="Add New Quote" />
-        </p>
-    </fieldset>
-}
+                var quoteApp = angular.module("QuoteApp", []);
+                quoteApp.controller("QuoteController", function ($scope, $http) {
+                $scope.ArtistName;
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+                $scope.autoCompleteArtist = function () {
+                    if ($scope.ArtistName.length > 2) {
+                        $http({
+                            url: '/artist/AutoCompleteName',
+                            data: { "name": $scope.ArtistName },
+                            method: 'POST'
+                        }).success(function (data, status, headers, config) {
+                            $scope.artists = data;
+                        });
+                    }
+                };
+                });
 
-@section Scripts {
-    @Scripts.Render("/bundles/jqueryui")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/sixteenbars")
-    @Scripts.Render("~/bundles/lastfm")
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function () {
-        initialize("TrackReleaseDate", "AlbumReleaseDate", false);
-    });
-</script>
+            </script>
 
-    <script src="~/Scripts/sixteenbars-lastfm.js"></script>
-}
+            <script src="~/Scripts/sixteenbars-lastfm.js"></script>
+        }

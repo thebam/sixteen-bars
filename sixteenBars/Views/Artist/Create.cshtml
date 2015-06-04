@@ -1,60 +1,64 @@
 ﻿@model sixteenBars.Library.Artist
 
-@{
-    ViewBag.Title = "Create";
-}
 
-<h2>Create</h2>
+<h2>Add New Artist</h2>
+<div ng-app="ArtistApp">
+    <div ng-controller="ArtistController">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "quoteForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+            <fieldset>
 
-    <fieldset>
-        <legend>Artist</legend>
+                <div ng-show="artistExists">
+                    Artist already exists.
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+                <div class="editor-field">
+                    <input type="text" id="Name" ng-blur="autoCompleteArtistName()" ng-model="ArtistName" name="Name" placeholder="Artist Name" required />
+                </div>
+                
+                <p>
+                    <input type="submit" value="Add New Artist" />
+                </p>
+            </fieldset>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateCreated)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateCreated)
-            @Html.ValidationMessageFor(model => model.DateCreated)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateModified)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateModified)
-            @Html.ValidationMessageFor(model => model.DateModified)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Enabled)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Enabled)
-            @Html.ValidationMessageFor(model => model.Enabled)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}
-
+        }
+    </div>
+</div>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/angular.min.js"></script>
+    <script>
+        var artistApp = angular.module("ArtistApp", []);
+        var artistController = artistApp.controller("ArtistController", function ($scope, $http) {
+            $scope.ArtistName;
+            $scope.artistExists = false;
+            $scope.autoCompleteArtistName = function () {
+                if ($scope.ArtistName.length > 2) {
+                    $http({
+                        url: '/artist/ArtistExists',
+                        data: { "name": $scope.ArtistName },
+                        method: 'POST'
+                    })
+                    .success(function (data, status, headers, config) {
+                        
+                        if (data === "True") {
+                            $scope.artistExists = true;
+                        } else {
+                            $scope.artistExists = false;
+                        }
+                    });
+                }
+            };
+        });
+
+    </script>
 }

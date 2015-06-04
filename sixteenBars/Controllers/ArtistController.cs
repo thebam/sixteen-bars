@@ -13,6 +13,20 @@ namespace sixteenBars.Controllers
     public class ArtistController : Controller
     {
         private SixteenBarsDb db = new SixteenBarsDb();
+        
+        public JsonResult AutoCompleteName(String name) {
+            List<Artist> SuggestedArtists = db.Artists.Where(a => a.Name.Contains(name)).OrderBy(a=>a.Name).ToList();
+            return this.Json(SuggestedArtists,JsonRequestBehavior.AllowGet);
+        }
+
+        public Boolean ArtistExists(String name)
+        {
+            Artist artist = db.Artists.SingleOrDefault(a => a.Name == name);
+            if (artist == null) {
+                return false;
+            }
+            return true;
+        }
 
         //
         // GET: /Artist/
@@ -65,8 +79,12 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Artists.Add(artist);
-                db.SaveChanges();
+                Artist tempArtist = db.Artists.SingleOrDefault(a => a.Name == artist.Name);
+                if (tempArtist == null)
+                {
+                    db.Artists.Add(artist);
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -95,9 +113,18 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artist).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Artist tempArtist = db.Artists.SingleOrDefault(a => a.Name == artist.Name);
+                if (tempArtist == null)
+                {
+                    artist.DateModified = DateTime.Now;
+                    db.Entry(artist).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else {
+                    ModelState.AddModelError("", "An artist by that name already exists.");
+                    return View(artist);
+                }
             }
             return View(artist);
         }
