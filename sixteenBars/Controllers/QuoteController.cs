@@ -44,6 +44,7 @@ namespace sixteenBars.Controllers
             } else {
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = quote.Text;
+                quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
                 quoteVM.TrackName = quote.Track.Title;
                 quoteVM.AlbumName = quote.Track.Album.Title;

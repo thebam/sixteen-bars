@@ -1,4 +1,4 @@
-﻿@model sixteenBars.Library.Artist
+﻿@model sixteenBars.Models.ArtistDetailViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -17,25 +17,35 @@
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateCreated)
+        @Html.DisplayNameFor(model => model.Quotes)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateCreated)
+        <ul>
+            @foreach (var item in Model.Quotes)
+            {
+                <li>
+                    @Html.Raw(item.Text) |
+                    @Html.ActionLink("Details", "Details", "Quote", new { id = item.Id }, null)
+                </li>
+            }
+        </ul>
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateModified)
+        @Html.DisplayNameFor(model => model.Albums)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateModified)
+        <ul>
+            @foreach (var item in Model.Albums)
+            {
+                <li>
+                    @Html.Raw(item.Title) |
+                    @Html.ActionLink("Details", "Details", "Album", new { id=item.Id},null)
+                </li>
+            }
+        </ul>
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Enabled)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Enabled)
-    </div>
+    
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |

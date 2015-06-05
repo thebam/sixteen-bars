@@ -54,12 +54,31 @@ namespace sixteenBars.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Artist artist = db.Artists.Find(id);
+
+
+            //Create view model to display quotes and albums
+
+
+
+
+
+
+
+
+            Artist artist = db.Artists.Find(id); 
+            ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
             if (artist == null)
             {
                 return HttpNotFound();
             }
-            return View(artist);
+            else {
+                
+                artistVM.Id = artist.Id;
+                artistVM.Name = artist.Name;
+                artistVM.Albums = db.Albums.Where(a => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
+                artistVM.Quotes = db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+            }
+            return View(artistVM);
         }
 
         //
