@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-
 namespace sixteenBars
 {
     public static class WebApiConfig
@@ -19,6 +18,7 @@ namespace sixteenBars
             // To avoid processing unexpected or malicious queries, use the validation settings on QueryableAttribute to validate incoming queries.
             // For more information, visit http://go.microsoft.com/fwlink/?LinkId=279712.
             //config.EnableQuerySupport();
+            //config.DependencyResolver = new ResolverController();
         }
     }
 }

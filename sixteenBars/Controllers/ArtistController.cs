@@ -1,28 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
+
 
 namespace sixteenBars.Controllers
 {
     public class ArtistController : Controller
     {
-        private SixteenBarsDb db = new SixteenBarsDb();
+
         
+        private ISixteenBarsDb _db;
+        public ArtistController() : this(new SixteenBarsDb())
+        {
+        }
+        public ArtistController(ISixteenBarsDb db)
+        {
+            this._db = db;
+        }
+
+
         public JsonResult AutoCompleteName(String name) {
-            List<Artist> SuggestedArtists = db.Artists.Where(a => a.Name.Contains(name)).OrderBy(a=>a.Name).ToList();
-            return this.Json(SuggestedArtists,JsonRequestBehavior.AllowGet);
+            List<Artist> suggestedArtists = _db.Artists.Where(a => a.Name.ToLower().Contains(name.Trim().ToLower())).OrderBy(a => a.Name).ToList();
+            return this.Json(suggestedArtists, JsonRequestBehavior.AllowGet);
         }
 
         public Boolean ArtistExists(String name)
         {
-            Artist artist = db.Artists.SingleOrDefault(a => a.Name == name);
-            if (artist == null) {
+            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == name.Trim().ToLower());
+            if (artist == null)
+            {
                 return false;
             }
             return true;
@@ -34,10 +43,10 @@ namespace sixteenBars.Controllers
         public ActionResult Index()
         {
 
-            var ArtistTrackAlbum = (from artist in db.Artists
-                                    join track in db.Tracks on artist.Id equals track.Album.Artist.Id into tracks
+            var ArtistTrackAlbum = (from artist in _db.Artists
+                                    join track in _db.Tracks on artist.Id equals track.Album.Artist.Id into tracks
                                     from artistTrack in tracks.DefaultIfEmpty()
-                                    join quote in db.Quotes on artist.Id equals quote.Artist.Id into quotes
+                                    join quote in _db.Quotes on artist.Id equals quote.Artist.Id into quotes
                                     from artistQuote in quotes.DefaultIfEmpty()
                         select new ArtistIndexViewModel()
                         {
@@ -58,14 +67,7 @@ namespace sixteenBars.Controllers
 
             //Create view model to display quotes and albums
 
-
-
-
-
-
-
-
-            Artist artist = db.Artists.Find(id); 
+            Artist artist = _db.Artists.Find(id);
             ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
             if (artist == null)
             {
@@ -75,8 +77,8 @@ namespace sixteenBars.Controllers
                 
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;
-                artistVM.Albums = db.Albums.Where(a => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
-                artistVM.Quotes = db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+                artistVM.Albums = _db.Albums.Where(a => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
+                artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
             }
             return View(artistVM);
         }
@@ -98,11 +100,11 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
-                Artist tempArtist = db.Artists.SingleOrDefault(a => a.Name == artist.Name);
+                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name);
                 if (tempArtist == null)
                 {
-                    db.Artists.Add(artist);
-                    db.SaveChanges();
+                    _db.Artists.Add(artist);
+                    _db.SaveChanges();
                 }
                 return RedirectToAction("Index");
             }
@@ -115,7 +117,7 @@ namespace sixteenBars.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Artist artist = db.Artists.Find(id);
+            Artist artist = _db.Artists.Find(id);
             if (artist == null)
             {
                 return HttpNotFound();
@@ -132,12 +134,12 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
-                Artist tempArtist = db.Artists.SingleOrDefault(a => a.Name == artist.Name);
+                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name);
                 if (tempArtist == null)
                 {
                     artist.DateModified = DateTime.Now;
-                    db.Entry(artist).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.SetModified(artist);
+                    _db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else {
@@ -153,7 +155,7 @@ namespace sixteenBars.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Artist artist = db.Artists.Find(id);
+            Artist artist = _db.Artists.Find(id);
             if (artist == null)
             {
                 return HttpNotFound();
@@ -168,16 +170,16 @@ namespace sixteenBars.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Artist artist = db.Artists.Find(id);
+            Artist artist = _db.Artists.Find(id);
             if (artist != null)
             {
                 //make sure that the artist doesn't have any ablums or quotes in the database to avoid any orphaned records.
-                Quote quote = db.Quotes.SingleOrDefault(q => q.Artist.Id == id);
+                Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.Id == id);
                 if (quote == null) {
-                    Album album = db.Albums.SingleOrDefault(a => a.Artist.Id == id);
+                    Album album = _db.Albums.SingleOrDefault(a => a.Artist.Id == id);
                     if (album == null) {
-                        db.Artists.Remove(artist);
-                        db.SaveChanges();
+                        _db.Artists.Remove(artist);
+                        _db.SaveChanges();
                     }
                 }
             }
@@ -187,8 +189,12 @@ namespace sixteenBars.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            if (_db is IDisposable)
+            {
+                ((IDisposable)_db).Dispose();
+            }
             base.Dispose(disposing);
+
         }
     }
 }
