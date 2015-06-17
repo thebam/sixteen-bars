@@ -141,7 +141,7 @@ namespace sixteenBars.Tests.Model
                     }
                 },
                 new Quote(){
-                    Id=1,
+                    Id=2,
                     Text="Con Edison flow I'm connected to a higher power",
                     Explanation = "electric",
                     Explicit = false,
@@ -151,10 +151,10 @@ namespace sixteenBars.Tests.Model
                         DateModified =DateTime.Now
                     },
                     Track = new Track(){
-                        Id=1,
+                        Id=2,
                         Title="Light Up",
                         Album= new Album(){
-                            Id=1,
+                            Id=2,
                             Title="Thank Me Later",
                             ReleaseDate=new DateTime(2010,6,14),
                             Artist = new Artist(){
@@ -171,11 +171,11 @@ namespace sixteenBars.Tests.Model
             this.Tracks = new MockTrackDbSet() {
                 new Track()
                 {
-                    Id = 1,
+                    Id = 2,
                     Title = "Light Up",
                     Album = new Album()
                     {
-                        Id = 1,
+                        Id = 2,
                         Title = "Thank Me Later",
                         ReleaseDate = new DateTime(2010, 6, 14),
                         Artist = new Artist()

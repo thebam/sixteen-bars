@@ -10,8 +10,6 @@ namespace sixteenBars.Controllers
 {
     public class ArtistController : Controller
     {
-
-        
         private ISixteenBarsDb _db;
         public ArtistController() : this(new SixteenBarsDb())
         {

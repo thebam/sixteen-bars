@@ -12,7 +12,26 @@ namespace sixteenBars.Controllers
 {
     public class AlbumController : Controller
     {
-        private SixteenBarsDb db = new SixteenBarsDb();
+        private ISixteenBarsDb _db;
+
+        public AlbumController() : this(new SixteenBarsDb()){}
+        
+
+        public AlbumController(ISixteenBarsDb db) {
+            this._db = db;
+        }
+
+        public Boolean AlbumExists(String title, String artistName)
+        {
+            Album foundAlbum = _db.Albums.SingleOrDefault(album => album.Title.ToLower() == title.Trim().ToLower() && album.Artist.Name.ToLower() == artistName.Trim().ToLower());
+            if (foundAlbum != null)
+            {
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
 
         //
         // GET: /Album/
@@ -20,15 +39,16 @@ namespace sixteenBars.Controllers
         public ActionResult Index()
         {
             //Select * from Albums if Quote attached set isdeleteable to false
-            var albumQuotes = (from a in db.Albums
-                              from q in db.Quotes.Where(q=>q.Enabled == true && q.Track.Album.Id == a.Id).DefaultIfEmpty()
+            var albumQuotes = (from album in _db.Albums
+                               join quote in _db.Quotes on album.Id equals quote.Track.Album.Id into quotes
+                               from albumQuote in quotes.DefaultIfEmpty()
                               select new AlbumIndexViewModel
                               {
-                                  Id = a.Id,
-                                  Title = a.Title,
-                                  ArtistName = a.Artist.Name,
-                                  IsDeleteable = (q == null)? true: false
-                              }).ToList();
+                                  Id = album.Id,
+                                  Title = album.Title,
+                                  ArtistName = album.Artist.Name,
+                                  IsDeleteable = (albumQuote == null) ? true : false
+                              }).Distinct().OrderBy(a=>a.Title).ToList();
 
             return View(albumQuotes);
         }
@@ -38,7 +58,7 @@ namespace sixteenBars.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Album album = db.Albums.Find(id);
+            Album album = _db.Albums.Find(id);
             if (album == null)
             {
                 return HttpNotFound();
@@ -63,8 +83,52 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Albums.Add(album);
-                db.SaveChanges();
+                Artist tempArtist;
+                Album tempAlbum=null;
+                if (album.Artist.Name == null) {
+                    tempArtist = _db.Artists.Find(album.Artist.Id);
+                }else{ 
+                    tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == album.Artist.Name.Trim().ToLower());
+                }
+
+
+                if (tempArtist != null)
+                {
+                    album.Artist = tempArtist;
+                    tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == album.Artist.Name.ToLower());
+                }
+                else
+                {
+                    if (album.Artist.Name != null)
+                    {
+                        tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == album.Artist.Name.ToLower());
+                        if (tempAlbum == null)
+                        {
+                            _db.Artists.Add(new Artist()
+                            {
+                                Name = album.Artist.Name
+                            });
+                            _db.SaveChanges();
+                            album.Artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == album.Artist.Name.Trim().ToLower());
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("No artist found with the provided id");
+                    }
+                }
+
+
+                
+                
+
+
+                
+                if (tempAlbum == null)
+                {
+                    _db.Albums.Add(album);
+                    _db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -76,7 +140,7 @@ namespace sixteenBars.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Album album = db.Albums.Find(id);
+            Album album = _db.Albums.Find(id);
             AlbumViewModel albumVM = new AlbumViewModel();
             if (album == null)
             {
@@ -87,7 +151,7 @@ namespace sixteenBars.Controllers
             albumVM.ReleaseDate = album.ReleaseDate;
             albumVM.ArtistId = album.Artist.Id;
 
-            var artists = db.Artists.ToList();
+            var artists = _db.Artists.ToList();
             artists.Add(new Artist() { Name = "Add New Artist", Id = -1 });
             albumVM.Artists = new SelectList(artists, "Id", "Name", album.Artist.Id);
 
@@ -104,21 +168,32 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
-                Album album = db.Albums.Find(albumVM.Id);
-                album.Title = albumVM.Title;
-                album.ReleaseDate = albumVM.ReleaseDate;
-                album.DateModified = DateTime.Now;
-                if (albumVM.ArtistId == -1)
-                {
-                    album.Artist = new Artist() { Name = albumVM.ArtistName, DateModified = DateTime.Now };
-                }
-                else {
-                    album.Artist = db.Artists.Find(albumVM.ArtistId);
-                }
 
-                db.Entry(album).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    Album album = _db.Albums.Find(albumVM.Id);
+                    album.Title = albumVM.Title;
+                    album.ReleaseDate = albumVM.ReleaseDate;
+                    album.DateModified = DateTime.Now;
+                    if (albumVM.ArtistName !=null)
+                    {
+                        Artist tempArtist = _db.Artists.SingleOrDefault(artist => artist.Name.ToLower() == albumVM.ArtistName.Trim().ToLower());
+                        if (tempArtist == null)
+                        {
+                            album.Artist = new Artist() { Name = albumVM.ArtistName, DateModified = DateTime.Now };
+                        }
+                        else {
+                            album.Artist = tempArtist;
+                        }
+                    }
+                    else {
+                        album.Artist = _db.Artists.Find(albumVM.ArtistId);
+                    }
+                    if (!AlbumExists(album.Title, album.Artist.Name))
+                    { 
+                        _db.SetModified(album);
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                
             }
             return View(albumVM);
         }
@@ -128,7 +203,7 @@ namespace sixteenBars.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Album album = db.Albums.Find(id);
+            Album album = _db.Albums.Find(id);
             if (album == null)
             {
                 return HttpNotFound();
@@ -143,16 +218,20 @@ namespace sixteenBars.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Album album = db.Albums.Find(id);
-            db.Albums.Remove(album);
-            db.SaveChanges();
+            Album album = _db.Albums.Find(id);
+            _db.Albums.Remove(album);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            if (_db is IDisposable)
+            {
+                ((IDisposable)_db).Dispose();
+            }
             base.Dispose(disposing);
+
         }
     }
 }

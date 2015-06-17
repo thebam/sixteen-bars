@@ -39,7 +39,7 @@
             <h3 ng-bind="searchTitle"></h3>
             <ol>
                 <li ng-repeat="quote in quotes">
-                    <em>"{{quote.Text}}"</em>  - {{quote.Artist.Name}}
+                    <em>"{{quote.Text}}"</em>  - {{quote.Artist.Name}} - <a href="/track/details?id={{quote.Track.Id}}">{{quote.Track.Title}}</a>
                     <a href="/quote/details?id={{quote.Id}}">Details</a>
                 </li>
             </ol>

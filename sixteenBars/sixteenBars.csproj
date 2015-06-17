@@ -187,6 +187,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
+    <Compile Include="Controllers\ArtistAPIController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
     <Compile Include="Models\ArtistDetailViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />

@@ -123,6 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ArtistControllerTest.cs" />
+    <Compile Include="Controllers\AlbumControllerTest.cs" />
+    <Compile Include="Controllers\ArtistAPIControllerTest.cs" />
     <Compile Include="Model\MockQuoteDbSet.cs" />
     <Compile Include="Model\MockTrackDbSet.cs" />
     <Compile Include="Model\MockAlbumDbSet.cs" />
