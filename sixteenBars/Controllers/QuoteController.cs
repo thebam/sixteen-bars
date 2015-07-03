@@ -46,9 +46,13 @@ namespace sixteenBars.Controllers
                 quoteVM.Text = quote.Text;
                 quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
+                quoteVM.ArtistId = quote.Artist.Id;
                 quoteVM.TrackName = quote.Track.Title;
+                quoteVM.TrackId = quote.Track.Id;
                 quoteVM.AlbumName = quote.Track.Album.Title;
+                quoteVM.AlbumId = quote.Track.Album.Id;
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
+                quoteVM.AlbumArtistId = quote.Track.Album.Artist.Id;
             }
             return View(quoteVM);
         }

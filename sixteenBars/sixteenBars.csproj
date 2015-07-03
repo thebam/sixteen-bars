@@ -212,6 +212,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\sixteenBars.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -276,6 +277,7 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\appController.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
@@ -1052,7 +1054,10 @@
     <Content Include="Scripts\lastfm.api.js" />
     <Content Include="Scripts\lastfm.api.md5.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\sixteenbars-artist-autocomplete.js" />
+    <Content Include="Scripts\sixteenbars-artist-exists.js" />
     <Content Include="Scripts\sixteenbars-lastfm.js" />
+    <Content Include="Scripts\sixteenBars-search.js" />
     <Content Include="Scripts\sixteenbars.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1088,7 +1093,6 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />

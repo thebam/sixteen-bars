@@ -12,7 +12,7 @@
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Text)
     </div>
-    <div class="display-field">
+    <div class="display-field quote">
         @Html.DisplayFor(model => model.Text)
     </div>
     <div class="display-label">
@@ -26,28 +26,28 @@
          @Html.DisplayNameFor(model => model.Artists)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ArtistName)
+        @Html.ActionLink(Model.ArtistName, "details","artist", new { id=Model.ArtistId}, null)
     </div>
 
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Tracks)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.TrackName)
+        @Html.ActionLink(Model.TrackName, "details", "track", new { id = Model.TrackId }, null)
     </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.Albums)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.AlbumName)
+        @Html.ActionLink(Model.AlbumName, "details", "album", new { id = Model.AlbumId }, null)
     </div>
 
     <div class="display-label">
         @Html.DisplayNameFor(model => model.AlbumArtistName)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.AlbumArtistName)
+        @Html.ActionLink(Model.AlbumArtistName, "details", "artist", new { id = Model.AlbumArtistId }, null)
     </div>
 
 </fieldset>

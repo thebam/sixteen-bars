@@ -41,15 +41,6 @@ namespace sixteenBars.Controllers
                     break;
         }
             return this.Json(SearchResults);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        
+        } 
     }
 }

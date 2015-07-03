@@ -20,20 +20,21 @@ namespace sixteenBars.Controllers
         }
 
 
-        public JsonResult AutoCompleteName(String name) {
-            List<Artist> suggestedArtists = _db.Artists.Where(a => a.Name.ToLower().Contains(name.Trim().ToLower())).OrderBy(a => a.Name).ToList();
-            return this.Json(suggestedArtists, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult AutoCompleteName(String name)
+        //{
+        //    List<Artist> suggestedArtists = _db.Artists.Where(a => a.Name.ToLower().Contains(name.Trim().ToLower())).OrderBy(a => a.Name).ToList();
+        //    return this.Json(suggestedArtists, JsonRequestBehavior.AllowGet);
+        //}
 
-        public Boolean ArtistExists(String name)
-        {
-            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == name.Trim().ToLower());
-            if (artist == null)
-            {
-                return false;
-            }
-            return true;
-        }
+        //public Boolean ArtistExists(String name)
+        //{
+        //    Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == name.Trim().ToLower());
+        //    if (artist == null)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
 
         //
         // GET: /Artist/

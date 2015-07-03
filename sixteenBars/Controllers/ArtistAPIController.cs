@@ -3,11 +3,8 @@ using sixteenBars.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace sixteenBars.Controllers
 {
@@ -24,9 +21,9 @@ namespace sixteenBars.Controllers
             this._db = db;
         }
 
-
-        public Boolean ArtistExists(String artistName) {
-            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == artistName.Trim().ToLower());
+        [System.Web.Http.HttpPost]
+        public Boolean ArtistExists([FromBody]String name) {
+            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == name.Trim().ToLower());
             if (artist != null)
             {
                 return true;
@@ -36,9 +33,10 @@ namespace sixteenBars.Controllers
             }
         }
 
-        public JsonResult AutoCompleteName(String artistName)
+        [System.Web.Http.HttpGet]
+        public JsonResult AutoCompleteName(String name)
         {
-            List<Artist> artists = _db.Artists.Where(a => a.Name.ToLower().Contains(artistName.Trim().ToLower())).OrderBy(a=>a.Name).ToList();
+            List<Artist> artists = _db.Artists.Where(a => a.Name.ToLower().Contains(name.Trim().ToLower())).OrderBy(a=>a.Name).ToList();
             
             JsonResult result = new JsonResult();
             result.Data = artists;

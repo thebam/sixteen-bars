@@ -1,0 +1,14 @@
+﻿a:link,a:active,a:visited {
+    color:blue;
+}
+
+.quote {
+    font-style:italic;
+}
+    .quote:before {
+        content:"\"";
+    }
+
+    .quote:after {
+        content:"\"";
+    }

@@ -22,13 +22,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Text)
+            <span class="quote">@Html.DisplayFor(modelItem => item.Text)</span>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Artist.Name)
+            @Html.ActionLink(item.Artist.Name, "details", "artist", new { id=item.Artist.Id},null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Track.Title)
+            @Html.ActionLink(item.Track.Title, "details", "track", new { id = item.Track.Id }, null)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

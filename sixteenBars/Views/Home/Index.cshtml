@@ -1,40 +1,38 @@
 ﻿@model List<sixteenBars.Library.Quote>
-
-@{Html.RenderAction("QOTD", "Quote", new { allowExplicit = false });}
-
-
-<hr />
-
 <div ng-app="SearchApp">
-    
+    <h3>Search</h3>
     <div ng-controller="SearchController">
         <form name="myForm" novalidate>
+            <div class="col-md-3">
+                <label for="searchTerm">Term:</label><br />
 
-            <label for="searchTerm">Term:</label><br />
+                <span style="color:red" ng-show="myForm.searchTerm.$dirty&&myForm.searchTerm.$isvalid">
+                    <span ng-show="myForm.searchTerm.$error.required">Search term is required</span>
+                </span>
 
-            <span style="color:red" ng-show="myForm.searchTerm.$dirty&&myForm.searchTerm.$isvalid">
-                <span ng-show="myForm.searchTerm.$error.required">Search term is required</span>
-            </span>
+                <input type="text" id="searchTerm" ng-model="searchTerm" required />
+            </div>
 
-            <input type="text" id="searchTerm" ng-model="searchTerm" required />
-            
-
-            <label for="searchType">Type:</label><br />
-            <select ng-model="searchType" id="searchType">
-                <option value="artist">
-                    artist
-                </option>
-                <option value="quote" selected="selected">
-                    quote
-                </option>
-                <option value="album">
-                    album
-                </option>
-                <option value="track">
-                    song
-                </option>
-            </select>
-            <button ng-click="search()">SEARCH</button>
+            <div class="col-md-3">
+                <label for="searchType">Type:</label><br />
+                <select ng-model="searchType" id="searchType">
+                    <option value="artist">
+                        artist
+                    </option>
+                    <option value="quote" selected="selected">
+                        quote
+                    </option>
+                    <option value="album">
+                        album
+                    </option>
+                    <option value="track">
+                        song
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button ng-click="search()">SEARCH</button>
+            </div>
             </form>
             <h3 ng-bind="searchTitle"></h3>
             <ol>
@@ -50,29 +48,6 @@
     @section Scripts{
         <script src="~/Scripts/angular.min.js"></script>
 
-
-        <script>
-            var searchApp = angular.module('SearchApp', []);
-
-            searchApp.controller('SearchController', function ($scope, $http) {
-                $scope.searchTerm;
-                $scope.searchType;
-                
-                $scope.search = function () {
-                    if ($scope.searchType == "" || $scope.searchType == undefined) {
-                        $scope.searchType = "quote";
-                    }
-                    $http({
-                        url: '/home/search',
-                        data: { "searchTerm": $scope.searchTerm, "searchType": $scope.searchType },
-                        method: 'POST'
-                    }).success(function (data, status, headers, config) {
-                        $scope.searchTitle = angular.uppercase($scope.searchType) + "S : '" + $scope.searchTerm + "'";
-                        $scope.quotes = data;
-                    });
-                };
-
-            });
-
-        </script>
+<script src="~/Scripts/sixteenBars-search.js"></script>
+        
     }

@@ -90,22 +90,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/angular.min.js"></script>
-    <script>
-        var trackApp = angular.module("TrackApp", []);
-        trackApp.controller("TrackController", function ($scope, $http) {
-            $scope.artistName;
-
-            $scope.autoCompleteArtist = function () {
-                if($scope.artistName.length>2){
-                    $http({
-                        url: '/artist/AutoCompleteName',
-                        data: { "name": $scope.artistName },
-                        method: 'POST'
-                    }).success(function (data, status, headers, config) {
-                        $scope.artists = data;
-                    });
-                }
-            };
-        });
-    </script>
+    
+<script src="~/Scripts/sixteenbars-artist-autocomplete.js"></script>
 }

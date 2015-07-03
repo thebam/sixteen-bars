@@ -126,11 +126,10 @@
                 $scope.autoCompleteArtist = function () {
                     if ($scope.ArtistName.length > 2) {
                         $http({
-                            url: '/artist/AutoCompleteName',
-                            data: { "name": $scope.ArtistName },
-                            method: 'POST'
+                            url: '/api/ArtistAPI/AutoCompleteName/' + $scope.ArtistName,
+                            method: 'GET'
                         }).success(function (data, status, headers, config) {
-                            $scope.artists = data;
+                            $scope.artists = data.Data;
                         });
                     }
                 };

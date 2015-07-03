@@ -1,10 +1,11 @@
 ﻿@model sixteenBars.Library.Quote
 
-<h2>Quote Of The Day</h2>
+<h4>Quote of the Day</h4>
 
 <div>
-    @Html.DisplayFor(model=>model.Text)
+    <span class="quote">@Html.DisplayFor(model => model.Text)</span>
+    <strong>@Html.DisplayFor(model => model.Artist.Name)</strong>
 </div>
 <div>
-    @Html.ActionLink("View Details", "details", new { id = Model.Id })
+    @Html.ActionLink("More...", "details", new { id = Model.Id })
 </div>
