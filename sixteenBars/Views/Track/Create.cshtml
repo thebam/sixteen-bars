@@ -1,10 +1,6 @@
-﻿@model sixteenBars.Library.Track
+﻿@model sixteenBars.Models.TrackViewModel
 
-@{
-    ViewBag.Title = "Create";
-}
-
-<h2>Create</h2>
+<h2>Add New Track</h2>
 
 @using (Html.BeginForm())
 {
@@ -26,9 +22,11 @@
                     </div>
 
 
-                    <div class="editor-label">Artist</div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.ArtistName)
+                    </div>
                     <div class="editor-field">
-                        <input type="text" id="artistName" ng-keyup="autoCompleteArtist()" ng-model="artistName" placeholder="Artist Name" required />
+                        <input type="text" id="artistName" ng-keyup="autoCompleteArtist('artistName')" ng-model="artistName" name="ArtistName" required />
                         <span style="color:red;" ng-show="trackForm.artistName.$dirty && trackForm.artistName.$invalid">
                             <span ng-show="trackForm.artistName.$error.required">
                                 Artist Name is required.
@@ -37,10 +35,15 @@
                     </div>
 
                     <div ng-repeat="artist in artists">
-                        {{artist.Name}}
+                        <div class="suggested-artist" ng-click="selectSuggestedArtist(artist.Name,'artistName')">{{artist.Name}}</div>
                     </div>
 
-
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.AlbumName)
+                    </div>
+                    <div class="editor-field">
+                        <input type="text" id="albumName" name="AlbumName" />
+                    </div>
 
                     <div class="editor-label">
                         @Html.LabelFor(model => model.ReleaseDate)
@@ -50,29 +53,8 @@
                         @Html.ValidationMessageFor(model => model.ReleaseDate)
                     </div>
 
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.DateCreated)
-                    </div>
-                    <div class="editor-field">
-                        @Html.EditorFor(model => model.DateCreated)
-                        @Html.ValidationMessageFor(model => model.DateCreated)
-                    </div>
 
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.DateModified)
-                    </div>
-                    <div class="editor-field">
-                        @Html.EditorFor(model => model.DateModified)
-                        @Html.ValidationMessageFor(model => model.DateModified)
-                    </div>
-
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.Enabled)
-                    </div>
-                    <div class="editor-field">
-                        @Html.EditorFor(model => model.Enabled)
-                        @Html.ValidationMessageFor(model => model.Enabled)
-                    </div>
+                   
 
                     <p>
                         <input type="submit" value="Create" />

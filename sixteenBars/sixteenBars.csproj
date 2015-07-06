@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\sixteenBars.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -205,6 +206,8 @@
     <Compile Include="Models\ISixteenBarsDb.cs" />
     <Compile Include="Models\QuoteViewModel.cs" />
     <Compile Include="Models\SixteenBarsDb.cs" />
+    <Compile Include="Models\TrackIndexViewModel.cs" />
+    <Compile Include="Models\TrackViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

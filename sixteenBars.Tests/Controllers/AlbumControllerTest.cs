@@ -30,7 +30,7 @@ namespace sixteenBars.Tests.Controllers
             var results = (List<AlbumIndexViewModel>)result.ViewData.Model;
             Assert.AreEqual(3, results.Count, "More or less than 3 albums returned.");
 
-            Assert.AreEqual("Because the Internet", results[0].Title, "Album title not 'Because the Internet'.");
+            Assert.AreEqual("Because The Internet", results[0].Title, "Album title not 'Because The Internet'.");
             Assert.AreEqual(false, results[0].IsDeleteable, "Album 'Because the Internet' is not deleteable.");
             Assert.AreEqual("Thank Me Later", results[1].Title, "Album title not 'Thank Me Later'.");
             Assert.AreEqual(false, results[1].IsDeleteable, "Album 'Thank Me Later' is not deleteable.");

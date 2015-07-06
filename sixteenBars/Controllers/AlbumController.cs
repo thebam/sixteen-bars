@@ -231,7 +231,6 @@ namespace sixteenBars.Controllers
                 ((IDisposable)_db).Dispose();
             }
             base.Dispose(disposing);
-
         }
     }
 }

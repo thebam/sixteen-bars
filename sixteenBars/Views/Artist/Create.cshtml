@@ -16,8 +16,10 @@
                     @Html.LabelFor(model => model.Name)
                 </div>
                 <div class="editor-field">
-                    <input type="text" id="Name" ng-blur="autoCompleteArtistName()" ng-model="ArtistName" name="Name" placeholder="Artist Name" required />
+                    <input type="text" id="Name" ng-keyup="existsArtistName()" ng-model="artistName" name="Name" placeholder="Artist Name" required />
                 </div>
+
+
                 <div ng-show="artistExists">
                     This artist was already added by another user.
                 </div>

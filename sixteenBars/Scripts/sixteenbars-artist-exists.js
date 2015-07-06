@@ -1,14 +1,15 @@
 ﻿
 var artistApp = angular.module("ArtistApp", []);
 var artistController = artistApp.controller("ArtistController", function ($scope, $http) {
-    $scope.ArtistName;
+    $scope.artistName;
     $scope.artistExists = false;
     $scope.artistExistsSubmit = true;
-    $scope.autoCompleteArtistName = function () {
-        if ($scope.ArtistName.length > 2) {
+    $scope.existsArtistName = function () {
+        
+        if ($scope.artistName.length > 2) {
             $http({
                 url: '/api/ArtistAPI/ArtistExists',
-                data: "'" + $scope.ArtistName + "'",
+                data: "'" + $scope.artistName + "'",
                 method: 'POST'
             })
             .success(function (data, status, headers, config) {
@@ -20,6 +21,9 @@ var artistController = artistApp.controller("ArtistController", function ($scope
                     $scope.artistExistsSubmit = true;
                 }
             });
+        } else {
+            $scope.artistExists = false;
+            $scope.artistExistsSubmit = true;
         }
     };
 });

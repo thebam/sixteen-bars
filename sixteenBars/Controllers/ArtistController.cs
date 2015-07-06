@@ -47,6 +47,7 @@ namespace sixteenBars.Controllers
                                     from artistTrack in tracks.DefaultIfEmpty()
                                     join quote in _db.Quotes on artist.Id equals quote.Artist.Id into quotes
                                     from artistQuote in quotes.DefaultIfEmpty()
+                                    where artist.Enabled == true
                         select new ArtistIndexViewModel()
                         {
                             Id = artist.Id,

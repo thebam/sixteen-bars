@@ -75,12 +75,19 @@ namespace sixteenBars.Tests.Model
                     Id = 10,
                     Name = "Dr. Dre",
                     DateModified = DateTime.Now                    
+                },
+                new Artist
+                {
+                    Id = 13,
+                    Name = "Mystikal",
+                    DateModified = DateTime.Now,
+                    Enabled=false
                 }
             };
             this.Albums = new MockAlbumDbSet() { 
                 new Album{
                     Id=1,
-                    Title="Because the Internet",
+                    Title="Because The Internet",
                     ReleaseDate=new DateTime(2013,12,3),
                     Artist = new Artist(){
                         Id=3,
@@ -125,10 +132,10 @@ namespace sixteenBars.Tests.Model
                     },
                     Track = new Track(){
                         Id=1,
-                        Title="sweatpants",
+                        Title="IV. Sweatpants",
                         Album= new Album(){
                             Id=1,
-                            Title="Because the Internet",
+                            Title="Because The Internet",
                             ReleaseDate=new DateTime(2013,12,3),
                             Artist = new Artist(){
                                 Id=3,
@@ -186,16 +193,16 @@ namespace sixteenBars.Tests.Model
                         },
                         DateModified = DateTime.Now
                     },
-                    ReleaseDate = new DateTime(2010, 6, 14),
+                    ReleaseDate = new DateTime(2010, 6, 14)
                 },
                 new Track()
                 {
                     Id = 1,
-                    Title = "sweatpants",
+                    Title = "IV. Sweatpants",
                     Album = new Album()
                     {
                         Id = 1,
-                        Title = "Because the Internet",
+                        Title = "Because The Internet",
                         ReleaseDate = new DateTime(2013, 12, 3),
                         Artist = new Artist()
                         {
@@ -205,7 +212,64 @@ namespace sixteenBars.Tests.Model
                         },
                         DateModified = DateTime.Now
                     },
-                    ReleaseDate = new DateTime(2013, 12, 3),
+                    ReleaseDate = new DateTime(2013, 12, 3)
+                },
+                new Track()
+                {
+                    Id = 3,
+                    Title = "Wetter Than Tsunami",
+                    Album = new Album()
+                    {
+                        Id = 4,
+                        Title = "Neon Icon",
+                        ReleaseDate = new DateTime(2014, 6, 24),
+                        Artist = new Artist()
+                        {
+                            Id = 11,
+                            Name = "Riff Raff",
+                            DateModified = DateTime.Now
+                        },
+                        DateModified = DateTime.Now
+                    },
+                    ReleaseDate = new DateTime(2014, 6, 24)
+                },
+                new Track()
+                {
+                    Id = 4,
+                    Title = "King Sh*t",
+                    Album = new Album()
+                    {
+                        Id = 5,
+                        Title = "I am",
+                        ReleaseDate = new DateTime(2013, 11, 19),
+                        Artist = new Artist()
+                        {
+                            Id = 12,
+                            Name = "Yo Gotti",
+                            DateModified = DateTime.Now
+                        },
+                        DateModified = DateTime.Now
+                    },
+                    ReleaseDate = new DateTime(2013, 11, 19)
+                },
+                new Track()
+                {
+                    Id = 5,
+                    Title = "Bandz A Make Her Dance",
+                    Album = new Album()
+                    {
+                        Id = 6,
+                        Title = "Stay Trippy",
+                        ReleaseDate = new DateTime(2013, 8, 27),
+                        Artist = new Artist()
+                        {
+                            Id = 14,
+                            Name = "Juicy J",
+                            DateModified = DateTime.Now
+                        },
+                        DateModified = DateTime.Now
+                    },
+                    ReleaseDate = new DateTime(2013, 8, 27)
                 }
             };
         }
