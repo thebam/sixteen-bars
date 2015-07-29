@@ -1,5 +1,5 @@
 ﻿@model sixteenBars.Models.TrackViewModel
-
+@Styles.Render("~/Content/themes/base/css")
 <h2>Add New Track</h2>
 
 @using (Html.BeginForm())
@@ -7,62 +7,56 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <div ng-app="TrackApp">
-        <div ng-controller="TrackController">
-            <form name="trackForm">
-                <fieldset>
-                    <legend>Track</legend>
 
+    <form name="trackForm">
+        <fieldset>
+            <legend>Track</legend>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Title)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+
+            <div ng-app="TrackApp">
+                <div ng-controller="AlbumController">
                     <div class="editor-label">
-                        @Html.LabelFor(model => model.Title)
+                        @Html.LabelFor(model => model.AlbumTitle)
                     </div>
                     <div class="editor-field">
-                        @Html.EditorFor(model => model.Title)
-                        @Html.ValidationMessageFor(model => model.Title)
+                        <input type="text" id="albumTitle" name="AlbumTitle" ng-model="albumTitle" ng-keyup="autoCompleteAlbum()" />
                     </div>
-
-
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.ArtistName)
-                    </div>
-                    <div class="editor-field">
-                        <input type="text" id="artistName" ng-keyup="autoCompleteArtist('artistName')" ng-model="artistName" name="ArtistName" required />
-                        <span style="color:red;" ng-show="trackForm.artistName.$dirty && trackForm.artistName.$invalid">
-                            <span ng-show="trackForm.artistName.$error.required">
-                                Artist Name is required.
-                            </span>
-                        </span>
-                    </div>
-
-                    <div ng-repeat="artist in artists">
-                        <div class="suggested-artist" ng-click="selectSuggestedArtist(artist.Name,'artistName')">{{artist.Name}}</div>
-                    </div>
-
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.AlbumName)
-                    </div>
-                    <div class="editor-field">
-                        <input type="text" id="albumName" name="AlbumName" />
+                    <div ng-repeat="album in albums">
+                        <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','releaseDate','artistName')" class="suggested-artist">{{album.Title}}</div>
                     </div>
 
                     <div class="editor-label">
                         @Html.LabelFor(model => model.ReleaseDate)
                     </div>
                     <div class="editor-field">
-                        @Html.EditorFor(model => model.ReleaseDate)
-                        @Html.ValidationMessageFor(model => model.ReleaseDate)
+                        <input type="text" id="releaseDate" ng-model="releaseDate" name="ReleaseDate" />
                     </div>
+                
+                
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.ArtistName)
+                    </div>
+                    <div class="editor-field">
+                        <input type="text" id="artistName" ng-model="artistName" name="ArtistName" required />
+                    </div>
+                </div>
+            </div>
 
 
-                   
 
-                    <p>
-                        <input type="submit" value="Create" />
-                    </p>
-                </fieldset>
-            </form>
-        </div>
-    </div>
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    </form>
+
 }
 
 <div>
@@ -70,8 +64,21 @@
 </div>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            var minimumDate = new Date(1978, 1 - 1, 1);
+            var today = new Date();
+            var maximumDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            $("#releaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
+            //if (blnEditMode == false) {
+            //    $('#' + _trackDateElement).datepicker('setDate', today);
+            //}
+        });
+    </script>
     <script src="~/Scripts/angular.min.js"></script>
-    
-<script src="~/Scripts/sixteenbars-artist-autocomplete.js"></script>
+    <script src="~/Scripts/sixteenbars-track-app.js"></script>
+    <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
+    <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
 }

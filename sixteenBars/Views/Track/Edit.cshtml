@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Track</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -24,37 +24,31 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.ReleaseDate)
+            Album Title
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Album.Title)
+            @Html.ValidationMessageFor(model => model.Album.Title)
+        </div>
+
+        <div class="editor-label">
+            Artist
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Album.Artist.Name)
+            @Html.ValidationMessageFor(model => model.Album.Artist.Name)
+        </div>
+
+
+        <div class="editor-label">
+            Album Release Date
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.ReleaseDate)
             @Html.ValidationMessageFor(model => model.ReleaseDate)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateCreated)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateCreated)
-            @Html.ValidationMessageFor(model => model.DateCreated)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DateModified)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DateModified)
-            @Html.ValidationMessageFor(model => model.DateModified)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Enabled)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Enabled)
-            @Html.ValidationMessageFor(model => model.Enabled)
-        </div>
-
+        
         <p>
             <input type="submit" value="Save" />
         </p>

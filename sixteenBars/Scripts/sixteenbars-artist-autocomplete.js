@@ -1,6 +1,5 @@
-﻿///first docume
-var trackApp = angular.module("TrackApp", []);
-trackApp.controller("TrackController", function ($scope, $http) {
+﻿
+app.controller("ArtistController", function ($scope, $http, autoCompleteFactory) {
     $scope.autoCompleteArtist = function (targetField) {
         var inputArtistName = "";
         if (targetField === "artistName")
@@ -9,14 +8,15 @@ trackApp.controller("TrackController", function ($scope, $http) {
             inputArtistName = $scope.artistName;
         }
         if (inputArtistName.length > 2) {
-            $http({
-                url: '/api/ArtistAPI/AutoCompleteName/' + inputArtistName,
-                method: 'GET'
-            }).success(function (data, status, headers, config) {
-                $scope.artists = data.Data;
-            }).error(function (error) {
+            var promise = autoCompleteFactory.artistName(inputArtistName);
+            promise.then(function (payload) {
+                $scope.artists = payload.data.Data;
+            },
+            function (errorPayload) {
                 $scope.artists = "";
             });
+            
+
         } else {
             $scope.artists = "";
         }
@@ -32,14 +32,41 @@ trackApp.controller("TrackController", function ($scope, $http) {
     }
 });
 
+
+//http://www.benlesh.com/2013/06/angular-js-unit-testing-services.html
 //var trackApp = angular.module("TrackApp", []);
-//trackApp.factory("artist", function ($http) {
+//trackApp.factory("httpBasedService", function ($http) {
 //    return {
-//        autoComplete: function (artistName) {
-//            return $http.get('/api/ArtistAPI/AutoCompleteName/' + artistName);
+//        autoCompleteArtist: function (artistName) {
+            
+//                        return $http.get('/api/ArtistAPI/AutoCompleteName/' + artistName)
+//                        .then(function (result) {
+//                            return result.data;
+//                        });
+                    
 //        }
 //    }
 //});
+
+//trackApp.controller("TrackController", function ($scope, httpBasedService) {
+//    $scope.autoCompleteArtist = function (targetField) {
+//        var inputArtistName = "";
+//        if (targetField === "artistName")
+//            inputArtistName = $scope.artistName;
+//        else {
+//            inputArtistName = $scope.artistName;
+//        }
+//        if (inputArtistName.length > 2) {
+//            var temp = httpBasedService.autoCompleteArtist(inputArtistName);
+//            alert(temp);
+//            $scope.artists = temp;
+            
+//        } else {
+//            $scope.artists = "";
+//        }
+//    };
+//});
+
 
 //trackApp.controller("TrackController", function ($scope, artist, $http) {
 //    $scope.artistName;

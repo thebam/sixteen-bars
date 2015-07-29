@@ -12,3 +12,14 @@
     .quote:after {
         content:"\"";
     }
+
+.display-label {
+    font-weight:bold;
+}
+.artist-block {
+}
+
+.artist-block img{
+    padding-right:15px;
+    padding-bottom:15px;
+}

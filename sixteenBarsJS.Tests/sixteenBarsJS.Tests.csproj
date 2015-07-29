@@ -51,6 +51,8 @@
     <Content Include="Tests\jasmineWorks.js" />
     <Content Include="Tests\PasswordController.js" />
     <Content Include="Tests\passwordControllerSpec.js" />
+    <Content Include="Tests\track-autocompleteSpec.js" />
+    <Content Include="Tests\trackControllerSpec.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -117,7 +117,7 @@ function getArtistInfo(artistName, elementToUpdate, nameElement) {
     $("#" + elementToUpdate).html("");
     lastfm.artist.getInfo({ artist: artistName }, {
         success: function (data) {
-            $("<img src='" + data.artist.image[2]["#text"] + "' />").appendTo("#" + elementToUpdate);
+            $("<img src='" + data.artist.image[2]["#text"] + "' align='left' />").appendTo("#" + elementToUpdate);
             $("<p>" + data.artist.bio.summary + "</p>").appendTo("#" + elementToUpdate);
 
             if (nameElement.length > 0) {
@@ -125,7 +125,7 @@ function getArtistInfo(artistName, elementToUpdate, nameElement) {
             }
             blnMakingLastFMArtistRequest = false;
             if (blnMakingLastFMTopTrackRequest==false) {
-                getTopTracks(artistName, elementToUpdate);
+                //getTopTracks(artistName, elementToUpdate);
             }
         }, error: function (code, message) {
             blnMakingLastFMArtistRequest = false;

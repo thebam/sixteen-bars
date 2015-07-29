@@ -108,7 +108,7 @@
         </div>
 
         @section Scripts {
-            @Scripts.Render("/bundles/jqueryui")
+            @Scripts.Render("~/bundles/jqueryui")
             @Scripts.Render("~/bundles/jqueryval")
             @Scripts.Render("~/bundles/sixteenbars")
             @Scripts.Render("~/bundles/lastfm")
@@ -126,7 +126,7 @@
                 $scope.autoCompleteArtist = function () {
                     if ($scope.ArtistName.length > 2) {
                         $http({
-                            url: '/api/ArtistAPI/AutoCompleteName/' + $scope.ArtistName,
+                            url: '../api/ArtistAPI/AutoCompleteName/' + $scope.ArtistName,
                             method: 'GET'
                         }).success(function (data, status, headers, config) {
                             $scope.artists = data.Data;

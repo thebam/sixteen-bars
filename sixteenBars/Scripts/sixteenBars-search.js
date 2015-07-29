@@ -10,7 +10,7 @@ searchApp.controller('SearchController', function ($scope, $http) {
             $scope.searchType = "quote";
         }
         $http({
-            url: '/home/search',
+            url: '../home/search',
             data: { "searchTerm": $scope.searchTerm, "searchType": $scope.searchType },
             method: 'POST'
         }).success(function (data, status, headers, config) {

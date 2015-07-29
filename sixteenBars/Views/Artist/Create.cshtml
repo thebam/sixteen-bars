@@ -16,7 +16,7 @@
                     @Html.LabelFor(model => model.Name)
                 </div>
                 <div class="editor-field">
-                    <input type="text" id="Name" ng-keyup="existsArtistName()" ng-model="artistName" name="Name" placeholder="Artist Name" required />
+                    <input type="text" id="Name" ng-blur="existsArtistName()" ng-model="artistName" name="Name" placeholder="Artist Name" required />
                 </div>
 
 

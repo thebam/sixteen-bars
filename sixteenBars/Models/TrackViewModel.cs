@@ -17,7 +17,7 @@ namespace sixteenBars.Models
         [Display(Name="Artist")]
         public String ArtistName { get; set; }
         [Display(Name="Album Title")]
-        public String AlbumName { get; set; }
+        public String AlbumTitle { get; set; }
         public virtual Album Album { get; set; }
 
         

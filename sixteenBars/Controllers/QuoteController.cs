@@ -16,9 +16,15 @@ namespace sixteenBars.Controllers
 
         [ChildActionOnly]
         public ActionResult QOTD(Boolean allowExplicit) {
-            Random rand = new Random();
-            int toSkip = rand.Next(0, db.Quotes.Where(q => q.Explicit == allowExplicit).Count());
-            Quote quote = db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => q.Id).Skip(toSkip).Take(1).First();
+            Quote quote = null;
+            if (db.Quotes.Count() > 0)
+            { 
+                Random rand = new Random();
+                int toSkip = rand.Next(0, db.Quotes.Where(q => q.Explicit == allowExplicit).Count());
+                quote = db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => q.Id).Skip(toSkip).Take(1).First();
+            }
+
+
             return PartialView("_QuoteOfTheDay",quote);
         }
 

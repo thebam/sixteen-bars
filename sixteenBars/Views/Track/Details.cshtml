@@ -1,50 +1,58 @@
 ﻿@model sixteenBars.Library.Track
 
-@{
-    ViewBag.Title = "Details";
-}
-
-<h2>Details</h2>
+<h2>Track Details</h2>
 
 <fieldset>
-    <legend>Track</legend>
-
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
+         Title
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Title)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.ReleaseDate)
+        Album Title
     </div>
+    
     <div class="display-field">
-        @Html.DisplayFor(model => model.ReleaseDate)
+        @Html.ActionLink(@Model.Album.Title, "details", "album", new { id=@Model.Album.Id }, null)
     </div>
-
+    <div id="albumInfo">
+    </div>
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateCreated)
+        Artist
     </div>
+    
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateCreated)
+        @Html.ActionLink(@Model.Album.Artist.Name, "details", "artist", new { id=@Model.Album.Artist.Id},null)
     </div>
-
+    <div id="artistInfo" class="artist-block">
+    </div>
+    <div class="clear-fix"></div>
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateModified)
+         Album Release Date
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.DateModified)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Enabled)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Enabled)
+        @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @if (User.IsInRole("admin")) { 
+        @Html.ActionLink("Edit", "Edit", new { id=Model.Id })
+            @: |
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>
+@section Scripts{
+@Scripts.Render("~/bundles/sixteenbars")
+@Scripts.Render("~/bundles/lastfm") 
+
+<script>
+
+    $(document).ready(function () {
+       getArtistInfo('@Model.Album.Artist.Name', "artistInfo", "");
+        getAlbumInfo('@Model.Album.Artist.Name', '@Model.Album.Title', "albumInfo");
+    });
+</script>
+<script src="~/Scripts/sixteenbars-lastfm.js"></script>
+}

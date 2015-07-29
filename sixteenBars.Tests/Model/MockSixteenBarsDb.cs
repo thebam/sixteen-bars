@@ -117,6 +117,17 @@ namespace sixteenBars.Tests.Model
                         DateModified =DateTime.Now
                     },
                     DateModified=DateTime.Now
+                },
+                new Album{
+                    Id=4, 
+                    Title="The Blueprint 2: The Gift & The Curse",
+                    ReleaseDate=new DateTime(2002,11,12),
+                    Artist = new Artist(){
+                        Id=1,
+                        Name="Jay-Z",
+                        DateModified =DateTime.Now
+                    },
+                    DateModified=DateTime.Now
                 }
             };
             this.Quotes = new MockQuoteDbSet() { 

@@ -28,14 +28,16 @@ namespace sixteenBars.Tests.Controllers
             AlbumController ctrl = new AlbumController(new MockSixteenBarsDb());
             var result = ctrl.Index() as ViewResult;
             var results = (List<AlbumIndexViewModel>)result.ViewData.Model;
-            Assert.AreEqual(3, results.Count, "More or less than 3 albums returned.");
+            Assert.AreEqual(4, results.Count, "More or less than 4 albums returned.");
 
             Assert.AreEqual("Because The Internet", results[0].Title, "Album title not 'Because The Internet'.");
             Assert.AreEqual(false, results[0].IsDeleteable, "Album 'Because the Internet' is not deleteable.");
             Assert.AreEqual("Thank Me Later", results[1].Title, "Album title not 'Thank Me Later'.");
             Assert.AreEqual(false, results[1].IsDeleteable, "Album 'Thank Me Later' is not deleteable.");
-            Assert.AreEqual("Yeezus", results[2].Title, "Album title not 'Yeezus'.");
-            Assert.AreEqual(true, results[2].IsDeleteable, "Album 'Yeezus' is deleteable.");
+            Assert.AreEqual("The Blueprint 2: The Gift & The Curse", results[2].Title, "Album title not 'The Blueprint 2: The Gift & The Curse'.");
+            Assert.AreEqual(true, results[2].IsDeleteable, "Album 'The Blueprint 2: The Gift & The Curse' is deleteable.");
+            Assert.AreEqual("Yeezus", results[3].Title, "Album title not 'Yeezus'.");
+            Assert.AreEqual(true, results[3].IsDeleteable, "Album 'Yeezus' is deleteable.");
         }
 
         [TestMethod]
@@ -44,7 +46,7 @@ namespace sixteenBars.Tests.Controllers
             AlbumController ctrl = new AlbumController(mockDb);
             Album newAlbum = new Album()
             {
-                Id = 4,
+                Id = 5,
                 Title = "Doggystyle",
                 ReleaseDate = new DateTime(1993,11, 23),
                 Artist = new Artist() { 
@@ -53,13 +55,13 @@ namespace sixteenBars.Tests.Controllers
                 }
             };
             ctrl.Create(newAlbum);
-            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(4).Title, "Doggystyle not added.");
-            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(4).ReleaseDate, "Doggystyle release date not 11/23/93.");
-            Assert.AreEqual(newAlbum.Artist.Name, mockDb.Albums.Find(4).Artist.Name, "Snoop Doggy Dogg not added as artist for Doggystyle.");
+            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(5).Title, "Doggystyle not added.");
+            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(5).ReleaseDate, "Doggystyle release date not 11/23/93.");
+            Assert.AreEqual(newAlbum.Artist.Name, mockDb.Albums.Find(5).Artist.Name, "Snoop Doggy Dogg not added as artist for Doggystyle.");
 
             newAlbum = new Album()
             {
-                Id = 5,
+                Id = 6,
                 Title = ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./",
                 ReleaseDate = new DateTime(1993,11, 23),
                 Artist = new Artist() { 
@@ -68,13 +70,13 @@ namespace sixteenBars.Tests.Controllers
                 }
             };
             ctrl.Create(newAlbum);
-            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(5).Title, ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./ not added.");
-            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(5).ReleaseDate, ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./ release date not 11/23/93.");
-            Assert.AreEqual(newAlbum.Artist.Name, mockDb.Albums.Find(5).Artist.Name, ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./ not added as artist for .~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./.");
+            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(6).Title, ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./ not added.");
+            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(6).ReleaseDate, ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./ release date not 11/23/93.");
+            Assert.AreEqual(newAlbum.Artist.Name, mockDb.Albums.Find(6).Artist.Name, ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./ not added as artist for .~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./.");
 
             newAlbum = new Album()
             {
-                Id = 6,
+                Id = 7,
                 Title = "The Blueprint",
                 ReleaseDate = new DateTime(2001, 9, 11),
                 Artist = new Artist()
@@ -83,14 +85,14 @@ namespace sixteenBars.Tests.Controllers
                 }
             };
             ctrl.Create(newAlbum);
-            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(6).Title, "The Blueprint not added.");
-            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(6).ReleaseDate, "The Blueprint release date not 9/11/01.");
-            Assert.AreEqual("Jay-Z", mockDb.Albums.Find(6).Artist.Name, "Jay-Z not added as artist for The Blueprint.");
+            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(7).Title, "The Blueprint not added.");
+            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(7).ReleaseDate, "The Blueprint release date not 9/11/01.");
+            Assert.AreEqual("Jay-Z", mockDb.Albums.Find(7).Artist.Name, "Jay-Z not added as artist for The Blueprint.");
 
             
             newAlbum = new Album()
             {
-                Id = 7,
+                Id = 8,
                 Title = "Because the Internet",
                 ReleaseDate = new DateTime(2013, 12, 3),
                 Artist = new Artist()
@@ -99,11 +101,11 @@ namespace sixteenBars.Tests.Controllers
                 }
             };
             ctrl.Create(newAlbum);
-            Assert.IsNull(mockDb.Albums.Find(7), "Because the Internet was created twice");
+            Assert.IsNull(mockDb.Albums.Find(8), "Because the Internet was created twice");
 
             newAlbum = new Album()
             {
-                Id = 7,
+                Id = 9,
                 Title = "Because the Internet",
                 ReleaseDate = new DateTime(2013, 12, 3),
                 Artist = new Artist()
@@ -113,12 +115,12 @@ namespace sixteenBars.Tests.Controllers
                 }
             };
             ctrl.Create(newAlbum);
-            Assert.IsNull(mockDb.Albums.Find(7), "Because the Internet was created twice");
+            Assert.IsNull(mockDb.Albums.Find(9), "Because the Internet was created twice");
             Assert.IsNull(mockDb.Artists.Find(12), "Childish Gambino was created twice");
 
             newAlbum = new Album()
             {
-                Id = 7,
+                Id = 9,
                 Title = "The Blueprint",
                 ReleaseDate = new DateTime(2015, 5, 4),
                 Artist = new Artist()
@@ -128,9 +130,9 @@ namespace sixteenBars.Tests.Controllers
                 }
             };
             ctrl.Create(newAlbum);
-            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(7).Title, "The Blueprint from different artist not added.");
-            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(7).ReleaseDate, "The Blueprint from different artist release date not 5/4/15.");
-            Assert.AreEqual("Jay-Z Imposter", mockDb.Albums.Find(7).Artist.Name, "The Jay-Z Imposter not added as artist for The other Blueprint album.");
+            Assert.AreEqual(newAlbum.Title, mockDb.Albums.Find(9).Title, "The Blueprint from different artist not added.");
+            Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(9).ReleaseDate, "The Blueprint from different artist release date not 5/4/15.");
+            Assert.AreEqual("Jay-Z Imposter", mockDb.Albums.Find(9).Artist.Name, "The Jay-Z Imposter not added as artist for The other Blueprint album.");
 
 
 
