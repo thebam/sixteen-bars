@@ -149,18 +149,6 @@ namespace sixteenBars.Tests.Controllers
             Assert.AreEqual(actual.Album.Title, newAlbumTitle, "Track album title not 'Neon Icon'");
             Assert.AreEqual(actual.ReleaseDate, newDate, "Track release date not '5/1/2014'");
 
-
-            //Id = 5,
-            //        Title = "Bandz A Make Her Dance",
-            //        Album = new Album()
-            //        {
-            //            Id = 6,
-            //            Title = "Stay Trippy",
-            //            ReleaseDate = new DateTime(2013, 8, 27),
-            //            Artist = new Artist()
-            //            {
-            //                Id = 14,
-            //                Name = "Juicy J",
             editted = db.Tracks.Find(5);
             Assert.AreEqual(editted.Id, 5, "Track Id not 5");
             Assert.AreEqual(editted.Title, "Bandz A Make Her Dance", "Track title not 'Bandz A Make Her Dance'");
@@ -181,22 +169,7 @@ namespace sixteenBars.Tests.Controllers
             Assert.AreEqual(actual.Album.Title, editted.Album.Title, "Track album title not 'Stay Trippy'");
             Assert.AreEqual(actual.ReleaseDate, editted.ReleaseDate, "Track release date not '8/27/2013'");
 
-             //Id = 4,
-             //       Title = "King Sh*t",
-             //       Album = new Album()
-             //       {
-             //           Id = 5,
-             //           Title = "I am",
-             //           ReleaseDate = new DateTime(2013, 11, 19),
-             //           Artist = new Artist()
-             //           {
-             //               Id = 12,
-             //               Name = "Yo Gotti",
-             //               DateModified = DateTime.Now
-             //           },
-             //           DateModified = DateTime.Now
-             //       },
-             //       ReleaseDate = new DateTime(2013, 11, 19)
+            
 
             editted = db.Tracks.Find(4);
             Assert.AreEqual(editted.Id, 4, "Track Id not 4");

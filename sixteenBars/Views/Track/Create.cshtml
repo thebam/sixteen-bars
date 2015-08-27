@@ -72,12 +72,10 @@
             var today = new Date();
             var maximumDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             $("#releaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
-            //if (blnEditMode == false) {
-            //    $('#' + _trackDateElement).datepicker('setDate', today);
-            //}
         });
     </script>
     <script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/sixteenbars-utilities.js"></script>
     <script src="~/Scripts/sixteenbars-track-app.js"></script>
     <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
     <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>

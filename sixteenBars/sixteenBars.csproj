@@ -1088,6 +1088,7 @@
     <Content Include="Scripts\sixteenBars-search.js" />
     <Content Include="Scripts\sixteenbars-track-app.js" />
     <Content Include="Scripts\sixteenbars-track-autocomplete.js" />
+    <Content Include="Scripts\sixteenbars-utilities.js" />
     <Content Include="Scripts\sixteenbars.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

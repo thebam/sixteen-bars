@@ -1,7 +1,6 @@
 ﻿
 app.controller("AlbumController", function ($scope, $http, autoCompleteFactory) {
     $scope.autoCompleteAlbum = function () {
-
         //chariotsolutions.com/blog/post/angularjs-corner-using-promises-q-handle-asynchronous-calls
         if ($scope.albumTitle.length > 2) {
             var albumTitle, artistName;
@@ -12,7 +11,6 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory) 
             }
 
             albumTitle = encodeURIComponent($scope.albumTitle);
-
             var promise = autoCompleteFactory.albumTitle(albumTitle, artistName);
 
             promise.then(function (payload) {
@@ -29,7 +27,7 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory) 
             $scope.albumTitle = albumName;
             //$scope.releaseDate = releaseDate;
             $scope.artistName = artistName;
-            $('#releaseDate').datepicker("setDate", new Date(releaseDate));
+            $('#' + dateFieldToPopulate).datepicker("setDate", new Date(releaseDate));
 
         } else {
             $scope.albumTitle = albumName;
