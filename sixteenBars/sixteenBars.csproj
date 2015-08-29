@@ -1084,10 +1084,12 @@
     <Content Include="Scripts\sixteenbars-artist-autocomplete.js" />
     <Content Include="Scripts\sixteenbars-artist-exists.js" />
     <Content Include="Scripts\sixteenbars-autocomplete-functions.js" />
+    <Content Include="Scripts\sixteenbars-exist-functions.js" />
     <Content Include="Scripts\sixteenbars-lastfm.js" />
     <Content Include="Scripts\sixteenBars-search.js" />
     <Content Include="Scripts\sixteenbars-track-app.js" />
     <Content Include="Scripts\sixteenbars-track-autocomplete.js" />
+    <Content Include="Scripts\sixteenbars-track-exists.js" />
     <Content Include="Scripts\sixteenbars-utilities.js" />
     <Content Include="Scripts\sixteenbars.js" />
     <Content Include="Web.config">

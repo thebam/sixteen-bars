@@ -6,54 +6,54 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
+    <h2>@ViewBag.ErrorMessage</h2>
 
     <form name="trackForm">
         <fieldset>
             <legend>Track</legend>
 
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Title)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Title)
-                @Html.ValidationMessageFor(model => model.Title)
-            </div>
+
 
             <div ng-app="TrackApp">
                 <div ng-controller="AlbumController">
                     <div class="editor-label">
+                        @Html.LabelFor(model => model.Title)
+                    </div>
+                    <div class="editor-field">
+                        <input type="text" id="title" name="Title" ng-model="title" required ng-blur="existTrack()" />
+                    </div>
+
+
+                    <div class="editor-label">
                         @Html.LabelFor(model => model.AlbumTitle)
                     </div>
                     <div class="editor-field">
-                        <input type="text" id="albumTitle" name="AlbumTitle" ng-model="albumTitle" ng-keyup="autoCompleteAlbum()" />
+                        <input type="text" id="albumTitle" name="AlbumTitle" ng-model="albumTitle" required ng-keyup="autoCompleteAlbum()" ng-blur="existTrack()" />
                     </div>
                     <div ng-repeat="album in albums">
                         <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','releaseDate','artistName')" class="suggested-artist">{{album.Title}}</div>
                     </div>
-
-                    <div class="editor-label">
-                        @Html.LabelFor(model => model.ReleaseDate)
-                    </div>
-                    <div class="editor-field">
-                        <input type="text" id="releaseDate" ng-model="releaseDate" name="ReleaseDate" />
-                    </div>
-                
-                
                     <div class="editor-label">
                         @Html.LabelFor(model => model.ArtistName)
                     </div>
                     <div class="editor-field">
-                        <input type="text" id="artistName" ng-model="artistName" name="ArtistName" required />
+                        <input type="text" id="artistName" ng-model="artistName" name="ArtistName" required ng-blur="existTrack()" />
                     </div>
+                    <div class="editor-label">
+                        Track Release Date
+                    </div>
+                    <div class="editor-field">
+                        <input type="text" id="releaseDate" ng-model="releaseDate" name="ReleaseDate" required ng-blur="existTrack()" />
+                    </div>
+
+                    <p>
+                        <input type="submit" value="Create" ng-hide="blnTrackExists" ng-init="false" />
+                    </p>
+                    <p ng-show="blnTrackExists">
+                        The track already exists.
+                    </p>
                 </div>
             </div>
-
-
-
-            <p>
-                <input type="submit" value="Create" />
-            </p>
         </fieldset>
     </form>
 
@@ -75,8 +75,9 @@
         });
     </script>
     <script src="~/Scripts/angular.min.js"></script>
-<script src="~/Scripts/sixteenbars-utilities.js"></script>
+    <script src="~/Scripts/sixteenbars-utilities.js"></script>
     <script src="~/Scripts/sixteenbars-track-app.js"></script>
     <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
+    <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
     <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
 }

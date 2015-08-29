@@ -1,7 +1,7 @@
 ﻿@model sixteenBars.Library.Track
 
 <h2>Track Details</h2>
-
+@if(Model != null){
 <fieldset>
     <div class="display-label">
          Title
@@ -36,6 +36,7 @@
         @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
     </div>
 </fieldset>
+
 <p>
     @if (User.IsInRole("admin")) { 
         @Html.ActionLink("Edit", "Edit", new { id=Model.Id })
@@ -54,5 +55,9 @@
         getAlbumInfo('@Model.Album.Artist.Name', '@Model.Album.Title', "albumInfo");
     });
 </script>
+  
 <script src="~/Scripts/sixteenbars-lastfm.js"></script>
+}  
+}else{
+<p>Track Not Found</p>
 }

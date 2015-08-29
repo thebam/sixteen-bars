@@ -21,10 +21,11 @@ namespace sixteenBars.Controllers
             _db = db;
         }
 
-        [System.Web.Http.HttpPost]
-        public bool TrackExists([FromBody]String trackName)
+        [System.Web.Http.HttpGet]
+        public bool TrackExists(String trackTitle, String albumTitle, String artistName, DateTime releaseDate)
         {
-            Track trackFound = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == trackName.Trim().ToLower());
+            Track trackFound = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == trackTitle.ToLower().Trim() && t.Album.Title.ToLower() == albumTitle.ToLower().Trim() && t.Album.Artist.Name.ToLower() == artistName.ToLower().Trim() && t.ReleaseDate == releaseDate);
+            
             if (trackFound == null) {
                 return false;
             }else{

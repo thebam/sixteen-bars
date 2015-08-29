@@ -50,10 +50,10 @@ namespace sixteenBars.Controllers
         public ActionResult Details(int id = 0)
         {
             Track track = _db.Tracks.Find(id);
-            if (track == null)
-            {
-                return HttpNotFound();
-            }
+            //if (track == null)
+            //{
+            //    return HttpNotFound();
+            //}
             return View(track);
         }
 
@@ -101,8 +101,20 @@ namespace sixteenBars.Controllers
                 track.ReleaseDate = trackVM.ReleaseDate;
                 track.Album = album;
 
-                _db.Tracks.Add(track);
-                _db.SaveChanges();
+                TrackAPIController api = new TrackAPIController(_db);
+
+                if (!api.TrackExists(track.Title, track.Album.Title, track.Album.Artist.Name, (DateTime)track.ReleaseDate))
+                {
+                    _db.Tracks.Add(track);
+                    _db.SaveChanges();
+                }
+                else {
+
+                   
+                    ViewBag.ErrorMessage = "The track titled '" + track.Title + "' on the album titled '" + track.Album.Title + "' already exists.";
+                    return View(trackVM);
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -132,68 +144,55 @@ namespace sixteenBars.Controllers
         {
             if (ModelState.IsValid)
             {
-                Track edittedTrack = _db.Tracks.Find(track.Id);
-                edittedTrack.Title = track.Title;
-
-                Album tempAlbum = _db.Albums.FirstOrDefault(album => album.Title.ToLower() == track.Album.Title.Trim().ToLower() && album.Artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
-                Artist tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
-                if (tempAlbum == null)
-                {
-                    if (tempArtist == null)
+                TrackAPIController api = new TrackAPIController(_db);
+                if (!api.TrackExists(track.Title, track.Album.Title, track.Album.Artist.Name,(DateTime)track.ReleaseDate)){
+                    Track edittedTrack = _db.Tracks.Find(track.Id);
+                    edittedTrack.Title = track.Title;
+                    edittedTrack.ReleaseDate = track.ReleaseDate;
+                    Album tempAlbum = _db.Albums.FirstOrDefault(album => album.Title.ToLower() == track.Album.Title.Trim().ToLower() && album.Artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
+                    Artist tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
+                    if (tempAlbum == null)
                     {
-                        edittedTrack.Album = new Album()
+                        if (tempArtist == null)
                         {
-                            Title = track.Album.Title.Trim(),
-                            ReleaseDate = track.ReleaseDate,
-                            DateModified = DateTime.Now,
-                            Artist = new Artist()
+                            edittedTrack.Album = new Album()
                             {
-                                Name = track.Album.Artist.Name.Trim(),
-                                DateModified = DateTime.Now
-                            }
-                        };
-                    }
-                    else
-                    {
-                        edittedTrack.Album = new Album()
+                                Title = track.Album.Title.Trim(),
+                                ReleaseDate = track.ReleaseDate,
+                                DateModified = DateTime.Now,
+                                Artist = new Artist()
+                                {
+                                    Name = track.Album.Artist.Name.Trim(),
+                                    DateModified = DateTime.Now
+                                }
+                            };
+                        }
+                        else
                         {
-                            Title = track.Album.Title.Trim(),
-                            ReleaseDate = track.ReleaseDate,
-                            DateModified = DateTime.Now,
-                            Artist = tempArtist
-                        };
+                            edittedTrack.Album = new Album()
+                            {
+                                Title = track.Album.Title.Trim(),
+                                ReleaseDate = track.ReleaseDate,
+                                DateModified = DateTime.Now,
+                                Artist = tempArtist
+                            };
+                        }
                     }
+                    else {
+                        edittedTrack.Album = tempAlbum;
+                    }
+
+
+                    _db.SetModified(edittedTrack);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                else {
-                    edittedTrack.Album = tempAlbum;
+                else
+                {
+                    ViewBag.ErrorMessage = "The track titled '" + track.Title + "' on the album titled '" + track.Album.Title + "' already exists.";
+                    return View(track);
                 }
-
-
-                _db.SetModified(edittedTrack);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-                //Artist tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
-                //if (tempArtist == null)
-                //{
-                //    tempArtist = new Artist() { Name = track.Album.Artist.Name.Trim(), DateModified = DateTime.Now };
-                //    _db.Artists.Add(tempArtist);
-                //    _db.SaveChanges();
-                //    tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
-                //}
-
-
-                //Album tempAlbum = _db.Albums.FirstOrDefault(album => album.Title.ToLower() == track.Album.Title.Trim().ToLower() && album.Artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
-                //if (tempAlbum == null)
-                //{
-                //    tempAlbum = new Album() { Title = track.Album.Title.Trim(), ReleaseDate = track.ReleaseDate, DateModified = DateTime.Now, Artist = tempArtist };
-                //    _db.Albums.Add(tempAlbum);
-                //    _db.SaveChanges();
-                //    track.Album = _db.Albums.FirstOrDefault(album => album.Title.ToLower() == track.Album.Title.Trim().ToLower() && album.Artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
-                //}
-
-                //_db.SetModified(track);
-                //_db.SaveChanges();
-                //return RedirectToAction("Index");
+               
             }
             return View(track);
         }
@@ -204,10 +203,7 @@ namespace sixteenBars.Controllers
         public ActionResult Delete(int id = 0)
         {
             Track track = _db.Tracks.Find(id);
-            if (track == null)
-            {
-                return HttpNotFound();
-            }
+            
             return View(track);
         }
 

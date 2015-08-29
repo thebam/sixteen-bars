@@ -7,7 +7,7 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
+    <h2>@ViewBag.ErrorMessage</h2>
     <fieldset>
         <legend>Track</legend>
 
@@ -43,7 +43,7 @@
 
 
                 <div class="editor-label">
-                    Album Release Date
+                    Track Release Date
                 </div>
                 <div class="editor-field">
                     @Html.TextBoxFor(model => model.ReleaseDate, new { ng_model = "releaseDate", ng_init = string.Format("releaseDate = '{0}'", Model.ReleaseDate) })
@@ -74,8 +74,9 @@
         });
     </script>
     <script src="~/Scripts/angular.min.js"></script>
-<script src="~/Scripts/sixteenbars-utilities.js"></script>
+    <script src="~/Scripts/sixteenbars-utilities.js"></script>
     <script src="~/Scripts/sixteenbars-track-app.js"></script>
     <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
+    <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
     <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
 }
