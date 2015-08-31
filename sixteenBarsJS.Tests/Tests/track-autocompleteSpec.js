@@ -22,17 +22,13 @@
         }));
 
 
-        it('should fetch track detail', function() {
-            expect(scope.tracks).toBeUndefined();
-            $httpBackend.flush();
+        //it('should fetch track detail', function() {
+        //    expect(scope.tracks).toBeUndefined();
+        //    $httpBackend.flush();
 
-            expect(scope.tracks).toEqual(lightTrackData().Data);
-            scope.tracks = "";
-        });
+        //    expect(scope.tracks).toEqual(lightTrackData().Data);
+        //    scope.tracks = "";
+        //});
 
-        it('test2', function () {
-  
-            scope.trackAutoComplete("light");
-            expect(scope.tracks).toEqual(lightTrackData().Data);
-        });
+        
     });

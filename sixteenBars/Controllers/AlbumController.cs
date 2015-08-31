@@ -38,7 +38,6 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
-            //Select * from Albums if Quote attached set isdeleteable to false
             var albumQuotes = (from album in _db.Albums
                                join quote in _db.Quotes on album.Id equals quote.Track.Album.Id into quotes
                                from albumQuote in quotes.DefaultIfEmpty()

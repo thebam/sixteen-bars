@@ -15,10 +15,10 @@ namespace sixteenBars.Tests.Controllers
         public void TrackAPI_TrackExists()
         {
             TrackAPIController ctrl = new TrackAPIController(new MockSixteenBarsDb());
-            Boolean result = ctrl.TrackExists("Light Up");
+            Boolean result = ctrl.TrackExists("Light Up", "Thank Me Later", "Drake", new DateTime(2010, 6, 14));
             Assert.AreEqual(true, result, "Track 'Light Up' exists");
 
-            result = ctrl.TrackExists("Curls");
+            result = ctrl.TrackExists("Curls", "Doomsday", "MF DOOM", new DateTime(2010, 6, 14));
             Assert.AreEqual(false, result, "Track 'Curls' doesn't exists");
         }
 

@@ -1,13 +1,21 @@
 ﻿@model sixteenBars.Library.Artist
 
 <h2>Delete Artist</h2>
+@if (Model != null)
+{
+    <h3>Are you sure you want to delete "@Html.DisplayFor(model => model.Name)"?</h3>
 
-<h3>Are you sure you want to delete "@Html.DisplayFor(model => model.Name)"?</h3>
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <p>
+            <input type="submit" value="Delete" /> |
+            @Html.ActionLink("Cancel", "Index")
+        </p>
+    }
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Cancel", "Index")
-    </p>
+}
+else
+{
+    <p>No Artist Found</p>
 }

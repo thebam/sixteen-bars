@@ -71,7 +71,7 @@ namespace sixteenBars.Controllers
             ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
             if (artist == null)
             {
-                return HttpNotFound();
+                return View(artistVM);
             }
             else {
                 
@@ -156,10 +156,7 @@ namespace sixteenBars.Controllers
         public ActionResult Delete(int id = 0)
         {
             Artist artist = _db.Artists.Find(id);
-            if (artist == null)
-            {
-                return HttpNotFound();
-            }
+            
             return View(artist);
         }
 

@@ -1,9 +1,14 @@
-﻿/// <reference path="../../sixteenbars/scripts/angular.js" />
-/// <reference path="../../sixteenbars/scripts/angular-route.js" />
-/// <reference path="../../sixteenbars/scripts/angular-mocks.js" />
+﻿
+
+
+/// <reference path="../../sixteenbars/scripts/angular.js" />
+/// <reference path="../../sixteenbars/scripts/sixteenbars-utilities.js" />
 /// <reference path="../../sixteenbars/scripts/sixteenbars-track-app.js" />
 /// <reference path="../../sixteenbars/scripts/sixteenbars-autocomplete-functions.js" />
-/// <reference path="../../sixteenbars/scripts/sixteenbars-track-autocomplete.js" />
+/// <reference path="../../sixteenbars/scripts/sixteenbars-exist-functions.js" />
+/// <reference path="../../sixteenbars/scripts/sixteenbars-album-autocomplete.js" />
+
+
 
 describe('AlbumController', function () {
     beforeEach(module('TrackApp'));
