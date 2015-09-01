@@ -2,8 +2,9 @@
 
 
 <h2>Edit Artist</h2>
-
-@using (Html.BeginForm()) {
+@if (Model != null)
+{
+using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -33,4 +34,9 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+}
+}
+else
+{
+<p>No Artist Found</p>
 }

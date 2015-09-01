@@ -85,7 +85,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Artist/Create
-
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -96,6 +96,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create(Artist artist)
         {
             if (ModelState.IsValid)
@@ -106,6 +107,10 @@ namespace sixteenBars.Controllers
                     _db.Artists.Add(artist);
                     _db.SaveChanges();
                 }
+                else {
+                    ViewBag.ErrorMessage = "The artist titled '" + artist.Name + "' already exists.";
+                    return View(artist);
+                }
                 return RedirectToAction("Index");
             }
 
@@ -114,14 +119,11 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Artist/Edit/5
-
+        [Authorize(Roles="admin")]
         public ActionResult Edit(int id = 0)
         {
             Artist artist = _db.Artists.Find(id);
-            if (artist == null)
-            {
-                return HttpNotFound();
-            }
+            
             return View(artist);
         }
 
@@ -130,6 +132,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(Artist artist)
         {
             if (ModelState.IsValid)
@@ -152,7 +155,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Artist/Delete/5
-
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id = 0)
         {
             Artist artist = _db.Artists.Find(id);
@@ -165,6 +168,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Artist artist = _db.Artists.Find(id);
