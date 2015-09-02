@@ -1,54 +1,19 @@
 ﻿@model sixteenBars.Library.Album
 
-@{
-    ViewBag.Title = "Delete";
-}
 
-<h2>Delete</h2>
+<h2>Delete Album</h2>
+@if(Model != null){
+<h3>Are you sure you want to delete the album named '@Html.Raw(Model.Title)'?</h3>
 
-<h3>Are you sure you want to delete this?</h3>
-<fieldset>
-    <legend>Album</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ReleaseDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ReleaseDate)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateCreated)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DateCreated)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.DateModified)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DateModified)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Enabled)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Enabled)
-    </div>
-</fieldset>
-@using (Html.BeginForm()) {
+using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
         <input type="submit" value="Delete" /> |
         @Html.ActionLink("Back to List", "Index")
     </p>
+}
+}
+else
+{
+    <p>Album Not Found</p>
 }

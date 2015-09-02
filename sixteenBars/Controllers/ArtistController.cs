@@ -178,10 +178,20 @@ namespace sixteenBars.Controllers
                 Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.Id == id);
                 if (quote == null) {
                     Album album = _db.Albums.SingleOrDefault(a => a.Artist.Id == id);
-                    if (album == null) {
+                    if (album == null)
+                    {
                         _db.Artists.Remove(artist);
                         _db.SaveChanges();
                     }
+                    else {
+                        ViewBag.ErrorMessage = "The artist '" + artist.Name + "' can't be deleted because they have associated albums. Delete albums first.";
+                        return View(artist);
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "The artist '" + artist.Name + "' can't be deleted because they have associated quotes. Delete quotes first.";
+                    return View(artist);
                 }
             }
 

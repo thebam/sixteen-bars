@@ -1,11 +1,9 @@
 ﻿@model sixteenBars.Library.Album
 
-@{
-    ViewBag.Title = "Details";
-}
 
-<h2>Details</h2>
-
+<h2>Album Details</h2>
+@if (Model != null)
+{
 <fieldset>
     <legend>Album</legend>
 
@@ -15,22 +13,46 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Title)
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ReleaseDate)
+    <div id="albumInfo">
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ReleaseDate)
-    </div>
+    
     <div class="display-label">
-        @Html.DisplayNameFor(model => model.Artist.Name)
+        Artist Name
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Artist.Name)
     </div>
+    <div id="artistInfo" class="artist-block">
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ReleaseDate)
+    </div>
+    <div class="display-field">
+        @String.Format("{0:MM/dd/yyyy}",Model.ReleaseDate)
+    </div>
    
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @if (User.IsInRole("admin") || User.IsInRole("editor")) { 
+        @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) 
+        @:|
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>
+@section Scripts{
+    @Scripts.Render("~/bundles/sixteenbars")
+    @Scripts.Render("~/bundles/lastfm")
+
+    <script>
+
+    $(document).ready(function () {
+       getArtistInfo('@Model.Artist.Name', "artistInfo", "");
+        getAlbumInfo('@Model.Artist.Name', '@Model.Title', "albumInfo");
+    });
+    </script>
+
+    <script src="~/Scripts/sixteenbars-lastfm.js"></script>
+}
+}else{
+<p>Album Not Found</p>
+}
