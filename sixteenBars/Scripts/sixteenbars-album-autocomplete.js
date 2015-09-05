@@ -59,4 +59,66 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
         //    });
         //}
     }
+
+
+    $scope.autoCompleteArtist = function () {
+        if ($scope.saidByArtistName.length > 2) {
+            saidByArtistName = encodeURIComponent($scope.saidByArtistName);
+            var promise = autoCompleteFactory.artistName(saidByArtistName);
+
+            promise.then(function (payload) {
+                $scope.artists = payload.data.Data;
+            },
+            function (errorPayload) {
+                $scope.artists = "";
+            });
+        }
+    };
+
+    $scope.selectSuggestedArtist = function (artistName, fieldToPopulate) {
+        if (fieldToPopulate === "artistName") {
+            $scope.saidByArtistName = artistName;
+        } else {
+            $scope.saidByArtistName = artistName;
+        }
+        $scope.artists = "";
+    }
+
+    $scope.autoCompleteTrack = function () {
+        //if ($scope.trackTitle.length > 2) {
+        //    $http({
+        //        url: '../api/TrackAPI/TrackAutoComplete?title=' + $scope.trackTitle,
+        //        method: 'GET'
+        //    }).success(function (data, status, headers, config) {
+        //        $scope.tracks = data.Data;
+        //    });
+        //}
+        if ($scope.trackTitle.length > 2) {
+            trackTitle = encodeURIComponent($scope.trackTitle);
+            var promise = autoCompleteFactory.trackTitle(trackTitle);
+
+            promise.then(function (payload) {
+                $scope.tracks = payload.data.Data;
+            },
+            function (errorPayload) {
+                $scope.tracks = "";
+            });
+        }
+
+
+    };
+
+    $scope.selectSuggestedTrack = function (trackName, albumName, releaseDate, artistName, titleFieldToPopulate, dateFieldToPopulate) {
+        if (titleFieldToPopulate === "albumTitle") {
+            $scope.trackTitle = trackName;
+            $scope.albumTitle = albumName;
+            $scope.artistName = artistName;
+            $('#' + dateFieldToPopulate).datepicker("setDate", new Date(releaseDate));
+            
+        } else {
+            $scope.trackTitle = trackName;
+        }
+        $scope.tracks = "";
+    };
+
 });

@@ -1,11 +1,8 @@
 ﻿@model sixteenBars.Models.QuoteViewModel
 
-@{
-    ViewBag.Title = "Details";
-}
 
-<h2>Details</h2>
-
+<h2>Quote Details</h2>
+@if (Model.Id > 0) { 
 <fieldset>
     <legend>Quote</legend>
 
@@ -52,6 +49,14 @@
 
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @if (User.IsInRole("admin") || User.IsInRole("editor")) {
+        @Html.ActionLink("Edit", "Edit", new { id=Model.Id })
+        @: | 
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>
+}
+else { 
+<p>No Quote Found.</p>
+}
+

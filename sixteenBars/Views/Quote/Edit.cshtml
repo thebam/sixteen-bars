@@ -1,123 +1,109 @@
-﻿@model sixteenBars.Models.QuoteViewModel
+﻿@model sixteenBars.Library.Quote
 
-@Styles.Render("~/Content/themes/base/css")
-<h2>Edit</h2>
+    @Styles.Render("~/Content/themes/base/css")
+    <h2>Edit Quote</h2>
+    <div ng-app="TrackApp">
+    <div ng-controller="AlbumController">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+            <fieldset>
+                <legend>Quote</legend>
 
-    <fieldset>
-        <legend>Quote</legend>
+                @Html.HiddenFor(model => model.Id)
 
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Text)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Text)
-            @Html.ValidationMessageFor(model => model.Text)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Explicit)
-        </div>
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.Explicit)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Explanation)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Explanation)
-        </div>
-
-        <hr />
-        <div class="col-md-3">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Artists)
-            </div>
-
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.ArtistId, Model.Artists, "Select Artist")
-                <div id="newArtistName">
-                    @Html.LabelFor(model => model.ArtistName)
-                    @Html.EditorFor(model => model.ArtistName)
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Text)
                 </div>
-                @Html.ValidationMessageFor(model => model.ArtistId)
-            </div>
-        </div>
-        <div id="artistInfo" class="col-md-9"></div>
-        <div class="clear-fix"></div>
-        <hr />
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Text)
+                    @Html.ValidationMessageFor(model => model.Text)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Explicit)
+                </div>
+                <div class="editor-field">
+                    @Html.CheckBoxFor(model => model.Explicit)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Explanation)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Explanation)
+                </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Tracks)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.TrackId, Model.Tracks, "Select Song")
-            <div id="newTrackName">
-                @Html.LabelFor(model => model.TrackName)
-                @Html.EditorFor(model => model.TrackName)
-            </div>
-            @Html.ValidationMessageFor(model => model.TrackId)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TrackReleaseDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TrackReleaseDate)
-        </div>
+                <div class="editor-label">
+                    Said By
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "saidByArtistName", ng_keyup = "autoCompleteArtist()", ng_init = string.Format("saidByArtistName = '{0}'", Model.Artist.Name) })
+                </div>
+                <div ng-repeat="artist in artists">
+                    <div ng-click="selectSuggestedArtist(artist.Name,'Artist_Name')" class="suggested-artist">{{artist.Name}}</div>
+                </div>
 
-        <hr />
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Albums)
-        </div>
-        <div id="albumImage"></div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.AlbumId, Model.Albums, "Select Album")
-            @Html.EditorFor(model => model.AlbumName)
-            @Html.ValidationMessageFor(model => model.AlbumId)
-        </div>
-        <div id="albumInfo">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.AlbumArtists)
-            </div>
-            <div id="albumArtistInfo"></div>
-            <div class="editor-field">
-                @Html.DropDownListFor(model => model.AlbumArtistId, Model.AlbumArtists, "Select Artist")
-                @Html.EditorFor(model => model.AlbumArtistName)
-                @Html.ValidationMessageFor(model => model.AlbumArtistId)
-            </div>
+                <div class="editor-label">
+                    From Song
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Track.Title, new { ng_model = "trackTitle", ng_keyup = "autoCompleteTrack()", ng_init = string.Format("trackTitle = '{0}'", Model.Track.Title) })
+                </div>
+                <div ng-repeat="track in tracks">
+                    <div ng-click="selectSuggestedTrack(track.Title,track.Album.Title,track.Album.ReleaseDate,track.Album.Artist.Name,'albumTitle','Track_Album_ReleaseDate')" class="suggested-artist">{{track.Title}}</div>
+                </div>
 
-            <div class="editor-label">
-                @Html.LabelFor(model => model.AlbumReleaseDate)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.AlbumReleaseDate)
-            </div>
-        </div>
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
 
+                <div class="editor-label">
+                    From Album
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Track.Album.Title, new { ng_model = "albumTitle", ng_keyup = "autoCompleteAlbum()", ng_blur="existTrack()" ,ng_init = string.Format("albumTitle = '{0}'", Model.Track.Album.Title) })
+                </div>
+                <div ng-repeat="album in albums">
+                    <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','Track_Album_ReleaseDate','Track_Album_Artist_Name')" class="suggested-artist">{{album.Title}}</div>
+                </div>
+
+                <div class="editor-label">
+                    Album Artist
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Track.Album.Artist.Name, new { ng_model = "artistName", ng_blur = "existTrack()", ng_init = string.Format("artistName = '{0}'", Model.Track.Album.Artist.Name) })
+                </div>
+
+                <div class="editor-label">
+                    Album Release Date
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Track.Album.ReleaseDate, new { ng_model = "releaseDate", ng_blur = "existTrack()", ng_init = string.Format("releaseDate = '{0}'", Model.Track.Album.ReleaseDate) })
+                </div>
+                <p>
+                    <input type="submit" value="Save" />
+                </p>
+            </fieldset>
+        }
+    </div>
+</div>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("/bundles/jqueryui")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/sixteenbars")
-    @Scripts.Render("~/bundles/lastfm")
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            initialize("TrackReleaseDate", "AlbumReleaseDate", false);
-        });
-    </script>
-    <script src="~/Scripts/sixteenbars-lastfm.js"></script>
-}
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryui")
+                @Scripts.Render("~/bundles/jqueryval")
+                <script>
+                    $(document).ready(function () {
+                        var minimumDate = new Date(1978, 1 - 1, 1);
+                        var today = new Date();
+                        var maximumDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                        $("#Track_Album_ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
+                    });
+                </script>
+                <script src="~/Scripts/angular.min.js"></script>
+                <script src="~/Scripts/sixteenbars-utilities.js"></script>
+                <script src="~/Scripts/sixteenbars-track-app.js"></script>
+                <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
+                <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
+                <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
+            }

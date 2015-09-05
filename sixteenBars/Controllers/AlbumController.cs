@@ -99,7 +99,7 @@ namespace sixteenBars.Controllers
                     {
                         _db.Artists.Add(new Artist()
                         {
-                            Name = album.Artist.Name
+                            Name = album.Artist.Name.Trim()
                         });
                         _db.SaveChanges();
                         album.Artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == album.Artist.Name.Trim().ToLower());

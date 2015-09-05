@@ -12,16 +12,24 @@ namespace sixteenBars.Controllers
 {
     public class QuoteController : Controller
     {
-        private SixteenBarsDb db = new SixteenBarsDb();
+        private ISixteenBarsDb _db;
+
+        public QuoteController() :this(new SixteenBarsDb()){ 
+        
+        }
+
+        public QuoteController(ISixteenBarsDb db) {
+            this._db = db;
+        }
 
         [ChildActionOnly]
         public ActionResult QOTD(Boolean allowExplicit) {
             Quote quote = null;
-            if (db.Quotes.Count() > 0)
+            if (_db.Quotes.Count() > 0)
             { 
                 Random rand = new Random();
-                int toSkip = rand.Next(0, db.Quotes.Where(q => q.Explicit == allowExplicit).Count());
-                quote = db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => q.Id).Skip(toSkip).Take(1).First();
+                int toSkip = rand.Next(0, _db.Quotes.Where(q => q.Explicit == allowExplicit).Count());
+                quote = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => q.Id).Skip(toSkip).Take(1).First();
             }
 
 
@@ -34,7 +42,7 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Quotes.ToList());
+            return View(_db.Quotes.ToList());
         }
 
         //
@@ -42,12 +50,10 @@ namespace sixteenBars.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Quote quote = db.Quotes.Find(id);
+            Quote quote = _db.Quotes.Find(id);
             QuoteViewModel quoteVM = new QuoteViewModel();
-            if (quote == null)
+            if (quote != null)
             {
-                return HttpNotFound();
-            } else {
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = quote.Text;
                 quoteVM.Explanation = quote.Explanation;
@@ -65,23 +71,12 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Quote/Create
-
+        [Authorize(Roles="admin")]
         public ActionResult Create()
         {
-            QuoteViewModel quoteVM = new QuoteViewModel();
-            var artists = db.Artists.ToList();
-            artists.Add(new Artist() { Name = "Add New Artist", Id = -1 });
-            quoteVM.Artists = new SelectList(artists, "Id", "Name");
-            var tracks = db.Tracks.ToList();
-            tracks.Add(new Track() { Title = "Add New Song", Id = -1 });
-            quoteVM.Tracks = new SelectList(tracks, "Id", "Title");
+            Quote quote = new Quote();
 
-            var albums = db.Albums.ToList();
-            albums.Add(new Album() { Title = "Add New Album", Id = -1 });
-            quoteVM.Albums = new SelectList(albums, "Id", "Title");
-
-
-            return View(quoteVM);
+            return View(quote);
         }
 
         //
@@ -89,145 +84,87 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(QuoteViewModel quoteVM)
+        [Authorize(Roles = "admin")]
+        public ActionResult Create(Quote quote)
         {
             if (ModelState.IsValid)
             {
-
-                if (quoteVM.ArtistId == -1)
-                {
-                    Artist artist = db.Artists.FirstOrDefault(a => a.Name == quoteVM.ArtistName);
-                    if (artist == null) {
-                        db.Artists.Add(new Artist() { Name=quoteVM.ArtistName,DateModified=DateTime.Now});
-                        db.SaveChanges();
-                    }
-                }
-
-                if (quoteVM.AlbumArtistId == -1)
-                {
-                    Artist artist = db.Artists.FirstOrDefault(a => a.Name == quoteVM.AlbumArtistName);
-                    if (artist == null)
+                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
+                    if (tempArtist == null)
                     {
-                        db.Artists.Add(new Artist() { Name = quoteVM.AlbumArtistName, DateModified = DateTime.Now });
-                        db.SaveChanges();
+                        _db.Artists.Add(new Artist()
+                        {
+                            Name = quote.Artist.Name.Trim()
+                        });
+                        _db.SaveChanges();
+                        quote.Artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
                     }
-                }
+                    else {
+                        quote.Artist = tempArtist;
+                    }
 
-
-
-                Quote quote = new Quote();
-                quote.Text = quoteVM.Text;
-                quote.DateModified = DateTime.Now;
-                quote.Explicit = quoteVM.Explicit;
-                quote.Explanation = quoteVM.Explanation;
-
-                if (quoteVM.ArtistId != -1)
-                {
-                    quote.Artist = db.Artists.Find(quoteVM.ArtistId);
-                }
-                else {
-                    quote.Artist = db.Artists.SingleOrDefault(a=>a.Name == quoteVM.ArtistName);
-                }
-
-                if (quoteVM.TrackId != -1)
-                {
-                    quote.Track = db.Tracks.Find(quoteVM.TrackId);
-                }
-                else
-                {
-                    Track track = db.Tracks.FirstOrDefault(t => t.Title == quoteVM.TrackName);
-                    if (track == null)
+                    Artist tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                    if (tempArtistAlbum == null)
                     {
-                        quote.Track = new Track() { Title = quoteVM.TrackName, DateModified = DateTime.Now,ReleaseDate=quoteVM.TrackReleaseDate };
+                        _db.Artists.Add(new Artist()
+                        {
+                            Name = quote.Track.Album.Artist.Name.Trim()
+                        });
+                        _db.SaveChanges();
+                        tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                    }
+
+                    Album tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                    if (tempAlbum == null)
+                    {
+                        _db.Albums.Add(new Album()
+                        {
+                            Title = quote.Track.Album.Title.Trim(),
+                            Artist = tempArtistAlbum,
+                            ReleaseDate = quote.Track.Album.ReleaseDate
+                        });
+                        _db.SaveChanges();
+                        quote.Track.Album = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                     }
                     else
                     {
-                        quote.Track = track;
+                        quote.Track.Album = tempAlbum;
                     }
-                }
 
 
-                if (quoteVM.AlbumId != -1)
-                {
-                    quote.Track.Album = db.Albums.Find(quoteVM.AlbumId);
-                }
-                else
-                {
-                    Album album = db.Albums.FirstOrDefault(a => a.Title == quoteVM.AlbumName);
-                    if (album == null)
+                    Track tempTrack = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
+                    if (tempTrack == null)
                     {
-
-                        quote.Track.Album = new Album() { Title = quoteVM.AlbumName, DateModified = DateTime.Now,ReleaseDate=quoteVM.AlbumReleaseDate};
-
-                        if (quoteVM.AlbumArtistId > -1)
+                        _db.Tracks.Add(new Track()
                         {
-                            quote.Track.Album.Artist = db.Artists.Find(quoteVM.AlbumArtistId);
-                        }
-                        else
-                        {
-                            if (quoteVM.AlbumArtistId == -1)
-                            {
-                                quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.AlbumArtistName);
-                            } else {
-                                //get the value of the newly added artist
-                                quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.ArtistName);
-                            }
-                        }
+                            Title = quote.Track.Title.Trim(),
+                            ReleaseDate = quote.Track.Album.ReleaseDate,
+                            Album = tempAlbum
+                        });
+                        _db.SaveChanges();
+                        quote.Track = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
                     }
                     else
                     {
-                        quote.Track.Album = album;
+                        quote.Track = tempTrack;
                     }
-                }
+                
 
-                db.Quotes.Add(quote);
-                db.SaveChanges();
+                _db.Quotes.Add(quote);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(quoteVM);
+            return View(quote);
         }
 
         //
         // GET: /Quote/Edit/5
-
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id = 0)
         {
-            Quote quote = db.Quotes.Find(id);
-            QuoteViewModel quoteVM = new QuoteViewModel();
-            if (quote == null)
-            {
-                return HttpNotFound();
-            }
-            else {
-                
-                quoteVM.Text = quote.Text; 
-                quoteVM.TrackId = quote.Track.Id;
-                quoteVM.TrackReleaseDate = (DateTime)quote.Track.ReleaseDate;
-                quoteVM.ArtistId = quote.Artist.Id;
-                quoteVM.AlbumId = quote.Track.Album.Id;
-                quoteVM.AlbumReleaseDate = (DateTime)quote.Track.Album.ReleaseDate;
-                quoteVM.AlbumArtistId = quote.Track.Album.Artist.Id;
-                quoteVM.Explanation = quote.Explanation;
-                quoteVM.Explicit = quote.Explicit;
-                var artists = db.Artists.ToList();
-                artists.Add(new Artist() { Name = "Add New Artist", Id = -1 });
-                quoteVM.Artists = new SelectList(artists, "Id", "Name",quote.Artist.Id);
-
-                var albumArtists = db.Artists.ToList();
-                albumArtists.Add(new Artist() { Name = "Add New Artist", Id = -1 });
-                quoteVM.AlbumArtists = new SelectList(albumArtists, "Id", "Name", quote.Track.Album.Artist.Id);
-
-                var tracks = db.Tracks.ToList();
-                tracks.Add(new Track() { Title = "Add New Song", Id = -1 });
-                quoteVM.Tracks = new SelectList(tracks, "Id", "Title",quote.Track.Id);
-
-                var albums = db.Albums.ToList();
-                albums.Add(new Album() { Title = "Add New Album", Id = -1 });
-                quoteVM.Albums = new SelectList(albums, "Id", "Title", quote.Track.Album.Id);
-            
-            }
-            return View(quoteVM);
+            Quote quote = _db.Quotes.Find(id);
+            return View(quote);
         }
 
         //
@@ -235,126 +172,91 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(QuoteViewModel quoteVM)
+        [Authorize(Roles = "admin")]
+        public ActionResult Edit(Quote quote)
         {
             if (ModelState.IsValid)
             {
-
-                Quote quote = db.Quotes.FirstOrDefault(q => q.Id == quoteVM.Id);
-                quote.Text = quoteVM.Text;
-                quote.Explanation = quoteVM.Explanation;
-                quote.Explicit = quoteVM.Explicit;
-                quote.DateModified = DateTime.Now;
-
-                if (quoteVM.ArtistId == -1)
+                Quote edittedQuote = _db.Quotes.Find(quote.Id);
+                edittedQuote.Text = quote.Text;
+                edittedQuote.Explanation = quote.Explanation;
+                edittedQuote.Explicit = quote.Explicit;
+                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
+                if (tempArtist == null)
                 {
-                    Artist artist = db.Artists.FirstOrDefault(a => a.Name == quoteVM.ArtistName);
-                    if (artist == null)
+                    _db.Artists.Add(new Artist()
                     {
-                        db.Artists.Add(new Artist() { Name = quoteVM.ArtistName, DateModified = DateTime.Now });
-                        db.SaveChanges();
-                    }
-                }
-
-                if (quoteVM.AlbumArtistId == -1)
-                {
-                    Artist artist = db.Artists.FirstOrDefault(a => a.Name == quoteVM.AlbumArtistName);
-                    if (artist == null)
-                    {
-                        db.Artists.Add(new Artist() { Name = quoteVM.AlbumArtistName, DateModified = DateTime.Now });
-                        db.SaveChanges();
-                    }
-                }
-
-
-
-                if (quoteVM.ArtistId != -1)
-                {
-                    quote.Artist = db.Artists.Find(quoteVM.ArtistId);
+                        Name = quote.Artist.Name.Trim()
+                    });
+                    _db.SaveChanges();
+                    edittedQuote.Artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
                 }
                 else
                 {
-                    quote.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.ArtistName);
+                    edittedQuote.Artist = tempArtist;
                 }
 
-                if (quoteVM.TrackId != -1)
+                Artist tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                if (tempArtistAlbum == null)
                 {
-                    quote.Track = db.Tracks.Find(quoteVM.TrackId);
+                    _db.Artists.Add(new Artist()
+                    {
+                        Name = quote.Track.Album.Artist.Name.Trim()
+                    });
+                    _db.SaveChanges();
+                    tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                }
+
+                Album tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                if (tempAlbum == null)
+                {
+                    _db.Albums.Add(new Album()
+                    {
+                        Title = quote.Track.Album.Title.Trim(),
+                        Artist = tempArtistAlbum,
+                        ReleaseDate = quote.Track.Album.ReleaseDate
+                    });
+                    _db.SaveChanges();
+                    edittedQuote.Track.Album = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                 }
                 else
                 {
-                    Track track = db.Tracks.FirstOrDefault(t => t.Title == quoteVM.TrackName);
-                    if (track == null)
-                    {
-                        quote.Track = new Track() { Title = quoteVM.TrackName, DateModified = DateTime.Now, ReleaseDate = quoteVM.TrackReleaseDate };
-                    }
-                    else
-                    {
-                        quote.Track = track;
-                    }
+                    edittedQuote.Track.Album = tempAlbum;
                 }
 
-                if (quoteVM.AlbumId != -1)
+
+                Track tempTrack = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
+                if (tempTrack == null)
                 {
-                    quote.Track.Album = db.Albums.Find(quoteVM.AlbumId);
+                    _db.Tracks.Add(new Track()
+                    {
+                        Title = quote.Track.Title.Trim(),
+                        ReleaseDate = quote.Track.Album.ReleaseDate,
+                        Album = tempAlbum
+                    });
+                    _db.SaveChanges();
+                    edittedQuote.Track = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
                 }
                 else
                 {
-                    Album album = db.Albums.FirstOrDefault(a => a.Title == quoteVM.AlbumName);
-                    if (album == null)
-                    {
-
-                        quote.Track.Album = new Album() { Title = quoteVM.AlbumName, DateModified = DateTime.Now, ReleaseDate = quoteVM.AlbumReleaseDate };
-
-                        if (quoteVM.AlbumArtistId > -1)
-                        {
-                            quote.Track.Album.Artist = db.Artists.Find(quoteVM.AlbumArtistId);
-                        }
-                        else
-                        {
-                            if (quoteVM.AlbumArtistId == -1)
-                            {
-                                quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.AlbumArtistName);
-                            }
-                            else
-                            {
-                                //get the value of the newly added artist
-                                quote.Track.Album.Artist = db.Artists.SingleOrDefault(a => a.Name == quoteVM.ArtistName);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        quote.Track.Album = album;
-                    }
+                    edittedQuote.Track = tempTrack;
                 }
-
-
-                db.Entry(quote).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.SetModified(edittedQuote);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
-            }else {
-                var artists = db.Artists.ToList();
-                artists.Add(new Artist() { Name = "Add New Artist", Id = -1 });
-                quoteVM.Artists = new SelectList(artists, "Id", "Name", quoteVM.ArtistId);
-
-                var tracks = db.Tracks.ToList();
-                tracks.Add(new Track() { Title = "Add New Song", Id = -1 });
-                quoteVM.Tracks = new SelectList(tracks, "Id", "Title", quoteVM.TrackId);
-
-                var albums = db.Albums.ToList();
-                albums.Add(new Album() { Title = "Add New Album", Id = -1 });
-                quoteVM.Albums = new SelectList(albums, "Id", "Title", quoteVM.AlbumId);
             }
-            return View(quoteVM);
+            else {
+                ViewBag.ErrorMessage = "The quote already exists.";
+                return View(quote);
+            }
         }
 
         //
         // GET: /Quote/Delete/5
-
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id = 0)
         {
-            Quote quote = db.Quotes.Find(id);
+            Quote quote = _db.Quotes.Find(id);
             QuoteViewModel quoteVM = new QuoteViewModel();
 
             if (quote == null)
@@ -374,17 +276,21 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Quote quote = db.Quotes.Find(id);
-            db.Quotes.Remove(quote);
-            db.SaveChanges();
+            Quote quote = _db.Quotes.Find(id);
+            _db.Quotes.Remove(quote);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            if (_db is IDisposable)
+            {
+                ((IDisposable)_db).Dispose();
+            }
             base.Dispose(disposing);
         }
     }

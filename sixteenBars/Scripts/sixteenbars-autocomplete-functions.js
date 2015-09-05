@@ -13,6 +13,13 @@
         return $http.get(baseUrl);
     };
 
-    obj.trackTitle = function () { };
+
+
+    obj.trackTitle = function (title) {
+        var baseUrl = siteURL + "/api/TrackAPI/TrackAutoComplete?title=" + title;
+        return $http.get(baseUrl);
+    };
+
+
     return obj;
 });
