@@ -124,12 +124,9 @@ namespace sixteenBars.Controllers
                             ReleaseDate = quote.Track.Album.ReleaseDate
                         });
                         _db.SaveChanges();
-                        quote.Track.Album = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                        tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                     }
-                    else
-                    {
-                        quote.Track.Album = tempAlbum;
-                    }
+                    
 
 
                     Track tempTrack = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
@@ -217,11 +214,7 @@ namespace sixteenBars.Controllers
                         ReleaseDate = quote.Track.Album.ReleaseDate
                     });
                     _db.SaveChanges();
-                    edittedQuote.Track.Album = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
-                }
-                else
-                {
-                    edittedQuote.Track.Album = tempAlbum;
+                    tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                 }
 
 
