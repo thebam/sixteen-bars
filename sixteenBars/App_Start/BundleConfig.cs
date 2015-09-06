@@ -11,6 +11,9 @@ namespace sixteenBars
             bundles.Add(new ScriptBundle("~/bundles/sixteenbars").Include(
                         "~/Scripts/sixteenbars.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                        "~/Scripts/bootstrap.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/lastfm").Include(
                 "~/Scripts/lastfm.api.js","~/Scripts/lastfm.api.cache.js","~/Scripts/lastfm.api.md5.js"));
             
