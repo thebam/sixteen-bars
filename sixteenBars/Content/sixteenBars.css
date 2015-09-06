@@ -34,12 +34,13 @@ a:link,a:active,a:visited {
     padding-bottom:15px;
 }
 
-.index-list {
-    border:solid 1px #ddd;
+.index-list>.row{
+    padding:15px 0;
 }
 
-.index-list tr th{
-    text-transform:uppercase;
-    font-weight:bold;
-    font-size:1.125em;
+.index-list > :nth-child(even){
+  background-color: #ddd;
+}
+.index-list >:nth-child(odd){
+  background-color: #fff;
 }

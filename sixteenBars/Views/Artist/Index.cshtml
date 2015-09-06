@@ -4,29 +4,21 @@
 
 @if (User.IsInRole("admin") || User.IsInRole("editor"))
 {
-<p>
-    @Html.ActionLink("Add New Artist", "Create")
-</p>
+    <p>
+        @Html.ActionLink("Add New Artist", "Create")
+    </p>
 }
 @if (Model != null)
 {
-    <table class="index-list table table-striped table-hover">
-        <tr>
-            <th>
-               NAME
-            </th>
-            <th></th>
-        </tr>
 
+    <div class="index-list">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name) @Html.ActionLink("details", "Details", new { id = item.Id })
-                </td>
-                <td>
-
-                    
+            <div class="row">
+                <div class="col-md-11">
+                    @Html.DisplayFor(modelItem => item.Name)<br/>@Html.ActionLink("details", "Details", new { id = item.Id })
+                </div>
+                <div class="col-md-1">
                     @if (User.IsInRole("admin") || User.IsInRole("editor"))
                     {
                         @: |
@@ -34,14 +26,16 @@
                         if (item.IsDeleteable)
                         {
                             @:| @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                }
+                        }
                     }
-                </td>
-            </tr>
+                </div>
+
+            </div>
         }
-    </table>
+                <div class="clearfix"></div>
+            </div>
 }
-else
-{
-<p>No Artists Found</p>
-}
+        else
+        {
+        <p>No Artists Found</p>
+        }

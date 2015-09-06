@@ -13,57 +13,44 @@
 @if (Model.Count() > 0)
 {
 
-    <table class="index-list table table-striped table-hover">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AlbumTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ArtistName)
-            </th>
-
-            <th></th>
-        </tr>
+    <div class="index-list">
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title) @Html.ActionLink("details", "Details", new { id = item.Id })
-                </td>
-                <td>
-                    @Html.ActionLink(item.AlbumTitle, "Details", "Album", new { id = item.AlbumId }, null)
-                </td>
-                <td>
-                    @Html.ActionLink(item.ArtistName, "Details", "Artist", new { id = item.ArtistId }, null)
+            <div class="row">
+                <div class="col-md-4">
+    @Html.DisplayFor(modelItem => item.Title)<br/>@Html.ActionLink("details", "Details", new { id = item.Id })
+    </div>
+    <div class="col-md-4">
+    @Html.ActionLink(item.AlbumTitle, "Details", "Album", new { id = item.AlbumId }, null)
+    </div>
+    <div class="col-md-3">
+    @Html.ActionLink(item.ArtistName, "Details", "Artist", new { id = item.ArtistId }, null)
 
-                </td>
+    </div>
 
-                <td>
-                    
-                    @if (User.IsInRole("admin"))
-                    {
-                        @:|
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+    <div class="col-md-1">
 
-                        if (item.IsDeleteable)
-                        {
-                            @:|
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        }
-                    }
-                </td>
+    @if (User.IsInRole("admin"))
+    {
+        @:|
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
 
-            </tr>
+        if (item.IsDeleteable)
+        {
+            @:|
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         }
+    }
+    </div>
 
-    </table>
+</div>
+        }
+        <div class="clearfix"></div>
+    </div>
 }
 else
 {
     <p>No Tracks Found</p>
-    
+
 }
