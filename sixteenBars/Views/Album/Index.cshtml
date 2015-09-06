@@ -7,43 +7,51 @@
     @Html.ActionLink("Add New Album", "Create")
 </p>
 }
-@if(Model.Count() > 0){
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ArtistName)
-        </th>
-        <th></th>
-    </tr>
+@if (Model.Count() > 0)
+{
+    <table class="index-list table table-striped table-hover">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArtistName)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.ActionLink(item.ArtistName,  "Details","Artist", new { id=item.ArtistId},null)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id = item.Id })
-            @if (User.IsInRole("admin") || User.IsInRole("editor")) { 
-            
-            @: | @Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
-                
-            
-            if(item.IsDeleteable){
-             
-                @: | @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title) @Html.ActionLink("details", "Details", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.ActionLink(item.ArtistName, "Details", "Artist", new { id = item.ArtistId }, null)
+                </td>
+                <td>
+                    
+                    @if (User.IsInRole("admin") || User.IsInRole("editor"))
+                    {
+
+                        @: | @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+
+
+
+
+                        if (item.IsDeleteable)
+                        {
+
+                            @: | @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             }
-            }
-        </td>
-    </tr>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
 }
-
-</table>
-}else{
+else
+{
 <p>No Albums Found</p>
 }
