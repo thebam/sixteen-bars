@@ -8,7 +8,8 @@
     <title>16 Bars</title>
 
     <!-- Bootstrap -->
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!--Use the CDN to fix a bug that appears in Chrome where glyphicons dont display-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link href="~/Content/sixteenBars.css" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -47,10 +48,12 @@
     </header>
     <div class="container">
         @RenderSection("featured", required: false)
-
+        <div class="login-container">
+            @Html.Partial("_LoginPartial")
+        </div>
+        <div class="main-content">
             @RenderBody()
-
-        @Html.Partial("_LoginPartial")
+        </div>
     </div>
     <footer>
         <div class="container">

@@ -1,83 +1,88 @@
 ﻿@model sixteenBars.Models.ArtistDetailViewModel
 
 
-<h2>Artist Details</h2>
-@if (Model.Id > 0 && !String.IsNullOrEmpty(Model.Name) ) { 
-<fieldset>
-    <legend>Artist</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
+<h1>Artist Details</h1>
+@if (Model.Id > 0 && !String.IsNullOrEmpty(Model.Name))
+{
+    <h2>
         @Html.DisplayFor(model => model.Name)
-    </div>
+    </h2>
 
     <div id="artistInfo" class="artist-block">
     </div>
     <div class="clear-fix"></div>
 
-    <hr />
-    <h2>Quotes</h2>
-    <div class="display-field">
-        @if (Model.Quotes.Count < 1) {
+    <div style="clear:both">
+        <hr />
+        <h3>Quotes</h3>
+
+        @if (Model.Quotes.Count < 1)
+        {
             <p>No Quotes Found</p>
         }
-        else { 
-        <ul>
-            @foreach (var item in Model.Quotes)
-            {
-                <li>
-                    @Html.Raw(item.Text) |
-                    @Html.ActionLink("Details", "Details", "Quote", new { id = item.Id }, null)
-                </li>
-            }
-        </ul>
+        else
+        {
+            <div class="index-list">
+                @foreach (var item in Model.Quotes)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="quote">@Html.Raw(item.Text) </span>
+                            @Html.ActionLink("details", "Details", "Quote", new { id = item.Id }, null)
+                        </div>
+                    </div>
+                }
+            </div>
         }
+
     </div>
-    <hr/>
-    <h2>Albums</h2>
-    <div class="display-field">
+    <div style="clear:both;margin-bottom:15px;">
+        <h3>Albums</h3>
+
         @if (Model.Albums.Count < 1)
         {
             <p>No Albums Found</p>
         }
         else
         {
-        <ul>
-            @foreach (var item in Model.Albums)
-            {
-                <li>
-                    @Html.Raw(item.Title) |
-                    @Html.ActionLink("Details", "Details", "Album", new { id=item.Id},null)
-                </li>
-            }
-        </ul>
+            <div class="index-list">
+                @foreach (var item in Model.Albums)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ActionLink(item.Title, "Details", "Album", new { id = item.Id }, null)
+                        </div>
+                    </div>
+                }
+            </div>
         }
     </div>
-    
-</fieldset>
-<p>
-    @if (User.IsInRole("admin") || User.IsInRole("editor")) { 
-        @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) 
-        @:|
-    }
-    @Html.ActionLink("Back to List", "Index")
-</p>
-    
-    
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", "Artist", new { @class = "btn btn-back" })
+        @if (User.IsInRole("admin") || User.IsInRole("editor"))
+        {
+            @: &nbsp;
+            @Html.ActionLink("Edit", "Edit", "Artist", new { id = Model.Id }, new { @class = "btn btn-edit" })
+            @: &nbsp;
+            @Html.ActionLink("Delete", "Delete", "Artist", new { id = Model.Id }, new { @class = "btn btn-remove" })
+        }
+        
+    </div>
+
+
     @section Scripts{
-    @Scripts.Render("~/bundles/sixteenbars")
-    @Scripts.Render("~/bundles/lastfm")
+        @Scripts.Render("~/bundles/sixteenbars")
+        @Scripts.Render("~/bundles/lastfm")
 
-    <script>
+        <script>
 
-        $(document).ready(function () {
-            getArtistInfo('@Model.Name', "artistInfo", "");
-        });
-    </script>
+            $(document).ready(function () {
+                getArtistInfo('@Model.Name', "artistInfo", "");
+            });
+        </script>
 
-    <script src="~/Scripts/sixteenbars-lastfm.js"></script>
+        <script src="~/Scripts/sixteenbars-lastfm.js"></script>
     }
 }
 else

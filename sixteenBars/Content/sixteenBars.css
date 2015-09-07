@@ -3,6 +3,19 @@ body {
     color: #404040;
 }
 
+h3 {
+color: #lightgrey;
+}
+
+.login-container {
+float:right;
+}
+
+
+.main-content {
+    margin-bottom:15px;
+}
+
 .navbar-brand a:link, .navbar-brand a:active, .navbar-brand a:visited {
     color:#fff;
 }
@@ -34,6 +47,12 @@ a:link,a:active,a:visited {
     padding-bottom:15px;
 }
 
+#albumInfo img{
+    width:100%;
+    margin-bottom:10px;
+}
+
+
 .index-list>.row{
     padding:15px 0;
 }
@@ -48,6 +67,66 @@ a:link,a:active,a:visited {
 .index-list>.row>div:first-of-type{
     font-weight:bold;
 }
+
+.lower-details {
+margin-bottom:15px;
+background-color:#ddd;
+padding-top:15px;
+padding-bottom:15px;
+}
+
+a.btn {
+    border:solid 1px #37B8EB;
+    padding:5px 10px;
+    color:#fff;
+    background-color:#37B8EB;
+    text-decoration:none;
+    border-radius:0;
+    text-transform:uppercase;
+    margin-right:4px;
+}
+
+a.btn:hover {
+    background-color:#fff;
+    color:#37B8EB;
+}
+
+.btn-standard::after {
+    content: "\e258";
+    font-family: "Glyphicons Halflings";
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-left: 5px;
+}
+
+.btn-back::before {
+    content: "\e257";
+    font-family: "Glyphicons Halflings";
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
+
+.btn-edit::before {
+    content: "\e065";
+    font-family: "Glyphicons Halflings";
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
+
+.btn-remove::before {
+    content: "\e020";
+    font-family: "Glyphicons Halflings";
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+}
+
 
 @media screen and (max-width:768px) {
 .index-list>.row>div:first-of-type{

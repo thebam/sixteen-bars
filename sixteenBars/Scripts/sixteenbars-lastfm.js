@@ -139,7 +139,7 @@ function getAlbumInfo(artistName, albumName, elementToUpdate) {
     lastfm.album.getInfo({ artist: artistName, album: albumName }, {
         success: function (data) {
             //alert(data.artist.image[2]["#text"]);
-            $("<img src='" + data.album.image[2]["#text"] + "' />").appendTo("#" + elementToUpdate)
+            $("<img src='" + data.album.image[3]["#text"] + "' />").appendTo("#" + elementToUpdate)
 
 
             /* Use data. */

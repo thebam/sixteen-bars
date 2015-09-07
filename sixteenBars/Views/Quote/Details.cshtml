@@ -1,62 +1,56 @@
 ﻿@model sixteenBars.Models.QuoteViewModel
 
 
-<h2>Quote Details</h2>
-@if (Model.Id > 0) { 
-<fieldset>
-    <legend>Quote</legend>
+<h1>Quote Details</h1>
+@if (Model.Id > 0)
+{
+    <h2>
+        "@Html.DisplayFor(model => model.Text)" -
+        @Html.ActionLink(Model.ArtistName, "details", "artist", new { id = Model.ArtistId }, null)
+    </h2>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Text)
-    </div>
-    <div class="display-field quote">
-        @Html.DisplayFor(model => model.Text)
-    </div>
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Explanation)
-    </div>
-    <div class="display-field">
+    <p>
+        <strong>
+            Meaning
+        </strong>
+        <br />
         @Html.DisplayFor(model => model.Explanation)
+    </p>
+
+
+    <div class="row lower-details">
+        <div class="col-md-4">
+            Track :
+
+            @Html.ActionLink(Model.TrackName, "details", "track", new { id = Model.TrackId }, null)
+        </div>
+
+        <div class="col-md-4">
+            Album :
+
+            @Html.ActionLink(Model.AlbumName, "details", "album", new { id = Model.AlbumId }, null)
+        </div>
+
+        <div class="col-md-4">
+            Artist :
+
+            @Html.ActionLink(Model.AlbumArtistName, "details", "artist", new { id = Model.AlbumArtistId }, null)
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "Index", "Quote", new { @class = "btn btn-back" })
+        @if (User.IsInRole("admin") || User.IsInRole("editor"))
+        {
+            @: &nbsp;
+            @Html.ActionLink("Edit", "Edit", "Quote", new { id = Model.Id }, new { @class = "btn btn-edit" })
+            @: &nbsp;
+            @Html.ActionLink("Delete", "Delete", "Quote", new { id = Model.Id }, new { @class = "btn btn-remove" })
+        }
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Artists)
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.ArtistName, "details","artist", new { id=Model.ArtistId}, null)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Tracks)
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.TrackName, "details", "track", new { id = Model.TrackId }, null)
-    </div>
-
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Albums)
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.AlbumName, "details", "album", new { id = Model.AlbumId }, null)
-    </div>
-
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.AlbumArtistName)
-    </div>
-    <div class="display-field">
-        @Html.ActionLink(Model.AlbumArtistName, "details", "artist", new { id = Model.AlbumArtistId }, null)
-    </div>
-
-</fieldset>
-<p>
-    @if (User.IsInRole("admin") || User.IsInRole("editor")) {
-        @Html.ActionLink("Edit", "Edit", new { id=Model.Id })
-        @: | 
-    }
-    @Html.ActionLink("Back to List", "Index")
-</p>
 }
-else { 
-<p>No Quote Found.</p>
+else
+{
+    <p>No Quote Found.</p>
 }
 

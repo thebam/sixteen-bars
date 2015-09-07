@@ -1,63 +1,42 @@
 ﻿@model sixteenBars.Library.Track
 
-<h2>Track Details</h2>
+<h1>Track Details</h1>
 @if(Model != null){
-<fieldset>
-    <div class="display-label">
-         Title
-    </div>
-    <div class="display-field">
+
+
+    <h2>
         @Html.DisplayFor(model => model.Title)
-    </div>
+    </h2>
 
-    <div class="display-label">
-        Album Title
-    </div>
-    
-    <div class="display-field">
-        @Html.ActionLink(@Model.Album.Title, "details", "album", new { id=@Model.Album.Id }, null)
-    </div>
-    <div id="albumInfo">
-    </div>
-    <div class="display-label">
-        Artist
-    </div>
-    
-    <div class="display-field">
-        @Html.ActionLink(@Model.Album.Artist.Name, "details", "artist", new { id=@Model.Album.Artist.Id},null)
-    </div>
-    <div id="artistInfo" class="artist-block">
-    </div>
-    <div class="clear-fix"></div>
-    <div class="display-label">
-         Album Release Date
-    </div>
-    <div class="display-field">
-        @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
-    </div>
-</fieldset>
+    <div class="row lower-details">
+        <div class="col-md-4">
+                Album : 
+                @Html.ActionLink(@Model.Album.Title, "details", "album", new { id=@Model.Album.Id }, null)
+            </div>
+            
+        <div class="col-md-4">
+            Artist : 
+        
+                @Html.ActionLink(@Model.Album.Artist.Name, "details", "artist", new { id=@Model.Album.Artist.Id},null)
+            </div>
+            
+        <div class="col-md-4">
+            Album Release Date : 
+        
+                @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
+            </div>
+        </div>
 
-<p>
-    @if (User.IsInRole("admin")) { 
-        @Html.ActionLink("Edit", "Edit", new { id=Model.Id })
-            @: |
-    }
-    @Html.ActionLink("Back to List", "Index")
-</p>
-@section Scripts{
-@Scripts.Render("~/bundles/sixteenbars")
-@Scripts.Render("~/bundles/lastfm") 
+            <div>
+                @Html.ActionLink("Back to List", "Index", "Track", new { @class = "btn btn-back" })
+                @if (User.IsInRole("admin") || User.IsInRole("editor")){
+                    @: &nbsp;
+                    @Html.ActionLink("Edit", "Edit", "Track", new { id = Model.Id }, new { @class = "btn btn-edit" })
+                    @: &nbsp;
+                    @Html.ActionLink("Delete", "Delete", "Track", new { id = Model.Id }, new { @class = "btn btn-remove" })
+                }
+            </div>
 
-<script>
-
-    $(document).ready(function () {
-       getArtistInfo('@Model.Album.Artist.Name', "artistInfo", "");
-        getAlbumInfo('@Model.Album.Artist.Name', '@Model.Album.Title', "albumInfo");
-    });
-</script>
-  
-<script src="~/Scripts/sixteenbars-lastfm.js"></script>
-}  
-}else{
-<p>Track Not Found</p>
-}
+            }else{
+            <p>Track Not Found</p>
+            }
