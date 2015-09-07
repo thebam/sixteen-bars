@@ -21,11 +21,10 @@
                 <div class="col-md-1">
                     @if (User.IsInRole("admin") || User.IsInRole("editor"))
                     {
-                        @: |
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                         if (item.IsDeleteable)
                         {
-                            @:| @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            @:<br/> @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         }
                     }
                 </div>

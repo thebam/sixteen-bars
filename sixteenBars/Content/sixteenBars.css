@@ -45,9 +45,24 @@ a:link,a:active,a:visited {
   background-color: #fff;
 }
 
-@media screen and (max-width:640px) {
 .index-list>.row>div:first-of-type{
-    margin-bottom:10px;
     font-weight:bold;
 }
+
+@media screen and (max-width:768px) {
+.index-list>.row>div:first-of-type{
+    margin-bottom:10px;
 }
+}
+
+@media screen and (min-width:769px) and (max-width:992px){
+.index-list>.row>div:first-of-type{
+    margin-bottom:10px;
+}
+}
+/*
+    <768
+    >=768
+    >=992
+    >=1200
+*/
