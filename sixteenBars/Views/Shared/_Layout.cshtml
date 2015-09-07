@@ -47,10 +47,9 @@
     </header>
     <div class="container">
         @RenderSection("featured", required: false)
-        <section class="content-wrapper main-content clear-fix">
-            @{Html.RenderAction("QOTD", "Quote", new { allowExplicit = false });}
+
             @RenderBody()
-        </section>
+
         @Html.Partial("_LoginPartial")
     </div>
     <footer>

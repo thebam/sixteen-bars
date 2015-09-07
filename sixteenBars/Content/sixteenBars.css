@@ -44,3 +44,10 @@ a:link,a:active,a:visited {
 .index-list >:nth-child(odd){
   background-color: #fff;
 }
+
+@media screen and (max-width:640px) {
+.index-list>.row>div:first-of-type{
+    margin-bottom:10px;
+    font-weight:bold;
+}
+}
