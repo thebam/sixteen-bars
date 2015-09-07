@@ -4,7 +4,7 @@
 @if (Model != null) {
     if (User.IsInRole("admin") || User.IsInRole("editor")) { 
 <p>
-    @Html.ActionLink("Add New Quote", "Create")
+    @Html.ActionLink("Add Quote", "Create","Quote", new { @class = "btn btn-add" })
 </p>
 }
 <div class="index-list">

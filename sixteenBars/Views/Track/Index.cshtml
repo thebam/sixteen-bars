@@ -4,10 +4,9 @@
 
 <h2>Tracks</h2>
 
-@if (User.IsInRole("Admin"))
-{
+@if (User.IsInRole("admin") || User.IsInRole("editor")) {
     <p>
-        @Html.ActionLink("Add New Track", "Create")
+        @Html.ActionLink("Add Track", "Create","Track", new { @class = "btn btn-add" })
     </p>
 }
 

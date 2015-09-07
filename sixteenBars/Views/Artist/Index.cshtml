@@ -5,7 +5,7 @@
 @if (User.IsInRole("admin") || User.IsInRole("editor"))
 {
     <p>
-        @Html.ActionLink("Add New Artist", "Create")
+        @Html.ActionLink("Add Artist", "Create","Artist", new { @class = "btn btn-add" })
     </p>
 }
 @if (Model != null)
