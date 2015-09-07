@@ -1,42 +1,43 @@
 ﻿@model sixteenBars.Library.Artist
 
 
-<h2>Edit Artist</h2>
+<h1>Edit Artist</h1>
 @if (Model != null)
 {
-using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Artist</legend>
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
         @Html.HiddenFor(model => model.Id)
+        <div class="form">
+            
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+                <div class="form-element">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+           
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            <div style="margin:15px 0">
+                <input type="submit" value="Save" class="btn-inverse" />
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
+    }
 
-        
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
+    <div>
+        @Html.ActionLink("Back to List", "Index", "Artist", new { @class = "btn btn-back" })
+        &nbsp;
+        @Html.ActionLink("Delete", "Delete", "Artist", new { id = Model.Id }, new { @class = "btn btn-remove" })
+    </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
 }
 else
 {
-<p>No Artist Found</p>
+    <p>No Artist Found</p>
 }

@@ -1,7 +1,7 @@
 ﻿@model sixteenBars.Library.Artist
 
 
-<h2>Add New Artist</h2>
+<h1>Add New Artist</h1>
 <h2>@ViewBag.ErrorMessage</h2>
 <div ng-app="ArtistApp">
     <div ng-controller="ArtistController">
@@ -9,31 +9,32 @@
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
-
-            <fieldset>
-
-                
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Name)
-                </div>
-                <div class="editor-field">
-                    <input type="text" id="Name" ng-blur="existsArtistName()" ng-model="artistName" name="Name" placeholder="Artist Name" required />
-                </div>
+    <div class="form">
 
 
-                <div ng-show="artistExists">
-                    This artist was already added by another user.
-                </div>
-                <p ng-show="artistExistsSubmit">
-                    <input type="submit" value="Add New Artist" />
-                </p>
-            </fieldset>
+
+        <div class="form-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="form-element">
+            <input type="text" id="Name" ng-blur="existsArtistName()" ng-model="artistName" name="Name" placeholder="Artist Name" required />
+        </div>
+
+
+        <div ng-show="artistExists">
+            This artist already exists.
+        </div>
+        <p ng-show="artistExistsSubmit" style="margin-top:15px;">
+            <input type="submit" value="Add Artist" class="btn-inverse" />
+        </p>
+    </div>
 
         }
+        
     </div>
 </div>
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Artist", new { @class = "btn btn-back" })
 </div>
 
 @section Scripts {

@@ -75,7 +75,7 @@ padding-top:15px;
 padding-bottom:15px;
 }
 
-a.btn {
+.btn,a.btn {
     border:solid 1px #37B8EB;
     padding:5px 10px;
     color:#fff;
@@ -86,9 +86,26 @@ a.btn {
     margin-right:4px;
 }
 
-a.btn:hover {
+.btn:hover,a.btn:hover {
     background-color:#fff;
     color:#37B8EB;
+}
+
+
+.btn-inverse,a.btn-inverse {
+    border:solid 1px #37B8EB;
+    padding:5px 10px;
+    color:#37B8EB;
+    background-color:#fff;
+    text-decoration:none;
+    border-radius:0;
+    text-transform:uppercase;
+    margin-right:4px;
+}
+
+.btn-inverse:hover,a.btn-inverse:hover {
+    background-color:#37B8EB;
+    color:#fff;
 }
 
 .btn-standard::after {
@@ -136,17 +153,31 @@ a.btn:hover {
     margin-right: 5px;
 }
 
+.form .form-label{
+    text-transform:uppercase;
+}
+
+.form .form-element{
+
+}
+
+.form .form-element input{
+    width:100%;
+}
+
 
 @media screen and (max-width:768px) {
 .index-list>.row>div:first-of-type{
     margin-bottom:10px;
 }
+
 }
 
 @media screen and (min-width:769px) and (max-width:992px){
 .index-list>.row>div:first-of-type{
     margin-bottom:10px;
 }
+
 }
 /*
     <768

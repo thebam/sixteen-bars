@@ -1,6 +1,6 @@
 ﻿@model sixteenBars.Library.Artist
 
-<h2>Delete Artist</h2>
+<h1>Delete Artist</h1>
 <h2>@ViewBag.ErrorMessage</h2>
 @if (Model != null)
 {
@@ -10,8 +10,9 @@
     {
         @Html.AntiForgeryToken()
         <p>
-            <input type="submit" value="Delete" /> |
-            @Html.ActionLink("Cancel", "Index")
+            <input type="submit" value="Delete" class="btn btn-inverse" />
+            &nbsp;
+            @Html.ActionLink("Cancel", "Index","Artist", new { @class = "btn" })
         </p>
     }
 

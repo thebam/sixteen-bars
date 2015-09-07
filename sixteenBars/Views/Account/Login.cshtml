@@ -1,21 +1,15 @@
 ﻿@model sixteenBars.Models.LoginModel
 
-@{
-    ViewBag.Title = "Log in";
-}
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
+<h1>Login</h1>
 
-<section id="loginForm">
-<h2>Use a local account to log in.</h2>
+<section id="loginForm" class="col-md-6">
+<h3>Use your 16 bars account to log in.</h3>
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Log in Form</legend>
         <ol>
             <li>
                 @Html.LabelFor(m => m.UserName)
@@ -40,10 +34,10 @@
 }
 </section>
 
-<section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
+<div class="social col-md-6" id="socialLoginForm">
+    <h3>Use another service to log in.</h3>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
