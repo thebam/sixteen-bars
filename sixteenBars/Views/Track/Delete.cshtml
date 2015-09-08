@@ -1,51 +1,22 @@
 ﻿@model sixteenBars.Library.Track
 
 
-<h2>Delete</h2>
+<h1>Delete Track</h1>
 @if (Model != null)
 {
-<h3>Are you sure you want to delete this track?</h3>
-<fieldset>
-    <legend>Track</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Title)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
-    </div>
-    <div class="display-label">
-        From Album
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Album.Title)
-    </div>
-    <div class="display-label">
-        Artist
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Album.Artist.Name)
-    </div>
-
-
-
-
-   
-</fieldset>
-    
+    <h3>Are you sure you want to delete the track named '@Html.Raw(Model.Title)' from the album titled '@Html.Raw(Model.Album.Title)'?</h3>
     using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         <p>
-            <input type="submit" value="Delete" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-inverse" />
+            &nbsp;
+            @Html.ActionLink("Cancel", "Index", "Track", new { @class = "btn" })
         </p>
     }
-
-
 }
 else
 {
-<p>Track Not Found</p>
+    <p>Track Not Found</p>
 }
 
