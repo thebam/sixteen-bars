@@ -1,22 +1,20 @@
 ﻿@model List<sixteenBars.Library.Quote>
 @{Html.RenderAction("QOTD", "Quote", new { allowExplicit = false });}
 <div ng-app="SearchApp">
-    <h3>Search</h3>
+    <h2>Search</h2>
     <div ng-controller="SearchController">
-        <form name="myForm" novalidate>
-            <div class="col-md-3">
-                <label for="searchTerm">Term:</label><br />
-
+        <form name="myForm" novalidate role="form" class="form-inline">
+            <div class="form-group">
+                <label for="searchTerm">Term:</label>
+                <input type="text" id="searchTerm" ng-model="searchTerm" class="form-control" required />
                 <span style="color:red" ng-show="myForm.searchTerm.$dirty&&myForm.searchTerm.$isvalid">
                     <span ng-show="myForm.searchTerm.$error.required">Search term is required</span>
                 </span>
-
-                <input type="text" id="searchTerm" ng-model="searchTerm" required />
             </div>
 
-            <div class="col-md-3">
-                <label for="searchType">Type:</label><br />
-                <select ng-model="searchType" id="searchType">
+            <div class="form-group">
+                <label for="searchType">Type:</label>
+                <select ng-model="searchType" id="searchType" class="form-control">
                     <option value="artist">
                         artist
                     </option>
@@ -31,15 +29,15 @@
                     </option>
                 </select>
             </div>
-            <div class="col-md-3">
-                <button ng-click="search()">SEARCH</button>
-            </div>
+            
+                <button ng-click="search()" class="btn btn-inverse">SEARCH</button>
+            
             </form>
             <h3 ng-bind="searchTitle"></h3>
             <ol>
                 <li ng-repeat="quote in quotes">
                     <em>"{{quote.Text}}"</em>  - {{quote.Artist.Name}} - <a href="/track/details?id={{quote.Track.Id}}">{{quote.Track.Title}}</a>
-                    <a href="/quote/details?id={{quote.Id}}">Details</a>
+                    <a href="/quote/details?id={{quote.Id}}">details</a>
                 </li>
             </ol>
 
