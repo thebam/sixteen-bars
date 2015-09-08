@@ -1,15 +1,16 @@
 ﻿@model sixteenBars.Library.Album
 
 
-<h2>Delete Album</h2>
+<h1>Delete Album</h1>
 @if(Model != null){
 <h3>Are you sure you want to delete the album named '@Html.Raw(Model.Title)'?</h3>
 
 using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        <input type="submit" value="Delete" class="btn btn-inverse" />
+        &nbsp;
+        @Html.ActionLink("Cancel", "Index", "Album", new { @class = "btn" })
     </p>
 }
 }

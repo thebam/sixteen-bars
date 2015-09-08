@@ -157,8 +157,12 @@ padding-bottom:15px;
     text-transform:uppercase;
 }
 
-.form .form-element{
+.form .form-label label{
+    margin-bottom:0px;
+}
 
+.form .form-element{
+    margin-bottom:10px;
 }
 
 .form .form-element input{
