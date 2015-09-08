@@ -2,7 +2,7 @@
 
 
 @Styles.Render("~/Content/themes/base/css")
-<h2>Add new Quote</h2>
+<h1>Add New Quote</h1>
 <div ng-app="TrackApp">
     <div ng-controller="AlbumController">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "quoteForm" }))
@@ -10,41 +10,41 @@
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
             <h2>@ViewBag.ErrorMessage</h2>
-            <fieldset>
-                <div class="editor-label">
+            <div class="form">
+                <div class="form-label">
                     @Html.LabelFor(model => model.Text)
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     @Html.TextAreaFor(model => model.Text)
                     @Html.ValidationMessageFor(model => model.Text)
                 </div>
-                <div class="editor-label">
+                <div class="form-label">
                     @Html.LabelFor(model => model.Explicit)
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     @Html.CheckBoxFor(model => model.Explicit)
                 </div>
-                <div class="editor-label">
+                <div class="form-label">
                     @Html.LabelFor(model => model.Explanation)
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     @Html.TextAreaFor(model => model.Explanation)
                 </div>
 
-                <div class="editor-label">
-                    Said By
+                <div class="form-label">
+                    <label for="">Said By</label>
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     <input type="text" id="Artist_Name" name="Artist.Name" ng-model="saidByArtistName" required ng-keyup="autoCompleteArtist()" />
                 </div>
                 <div ng-repeat="artist in artists">
                     <div ng-click="selectSuggestedArtist(artist.Name,'Artist_Name')" class="suggested-artist">{{artist.Name}}</div>
                 </div>
 
-                <div class="editor-label">
-                    From Song
+                <div class="form-label">
+                    <label for="Track.Title">From Song</label>
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     <input type="text" id="Track_Title" name="Track.Title" ng-model="trackTitle" required ng-keyup="autoCompleteTrack()" />
                 </div>
                 <div ng-repeat="track in tracks">
@@ -52,43 +52,39 @@
                 </div>
                 
 
-                <div class="editor-label">
-                    From Album
+                <div class="form-label">
+                    <label for="Track.Album.Title">From Album</label>
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     <input type="text" id="Track_Album_Title" name="Track.Album.Title" ng-model="albumTitle" required ng-keyup="autoCompleteAlbum()" ng-blur="existTrack()" />
                 </div>
                 <div ng-repeat="album in albums">
                     <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','Track_Album_ReleaseDate','Track_Album_Artist_Name')" class="suggested-artist">{{album.Title}}</div>
                 </div>
 
-                <div class="editor-label">
-                    Album Artist
+                <div class="form-label">
+                    <label for="Track.Album.Artist.Name">Album Artist</label>
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     <input type="text" id="Track_Album_Artist_Name" ng-model="artistName" name="Track.Album.Artist.Name" required ng-blur="existTrack()" />
                 </div>
 
-                <div class="editor-label">
-                    Album Release Date
+                <div class="form-label">
+                    <label for="Track.Album.ReleaseDate">Album Release Date</label>
                 </div>
-                <div class="editor-field">
+                <div class="form-element">
                     <input type="text" id="Track_Album_ReleaseDate" ng-model="releaseDate" name="Track.Album.ReleaseDate" required ng-blur="existTrack()" />
                 </div>
 
-
-
-
-
-                <p>
-                    <input type="submit" value="Add New Quote" />
+                <p style="margin-top:15px;">
+                    <input type="submit" value="Add Quote" class="btn-inverse" />
                 </p>
-            </fieldset>
+            </div>
         }
     </div>
 </div>
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Quote", new { @class = "btn btn-back" })
 </div>
 
 @section Scripts {

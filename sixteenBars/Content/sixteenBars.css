@@ -165,8 +165,12 @@ padding-bottom:15px;
     margin-bottom:10px;
 }
 
-.form .form-element input{
+.form .form-element input,.form .form-element textarea{
     width:100%;
+}
+
+.form .form-element input[type=checkbox]{
+    width:auto;
 }
 
 

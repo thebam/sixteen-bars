@@ -254,7 +254,7 @@ namespace sixteenBars.Controllers
 
             if (quote == null)
             {
-                return HttpNotFound();
+                
             } else {
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = quote.Text;
