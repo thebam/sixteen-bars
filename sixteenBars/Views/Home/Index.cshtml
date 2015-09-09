@@ -36,7 +36,7 @@
             <h3 ng-bind="searchTitle"></h3>
             <ol>
                 <li ng-repeat="quote in quotes">
-                    <em>"{{quote.Text}}"</em>  - {{quote.Artist.Name}} - <a href="/track/details?id={{quote.Track.Id}}">{{quote.Track.Title}}</a>
+                    <em>"{{quote.Text}}"</em>  - <a href="/artist/details?id={{quote.Artist.Id}}">{{quote.Artist.Name}}</a> - <a href="/track/details?id={{quote.Track.Id}}">{{quote.Track.Title}}</a>
                     <a href="/quote/details?id={{quote.Id}}">details</a>
                 </li>
             </ol>
@@ -45,8 +45,7 @@
 </div>
 
     @section Scripts{
+        <script src="~/Scripts/sixteenbars-utilities.js"></script>
         <script src="~/Scripts/angular.min.js"></script>
-
-<script src="~/Scripts/sixteenBars-search.js"></script>
-        
+        <script src="~/Scripts/sixteenBars-search.js"></script>
     }
