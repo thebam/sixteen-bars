@@ -4,58 +4,72 @@
 
 <h1>Add New Album</h1>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <h2>@ViewBag.ErrorMessage</h2>
+    <div ng-app="TrackApp">
+        <div ng-controller="AlbumController">
+            <div class="form">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Title)
+                </div>
+                <div class="form-element">
+                    @Html.EditorFor(model => model.Title)
+                    @Html.ValidationMessageFor(model => model.Title)
+                </div>
 
-    <div class="form">
+                <div class="form-label">
+                    <label for="Artist.Name">Artist Name</label>
+                </div>
+                <div class="form-element">
+                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="saidByArtistName" required ng-keyup="autoCompleteArtist()" />
+                    <div class="suggestions">
+                        <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading"/>
+                        <div class="suggestion" ng-repeat="artist in artists">
+                            <div ng-click="selectSuggestedArtist(artist.Name,'Artist_Name')" class="suggested-artist">{{artist.Name}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-label">
+                    @Html.LabelFor(model => model.ReleaseDate)
+                </div>
+                <div class="form-element">
+                    @Html.EditorFor(model => model.ReleaseDate)
+                    @Html.ValidationMessageFor(model => model.ReleaseDate)
+                </div>
 
-
-
-        <div class="form-label">
-            @Html.LabelFor(model => model.Title)
+                <p style="margin-top:15px;">
+                    <input type="submit" value="Add Album" class="btn-inverse" />
+                </p>
+            </div>
         </div>
-        <div class="form-element">
-            @Html.EditorFor(model => model.Title)
-            @Html.ValidationMessageFor(model => model.Title)
-        </div>
+    </div>
+}
 
-        <div class="form-label">
-            @Html.LabelFor(model => model.Artist.Name)
-        </div>
-        <div class="form-element">
-            @Html.EditorFor(model => model.Artist.Name)
-            @Html.ValidationMessageFor(model => model.Artist.Name)
-        </div>
+<div>
+    @Html.ActionLink("Back to List", "Index", "Album", new { @class = "btn btn-back" })
+</div>
 
-        <div class="form-label">
-            @Html.LabelFor(model => model.ReleaseDate)
-        </div>
-        <div class="form-element">
-            @Html.EditorFor(model => model.ReleaseDate)
-            @Html.ValidationMessageFor(model => model.ReleaseDate)
-        </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
 
-        <p style="margin-top:15px;">
-            <input type="submit" value="Add Album" class="btn-inverse" />
-        </p>
-        </div>
-        }
-
-        <div>
-            @Html.ActionLink("Back to List", "Index", "Album", new { @class = "btn btn-back" })
-        </div>
-
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryui")
-            @Scripts.Render("~/bundles/jqueryval")
-            <script>
-                $(document).ready(function () {
-                    var minimumDate = new Date(1978, 1 - 1, 1);
-                    var today = new Date();
-                    var maximumDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-                    $("#ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
-                });
-            </script>
-        }
+    <script>
+        $(document).ready(function () {
+            var minimumDate = new Date(1978, 1 - 1, 1);
+            var today = new Date();
+            var maximumDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            $("#ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
+        });
+    </script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/sixteenbars-utilities.js"></script>
+    <script src="~/Scripts/sixteenbars-track-app.js"></script>
+    <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
+    <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
+    <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
+}

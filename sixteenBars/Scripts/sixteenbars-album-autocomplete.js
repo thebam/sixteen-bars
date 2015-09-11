@@ -63,14 +63,18 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
 
     $scope.autoCompleteArtist = function () {
         if ($scope.saidByArtistName.length > 2) {
+            $(".suggestions").show();
+            $(".suggestions .loading").show();
             saidByArtistName = encodeURIComponent($scope.saidByArtistName);
             var promise = autoCompleteFactory.artistName(saidByArtistName);
 
             promise.then(function (payload) {
                 $scope.artists = payload.data.Data;
+                $(".suggestions .loading").hide();
             },
             function (errorPayload) {
                 $scope.artists = "";
+                $(".suggestions .loading").hide();
             });
         }
     };
@@ -82,6 +86,7 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
             $scope.saidByArtistName = artistName;
         }
         $scope.artists = "";
+        $(".suggestions").hide();
     }
 
     $scope.autoCompleteTrack = function () {
@@ -120,5 +125,9 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
         }
         $scope.tracks = "";
     };
+});
 
+
+$(".suggestions .close").click(function () {
+    $(".suggestions").hide();
 });

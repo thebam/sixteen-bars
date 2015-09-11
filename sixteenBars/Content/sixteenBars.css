@@ -173,6 +173,45 @@ padding-bottom:15px;
     width:auto;
 }
 
+.suggestions {
+    border-right:solid 1px #ddd;
+    border-bottom:solid 1px #ddd;
+    border-left:solid 1px #ddd;
+    display:none;
+}
+
+    .suggestions .loading {
+        padding-left:.75em
+    }
+
+.suggestions p{
+    padding:.75em .75em 0 .75em;
+    text-transform:uppercase;
+}
+.suggestions >.suggestion{
+    border-bottom:solid 1px #ddd;
+    padding:.75em;
+}
+
+.suggestions >.suggestion::before {
+    content: "\2b";
+    font-family: "Glyphicons Halflings";
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 5px;
+    float:left;
+}
+
+
+.suggestions >.suggestion:hover{
+    background-color:#ddd;
+    cursor:pointer;
+}
+
+.suggestions > .suggestion:last-of-type{
+    border-bottom:none;
+}
 
 @media screen and (max-width:768px) {
 .index-list>.row>div:first-of-type{
