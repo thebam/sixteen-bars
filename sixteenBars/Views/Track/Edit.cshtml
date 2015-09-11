@@ -46,7 +46,7 @@
                     <label for="ReleaseDate">Track Release Date</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.ReleaseDate, new { ng_model = "releaseDate", ng_init = string.Format("releaseDate = '{0}'", Model.ReleaseDate) })
+                    @Html.TextBoxFor(model => model.ReleaseDate, new { ng_model = "releaseDate", ng_init = string.Format("releaseDate = '{0}'", Model.ReleaseDate != null ? Model.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")) })
                     @Html.ValidationMessageFor(model => model.ReleaseDate)
                 </div>
                 </div>
