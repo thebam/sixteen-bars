@@ -11,3 +11,7 @@ if (window.location.hostname.indexOf("localhost") >= 0) {
 } else {
     siteURL = "http://www.invisiblefury.com/sixteenbars";
 }
+
+$(function () {
+    $('input[type=text]').attr('autocomplete', 'off');
+});
