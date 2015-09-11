@@ -75,7 +75,7 @@
                     <label for="Track.Album.ReleaseDate">Album Release Date</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Track.Album.ReleaseDate, new { ng_model = "releaseDate", ng_blur = "existTrack()", ng_init = string.Format("releaseDate = '{0}'", Model.Track.Album.ReleaseDate) })
+                    @Html.TextBoxFor(model => model.Track.Album.ReleaseDate, new { ng_model = "releaseDate", ng_blur = "existTrack()", ng_init = string.Format("releaseDate = '{0}'", Model.Track.Album.ReleaseDate != null ? Model.Track.Album.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")) })
                 </div>
                 <div style="margin:15px 0">
                     <input type="submit" value="Save" class="btn-inverse" />

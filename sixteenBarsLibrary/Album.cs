@@ -11,6 +11,7 @@ namespace sixteenBars.Library
         [Required]
         public virtual Artist Artist { get; set; }
         [Display(Name="Release Date")]
+        [DisplayFormat(DataFormatString="{0:MM/dd/yyyy}",ApplyFormatInEditMode=true)]
         public DateTime? ReleaseDate { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }

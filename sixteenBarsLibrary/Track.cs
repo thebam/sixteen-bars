@@ -8,6 +8,8 @@ namespace sixteenBars.Library
         public Int32 Id { get; set; }
         [Required]
         public String Title { get; set; }
+        [Display(Name="Release Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? ReleaseDate { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
