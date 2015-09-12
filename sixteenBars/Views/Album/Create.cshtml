@@ -24,12 +24,13 @@
                     <label for="Artist.Name">Artist Name</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="saidByArtistName" required ng-keyup="autoCompleteArtist()" />
-                    <div class="suggestions">
+                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="artistName" required ng-keyup="autoCompleteArtist('artistName')" />
+                    <div class="suggestions artist-suggestions">
                         <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
-                        <img class="loading" src="~/Images/loading.gif" alt="loading"/>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Artists Found</p>
                         <div class="suggestion" ng-repeat="artist in artists">
-                            <div ng-click="selectSuggestedArtist(artist.Name,'Artist_Name')" class="suggested-artist">{{artist.Name}}</div>
+                            <div ng-click="selectSuggestedArtist(artist.Name,'artistName')" class="suggested-artist">{{artist.Name}}</div>
                         </div>
                     </div>
                 </div>
@@ -38,7 +39,7 @@
                     @Html.LabelFor(model => model.ReleaseDate)
                 </div>
                 <div class="form-element">
-                    @Html.EditorFor(model => model.ReleaseDate)
+                    @Html.EditorFor(model => model.ReleaseDate, new { })
                     @Html.ValidationMessageFor(model => model.ReleaseDate)
                 </div>
 

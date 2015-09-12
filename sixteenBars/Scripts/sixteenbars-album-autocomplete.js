@@ -2,23 +2,36 @@
 app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, existFactory) {
     $scope.autoCompleteAlbum = function () {
         //chariotsolutions.com/blog/post/angularjs-corner-using-promises-q-handle-asynchronous-calls
-        if ($scope.albumTitle.length > 2) {
-            var albumTitle, artistName;
-            if ($scope.artistName != undefined) {
-                artistName = encodeURIComponent($scope.artistName);
-            } else {
-                artistName = "";
+        $(".suggestions").hide();
+        if ($scope.albumTitle != undefined) {
+            if ($scope.albumTitle.length > 2) {
+                $(".album-suggestions").show();
+                $(".album-suggestions .loading").show();
+                var albumTitle, artistName;
+                if ($scope.artistName != undefined) {
+                    artistName = encodeURIComponent($scope.artistName);
+                } else {
+                    artistName = "";
+                }
+
+                albumTitle = encodeURIComponent($scope.albumTitle);
+                var promise = autoCompleteFactory.albumTitle(albumTitle, artistName);
+
+                promise.then(function (payload) {
+                    $scope.albums = payload.data.Data;
+                    if ($scope.albums.length > 0) {
+                        $(".album-suggestions .empty").hide();
+                    } else {
+                        $(".album-suggestions .empty").show();
+                    }
+                    $(".album-suggestions .loading").hide();
+                },
+                function (errorPayload) {
+                    $scope.albums = "";
+                    $(".album-suggestions .loading").hide();
+                    $(".album-suggestions .empty").show();
+                });
             }
-
-            albumTitle = encodeURIComponent($scope.albumTitle);
-            var promise = autoCompleteFactory.albumTitle(albumTitle, artistName);
-
-            promise.then(function (payload) {
-                $scope.albums = payload.data.Data;
-            },
-            function (errorPayload) {
-                $scope.albums = "";
-            });
         }
     };
 
@@ -32,6 +45,7 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
             $scope.albumTitle = albumName;
         }
         $scope.albums = "";
+        $(".suggestions").hide();
     };
 
     $scope.existTrack = function () {
@@ -61,27 +75,51 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
     }
 
 
-    $scope.autoCompleteArtist = function () {
-        if ($scope.saidByArtistName.length > 2) {
-            $(".suggestions").show();
-            $(".suggestions .loading").show();
+    $scope.autoCompleteArtist = function (type) {
+        var saidByArtistName;
+        var artistElement;
+        if (type === "saidByArtistName") {
             saidByArtistName = encodeURIComponent($scope.saidByArtistName);
+            artistElement = "speaker-suggestions";
+        } else {
+            saidByArtistName = encodeURIComponent($scope.artistName);
+            artistElement = "artist-suggestions";
+        }
+        $(".suggestions").hide();
+
+        if (saidByArtistName.length > 2) {
+
+            $("." + artistElement).show();
+            $("."+artistElement+" .loading").show();
+            
+            
             var promise = autoCompleteFactory.artistName(saidByArtistName);
 
             promise.then(function (payload) {
-                $scope.artists = payload.data.Data;
-                $(".suggestions .loading").hide();
+                if (payload.data.Data.length > 0) {
+                    $("." + artistElement+" .empty").hide();
+                } else {
+                    $("." + artistElement+" .empty").show();
+                }
+
+                if (type === "saidByArtistName") {
+                    $scope.speakers = payload.data.Data;
+                } else {
+                    $scope.artists = payload.data.Data;
+                }
+                $("." + artistElement+" .loading").hide();
             },
             function (errorPayload) {
                 $scope.artists = "";
-                $(".suggestions .loading").hide();
+                $("." + artistElement+" .loading").hide();
+                $("." + artistElement+" .empty").show();
             });
-        }
+        } 
     };
 
     $scope.selectSuggestedArtist = function (artistName, fieldToPopulate) {
         if (fieldToPopulate === "artistName") {
-            $scope.saidByArtistName = artistName;
+            $scope.artistName = artistName;
         } else {
             $scope.saidByArtistName = artistName;
         }
@@ -90,23 +128,26 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
     }
 
     $scope.autoCompleteTrack = function () {
-        //if ($scope.trackTitle.length > 2) {
-        //    $http({
-        //        url: '../api/TrackAPI/TrackAutoComplete?title=' + $scope.trackTitle,
-        //        method: 'GET'
-        //    }).success(function (data, status, headers, config) {
-        //        $scope.tracks = data.Data;
-        //    });
-        //}
+        $(".suggestions").hide();
         if ($scope.trackTitle.length > 2) {
+            $(".track-suggestions").show();
+            $(".track-suggestions .loading").show();
             trackTitle = encodeURIComponent($scope.trackTitle);
             var promise = autoCompleteFactory.trackTitle(trackTitle);
 
             promise.then(function (payload) {
                 $scope.tracks = payload.data.Data;
+                if ($scope.tracks.length > 0) {
+                    $(".track-suggestions .empty").hide();
+                } else {
+                    $(".track-suggestions .empty").show();
+                }
+                $(".track-suggestions .loading").hide();
             },
             function (errorPayload) {
                 $scope.tracks = "";
+                $(".track-suggestions .loading").hide();
+                $(".track-suggestions .empty").show();
             });
         }
 
@@ -124,6 +165,7 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
             $scope.trackTitle = trackName;
         }
         $scope.tracks = "";
+        $(".suggestions").hide();
     };
 });
 

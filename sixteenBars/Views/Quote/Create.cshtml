@@ -35,20 +35,30 @@
                     <label for="">Said By</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="saidByArtistName" required ng-keyup="autoCompleteArtist()" />
-                </div>
-                <div ng-repeat="artist in artists">
-                    <div ng-click="selectSuggestedArtist(artist.Name,'Artist_Name')" class="suggested-artist">{{artist.Name}}</div>
-                </div>
+                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="saidByArtistName" required ng-keyup="autoCompleteArtist('saidByArtistName')" />
 
+                    <div class="suggestions speaker-suggestions">
+                        <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Artists Found</p>
+                        <div class="suggestion" ng-repeat="speaker in speakers">
+                            <div ng-click="selectSuggestedArtist(speaker.Name,'Artist_Name')" class="suggested-artist">{{speaker.Name}}</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-label">
                     <label for="Track.Title">From Song</label>
                 </div>
                 <div class="form-element">
                     <input type="text" id="Track_Title" name="Track.Title" ng-model="trackTitle" required ng-keyup="autoCompleteTrack()" />
-                </div>
-                <div ng-repeat="track in tracks">
-                    <div ng-click="selectSuggestedTrack(track.Title,track.Album.Title,track.Album.ReleaseDate,track.Album.Artist.Name,'albumTitle','Track_Album_ReleaseDate')" class="suggested-artist">{{track.Title}}</div>
+                    <div class="suggestions track-suggestions">
+                        <p><strong>Suggested Track(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Tracks Found</p>
+                        <div class="suggestion" ng-repeat="track in tracks">
+                            <div ng-click="selectSuggestedTrack(track.Title,track.Album.Title,track.Album.ReleaseDate,track.Album.Artist.Name,'albumTitle','Track_Album_ReleaseDate')" class="suggested-artist">{{track.Title}}</div>
+                        </div>
+                    </div>
                 </div>
                 
 
@@ -57,16 +67,29 @@
                 </div>
                 <div class="form-element">
                     <input type="text" id="Track_Album_Title" name="Track.Album.Title" ng-model="albumTitle" required ng-keyup="autoCompleteAlbum()" ng-blur="existTrack()" />
-                </div>
-                <div ng-repeat="album in albums">
-                    <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','Track_Album_ReleaseDate','Track_Album_Artist_Name')" class="suggested-artist">{{album.Title}}</div>
+                    <div class="suggestions album-suggestions">
+                        <p><strong>Suggested Album(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Albums Found</p>
+                        <div class="suggestion" ng-repeat="album in albums">
+                            <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','Track_Album_ReleaseDate','Track_Album_Artist_Name')" class="suggested-artist">{{album.Title}}</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-label">
                     <label for="Track.Album.Artist.Name">Album Artist</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Track_Album_Artist_Name" ng-model="artistName" name="Track.Album.Artist.Name" required ng-blur="existTrack()" />
+                    <input type="text" id="Track_Album_Artist_Name" ng-model="artistName" name="Track.Album.Artist.Name" required ng-blur="existTrack()" ng-keyup="autoCompleteArtist('artistName')" />
+                    <div class="suggestions artist-suggestions">
+                        <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Artists Found</p>
+                        <div class="suggestion" ng-repeat="artist in artists">
+                            <div ng-click="selectSuggestedArtist(artist.Name,'artistName')" class="suggested-artist">{{artist.Name}}</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-label">
