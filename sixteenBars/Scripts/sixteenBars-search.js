@@ -9,6 +9,7 @@ searchApp.controller('SearchController', function ($scope, $http) {
         if ($scope.searchType == "" || $scope.searchType == undefined) {
             $scope.searchType = "quote";
         }
+        
         //$http({
         //    url: siteURL + '/api/SearchAPI/Search?searchTerm='+$scope.searchTerm+'&searchType=' + $scope.searchType,
         //    method: 'GET'

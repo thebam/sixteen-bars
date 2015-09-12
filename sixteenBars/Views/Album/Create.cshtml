@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <h2>@ViewBag.ErrorMessage</h2>
-    <div ng-app="TrackApp">
+    <div id="trackApp">
         <div ng-controller="AlbumController">
             <div class="form">
                 <div class="form-label">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="form-label">
                     @Html.LabelFor(model => model.ReleaseDate)
                 </div>
@@ -67,8 +67,7 @@
             $("#ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
         });
     </script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/sixteenbars-utilities.js"></script>
+
     <script src="~/Scripts/sixteenbars-track-app.js"></script>
     <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
     <script src="~/Scripts/sixteenbars-exist-functions.js"></script>

@@ -42,6 +42,33 @@
                         <li>@Html.ActionLink("Albums", "Index", "Album")</li>
                         <li>@Html.ActionLink("Tracks", "Index", "Track")</li>
                     </ul>
+
+
+                    <div id="searchApp" ng-app="SearchApp" >
+                        <div ng-controller="SearchController">
+                            <div class="navbar-form col-sm-12 col-md-3 pull-right" role="search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search" ng-model="searchTerm" name="srch-term" id="srch-term">
+                                    <span style="color:red" ng-show="myForm.searchTerm.$dirty&&myForm.searchTerm.$isvalid">
+                                        <span ng-show="myForm.searchTerm.$error.required">Search term is required</span>
+                                    </span>
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="search()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="searchResults" class="main-search-results col-md-12  pull-right">
+                                <ul>
+                                    <li ng-repeat="quote in quotes">
+                                        <em>"{{quote.Text}}"</em>  - <a href="/artist/details?id={{quote.Artist.Id}}">{{quote.Artist.Name}}</a> - <a href="/track/details?id={{quote.Track.Id}}">{{quote.Track.Title}}</a>
+                                        <a href="/quote/details?id={{quote.Id}}">details</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
@@ -64,6 +91,13 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/Scripts/sixteenbars-utilities.js")
+    @Scripts.Render("~/Scripts/angular.min.js")
+    @Scripts.Render("~/Scripts/sixteenBars-search.js")
+
+    
+
     @RenderSection("scripts", required: false)
 </body>
 

@@ -3,7 +3,7 @@
 
 @Styles.Render("~/Content/themes/base/css")
 <h1>Add New Quote</h1>
-<div ng-app="TrackApp">
+<div id="trackApp">
     <div ng-controller="AlbumController">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "quoteForm" }))
         {
@@ -120,9 +120,11 @@
             var maximumDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             $("#Track_Album_ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
         });
+
+        
+
     </script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/sixteenbars-utilities.js"></script>
+    
     <script src="~/Scripts/sixteenbars-track-app.js"></script>
     <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
     <script src="~/Scripts/sixteenbars-exist-functions.js"></script>

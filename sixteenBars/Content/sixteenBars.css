@@ -4,109 +4,112 @@ body {
 }
 
 h3 {
-color: #lightgrey;
+    color: #lightgrey;
 }
 
 .login-container {
-float:right;
+    float: right;
 }
 
 
 .main-content {
-    margin-bottom:15px;
+    margin-bottom: 15px;
 }
 
 .navbar-brand a:link, .navbar-brand a:active, .navbar-brand a:visited {
-    color:#fff;
+    color: #fff;
 }
 
 
-a:link,a:active,a:visited {
-    color:#37B8EB;
+a:link, a:active, a:visited {
+    color: #37B8EB;
 }
 
 .quote {
-    font-style:italic;
+    font-style: italic;
 }
+
     .quote:before {
-        content:"\"";
+        content: "\"";
     }
 
     .quote:after {
-        content:"\"";
+        content: "\"";
     }
 
 .display-label {
-    font-weight:bold;
+    font-weight: bold;
 }
+
 .artist-block {
 }
 
-.artist-block img{
-    padding-right:15px;
-    padding-bottom:15px;
+    .artist-block img {
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+#albumInfo img {
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-#albumInfo img{
-    width:100%;
-    margin-bottom:10px;
+
+.index-list > .row {
+    padding: 15px 0;
 }
 
-
-.index-list>.row{
-    padding:15px 0;
+.index-list > :nth-child(even) {
+    background-color: #ddd;
 }
 
-.index-list > :nth-child(even){
-  background-color: #ddd;
-}
-.index-list >:nth-child(odd){
-  background-color: #fff;
+.index-list > :nth-child(odd) {
+    background-color: #fff;
 }
 
-.index-list>.row>div:first-of-type{
-    font-weight:bold;
+.index-list > .row > div:first-of-type {
+    font-weight: bold;
 }
 
 .lower-details {
-margin-bottom:15px;
-background-color:#ddd;
-padding-top:15px;
-padding-bottom:15px;
+    margin-bottom: 15px;
+    background-color: #ddd;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
-.btn,a.btn {
-    border:solid 1px #37B8EB;
-    padding:5px 10px;
-    color:#fff;
-    background-color:#37B8EB;
-    text-decoration:none;
-    border-radius:0;
-    text-transform:uppercase;
-    margin-right:4px;
+.btn, a.btn {
+    border: solid 1px #37B8EB;
+    padding: 5px 10px;
+    color: #fff;
+    background-color: #37B8EB;
+    text-decoration: none;
+    border-radius: 0;
+    text-transform: uppercase;
+    margin-right: 4px;
 }
 
-.btn:hover,a.btn:hover {
-    background-color:#fff;
-    color:#37B8EB;
-}
+    .btn:hover, a.btn:hover {
+        background-color: #fff;
+        color: #37B8EB;
+    }
 
 
-.btn-inverse,a.btn-inverse {
-    border:solid 1px #37B8EB;
-    padding:5px 10px;
-    color:#37B8EB;
-    background-color:#fff;
-    text-decoration:none;
-    border-radius:0;
-    text-transform:uppercase;
-    margin-right:4px;
+.btn-inverse, a.btn-inverse {
+    border: solid 1px #37B8EB;
+    padding: 5px 10px;
+    color: #37B8EB;
+    background-color: #fff;
+    text-decoration: none;
+    border-radius: 0;
+    text-transform: uppercase;
+    margin-right: 4px;
 }
 
-.btn-inverse:hover,a.btn-inverse:hover {
-    background-color:#37B8EB;
-    color:#fff;
-}
+    .btn-inverse:hover, a.btn-inverse:hover {
+        background-color: #37B8EB;
+        color: #fff;
+    }
 
 .btn-standard::after {
     content: "\e258";
@@ -153,78 +156,113 @@ padding-bottom:15px;
     margin-right: 5px;
 }
 
-.form .form-label{
-    text-transform:uppercase;
+.form .form-label {
+    text-transform: uppercase;
 }
 
-.form .form-label label{
-    margin-bottom:0px;
+    .form .form-label label {
+        margin-bottom: 0px;
+    }
+
+.form .form-element {
+    margin-bottom: 10px;
 }
 
-.form .form-element{
-    margin-bottom:10px;
-}
+    .form .form-element input, .form .form-element textarea {
+        width: 100%;
+    }
 
-.form .form-element input,.form .form-element textarea{
-    width:100%;
-}
-
-.form .form-element input[type=checkbox]{
-    width:auto;
-}
+        .form .form-element input[type=checkbox] {
+            width: auto;
+        }
 
 .suggestions {
-    border-right:solid 1px #ddd;
-    border-bottom:solid 1px #ddd;
-    border-left:solid 1px #ddd;
-    display:none;
+    border-right: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+    border-left: solid 1px #ddd;
+    display: none;
 }
 
     .suggestions .loading {
-        padding-left:.75em
+        padding-left: .75em;
     }
 
-.suggestions p{
-    padding:.75em .75em 0 .75em;
-    text-transform:uppercase;
-}
-.suggestions >.suggestion{
-    border-bottom:solid 1px #ddd;
-    padding:.75em;
-}
+    .suggestions p {
+        padding: .75em .75em 0 .75em;
+        text-transform: uppercase;
+    }
 
-.suggestions >.suggestion::before {
-    content: "\2b";
-    font-family: "Glyphicons Halflings";
-    display: inline-block;
+    .suggestions > .suggestion {
+        border-bottom: solid 1px #ddd;
+        padding: .75em;
+    }
+
+        .suggestions > .suggestion::before {
+            content: "\2b";
+            font-family: "Glyphicons Halflings";
+            display: inline-block;
+            position: relative;
+            top: 2px;
+            margin-right: 5px;
+            float: left;
+        }
+
+
+        .suggestions > .suggestion:hover {
+            background-color: #ddd;
+            cursor: pointer;
+        }
+
+        .suggestions > .suggestion:last-of-type {
+            border-bottom: none;
+        }
+
+
+.main-search-results {
+    display: block;
     position: relative;
-    top: 2px;
-    margin-right: 5px;
-    float:left;
+    color:#fff;
 }
 
-
-.suggestions >.suggestion:hover{
-    background-color:#ddd;
-    cursor:pointer;
+.main-search-results ul{
+    padding:0;
+    margin:0;
 }
 
-.suggestions > .suggestion:last-of-type{
+.main-search-results ul li{
+    list-style-type:none;
+    border-bottom:solid 1px #fff;
+    padding:.75em 0;
+}
+
+.main-search-results ul li:last-of-type{
     border-bottom:none;
 }
 
+.navbar-collapse.in {
+    overflow-y: visible !important;
+}
+
 @media screen and (max-width:768px) {
-.index-list>.row>div:first-of-type{
-    margin-bottom:10px;
+    .index-list > .row > div:first-of-type {
+        margin-bottom: 10px;
+    }
 }
 
+@media screen and (min-width:769px) and (max-width:992px) {
+    .index-list > .row > div:first-of-type {
+        margin-bottom: 10px;
+    }
+
+    .main-search-results {
+        position: absolute;
+    }
 }
 
-@media screen and (min-width:769px) and (max-width:992px){
-.index-list>.row>div:first-of-type{
-    margin-bottom:10px;
-}
-
+@media screen and (min-width:993px) {
+    .main-search-results {
+        
+    }
 }
 /*
     <768

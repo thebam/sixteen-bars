@@ -10,7 +10,7 @@
 
     <form name="trackForm">
         <div class="form">
-            <div ng-app="TrackApp">
+            <div id="trackApp">
                 <div ng-controller="AlbumController">
                     <div class="form-label">
                         @Html.LabelFor(model => model.Title)
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-label">
                         @Html.LabelFor(model => model.ArtistName)
                     </div>
@@ -86,8 +86,7 @@
             $("#releaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
         });
     </script>
-    <script src="~/Scripts/angular.min.js"></script>
-    <script src="~/Scripts/sixteenbars-utilities.js"></script>
+
     <script src="~/Scripts/sixteenbars-track-app.js"></script>
     <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
     <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
