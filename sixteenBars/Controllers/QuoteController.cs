@@ -23,17 +23,22 @@ namespace sixteenBars.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult QOTD(Boolean allowExplicit) {
-            Quote quote = null;
+        public ActionResult RandomQuotes(Boolean allowExplicit, Int32 numberOfResults=1) {
+            List<Quote> quotes = null;
             if (_db.Quotes.Count() > 0)
             { 
-                Random rand = new Random();
-                int toSkip = rand.Next(0, _db.Quotes.Where(q => q.Explicit == allowExplicit).Count());
-                quote = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => q.Id).Skip(toSkip).Take(1).First();
+                //Random rand = new Random();
+                //int toSkip = rand.Next(0, _db.Quotes.Where(q => q.Explicit == allowExplicit).Count());
+                //quotes = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => q.Id).Skip(toSkip).Take(numberOfResults).ToList();
+
+
+                quotes = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+
+
             }
 
 
-            return PartialView("_QuoteOfTheDay",quote);
+            return PartialView("_RandomQuotes", quotes);
         }
 
 

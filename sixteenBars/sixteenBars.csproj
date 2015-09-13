@@ -1137,7 +1137,7 @@
     <Content Include="Views\Quote\Create.cshtml" />
     <Content Include="Views\Quote\Edit.cshtml" />
     <Content Include="Views\Quote\Delete.cshtml" />
-    <Content Include="Views\Shared\_QuoteOfTheDay.cshtml" />
+    <Content Include="Views\Shared\_RandomQuotes.cshtml" />
     <Content Include="Views\Artist\Index.cshtml" />
     <Content Include="Views\Artist\Details.cshtml" />
     <Content Include="Views\Artist\Create.cshtml" />

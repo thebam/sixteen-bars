@@ -216,7 +216,25 @@ a:link, a:active, a:visited {
         .suggestions > .suggestion:last-of-type {
             border-bottom: none;
         }
+.quote-blocks .quote-block{
+    margin-top:1em;
+    padding:0;
+    background-color:#ddd;
+}
 
+.quote-blocks .quote-block .artist-info{
+    width:30%;
+    padding:2%;
+    float:left;
+    font-weight:bold;
+}
+.quote-blocks .quote-block .quote-info{
+    background-color:#fff;
+    width:70%;
+    padding:2%;
+    float:left;
+    height:130px;
+}
 
 .main-search-results {
     display: block;

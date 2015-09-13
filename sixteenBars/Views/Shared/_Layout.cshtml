@@ -75,15 +75,17 @@
     </header>
     <div class="container">
         @RenderSection("featured", required: false)
-        <div class="login-container">
-            @Html.Partial("_LoginPartial")
-        </div>
+        
         <div class="main-content">
             @RenderBody()
         </div>
     </div>
     <footer>
+        
         <div class="container">
+            <div class="login-container">
+                @Html.Partial("_LoginPartial")
+            </div>
             <p>&copy; @DateTime.Now.Year</p>
         </div>
     </footer>
