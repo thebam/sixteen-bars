@@ -20,21 +20,7 @@ namespace sixteenBars.Controllers
         }
 
 
-        //public JsonResult AutoCompleteName(String name)
-        //{
-        //    List<Artist> suggestedArtists = _db.Artists.Where(a => a.Name.ToLower().Contains(name.Trim().ToLower())).OrderBy(a => a.Name).ToList();
-        //    return this.Json(suggestedArtists, JsonRequestBehavior.AllowGet);
-        //}
-
-        //public Boolean ArtistExists(String name)
-        //{
-        //    Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == name.Trim().ToLower());
-        //    if (artist == null)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
+       
 
         //
         // GET: /Artist/
@@ -85,7 +71,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Artist/Create
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Create()
         {
             return View();
@@ -96,7 +82,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Create(Artist artist)
         {
             if (ModelState.IsValid)
@@ -119,7 +105,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Artist/Edit/5
-        [Authorize(Roles="admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
             Artist artist = _db.Artists.Find(id);
@@ -132,7 +118,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(Artist artist)
         {
             if (ModelState.IsValid)
@@ -155,7 +141,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Artist/Delete/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Delete(int id = 0)
         {
             Artist artist = _db.Artists.Find(id);
@@ -168,7 +154,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
             Artist artist = _db.Artists.Find(id);

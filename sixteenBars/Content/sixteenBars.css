@@ -217,9 +217,10 @@ a:link, a:active, a:visited {
             border-bottom: none;
         }
 .quote-blocks .quote-block{
-    margin-top:1em;
+    margin-top:30px;
     padding:0;
     background-color:#ddd;
+    border:solid 1px #ddd;
 }
 
 .quote-blocks .quote-block .artist-info{
@@ -233,7 +234,7 @@ a:link, a:active, a:visited {
     width:70%;
     padding:2%;
     float:left;
-    height:130px;
+
 }
 
 .main-search-results {

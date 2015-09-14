@@ -1,6 +1,6 @@
 ﻿
-var artistApp = angular.module("ArtistApp", []);
-var artistController = artistApp.controller("ArtistController", function ($scope, $http) {
+
+var artistController = app.controller("ArtistController", function ($scope, $http) {
     $scope.artistName;
     $scope.artistExists = false;
     $scope.artistExistsSubmit = true;
@@ -8,7 +8,7 @@ var artistController = artistApp.controller("ArtistController", function ($scope
         if ($scope.artistName != undefined) {
             if ($scope.artistName.length > 2) {
                 $http({
-                    url: '../api/ArtistAPI/ArtistExists',
+                    url: siteURL+'/api/ArtistAPI/ArtistExists',
                     data: "'" + $scope.artistName + "'",
                     method: 'POST'
                 })
