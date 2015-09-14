@@ -27,13 +27,13 @@ namespace sixteenBars.Controllers
             List<Quote> quotes = null;
             if (_db.Quotes.Count() > 0)
             { 
-                //Random rand = new Random();
-                //int toSkip = rand.Next(0, _db.Quotes.Where(q => q.Explicit == allowExplicit).Count());
-                //quotes = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => q.Id).Skip(toSkip).Take(numberOfResults).ToList();
-
 
                 quotes = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
-
+                LanguageFilter lf = new LanguageFilter();
+                foreach (Quote quote in quotes)
+                {
+                    quote.Text = lf.Filter(quote.Text.ToString());
+                }
 
             }
 
@@ -76,7 +76,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Quote/Create
-        [Authorize(Roles="admin")]
+        [Authorize(Roles="admin,editor")]
         public ActionResult Create()
         {
             Quote quote = new Quote();
@@ -89,7 +89,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Create(Quote quote)
         {
             if (ModelState.IsValid)
@@ -162,7 +162,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Quote/Edit/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
             Quote quote = _db.Quotes.Find(id);
@@ -174,7 +174,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(Quote quote)
         {
             if (ModelState.IsValid)
@@ -251,7 +251,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Quote/Delete/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Delete(int id = 0)
         {
             Quote quote = _db.Quotes.Find(id);
@@ -274,7 +274,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
             Quote quote = _db.Quotes.Find(id);

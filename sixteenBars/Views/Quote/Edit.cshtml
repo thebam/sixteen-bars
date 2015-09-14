@@ -2,7 +2,7 @@
 
     @Styles.Render("~/Content/themes/base/css")
     <h1>Edit Quote</h1>
-    <div ng-app="TrackApp">
+    <div id="trackApp">
     <div ng-controller="AlbumController">
         @using (Html.BeginForm())
         {
@@ -37,21 +37,33 @@
                     <label for="">Said By</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "saidByArtistName", ng_keyup = "autoCompleteArtist()", ng_init = string.Format("saidByArtistName = '{0}'", Model.Artist.Name) })
+                    @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "saidByArtistName", ng_keyup = "autoCompleteArtist('saidByArtistName')", ng_init = string.Format("saidByArtistName = '{0}'", Model.Artist.Name) })
+                    <div class="suggestions speaker-suggestions">
+                        <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Artists Found</p>
+                        <div class="suggestion" ng-repeat="speaker in speakers">
+                            <div ng-click="selectSuggestedArtist(speaker.Name,'Artist_Name')" class="suggested-artist">{{speaker.Name}}</div>
+                        </div>
+                    </div>
                 </div>
-                <div ng-repeat="artist in artists">
-                    <div ng-click="selectSuggestedArtist(artist.Name,'Artist_Name')" class="suggested-artist">{{artist.Name}}</div>
-                </div>
+
 
                 <div class="form-label">
                     <label for="Track.Title">From Song</label>
                 </div>
                 <div class="form-element">
                     @Html.TextBoxFor(model => model.Track.Title, new { ng_model = "trackTitle", ng_keyup = "autoCompleteTrack()", ng_init = string.Format("trackTitle = '{0}'", Model.Track.Title) })
+                    <div class="suggestions track-suggestions">
+                        <p><strong>Suggested Track(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Tracks Found</p>
+                        <div class="suggestion" ng-repeat="track in tracks">
+                            <div ng-click="selectSuggestedTrack(track.Title,track.Album.Title,track.Album.ReleaseDate,track.Album.Artist.Name,'albumTitle','Track_Album_ReleaseDate')" class="suggested-artist">{{track.Title}}</div>
+                        </div>
+                    </div>
                 </div>
-                <div ng-repeat="track in tracks">
-                    <div ng-click="selectSuggestedTrack(track.Title,track.Album.Title,track.Album.ReleaseDate,track.Album.Artist.Name,'albumTitle','Track_Album_ReleaseDate')" class="suggested-artist">{{track.Title}}</div>
-                </div>
+                
 
 
                 <div class="form-label">
@@ -59,16 +71,30 @@
                 </div>
                 <div class="form-element">
                     @Html.TextBoxFor(model => model.Track.Album.Title, new { ng_model = "albumTitle", ng_keyup = "autoCompleteAlbum()", ng_blur="existTrack()" ,ng_init = string.Format("albumTitle = '{0}'", Model.Track.Album.Title) })
+                    <div class="suggestions album-suggestions">
+                        <p><strong>Suggested Album(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Albums Found</p>
+                        <div class="suggestion" ng-repeat="album in albums">
+                            <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','Track_Album_ReleaseDate','Track_Album_Artist_Name')" class="suggested-artist">{{album.Title}}</div>
+                        </div>
+                    </div>
                 </div>
-                <div ng-repeat="album in albums">
-                    <div ng-click="selectSuggestedAlbum(album.Title,album.ReleaseDate,album.Artist.Name,'albumTitle','Track_Album_ReleaseDate','Track_Album_Artist_Name')" class="suggested-artist">{{album.Title}}</div>
-                </div>
+               
 
                 <div class="form-label">
                     <label for="Track.Album.Artist.Name">Album Artist</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Track.Album.Artist.Name, new { ng_model = "artistName", ng_blur = "existTrack()", ng_init = string.Format("artistName = '{0}'", Model.Track.Album.Artist.Name) })
+                    @Html.TextBoxFor(model => model.Track.Album.Artist.Name, new { ng_model = "artistName", ng_blur = "existTrack()", ng_keyup = "autoCompleteArtist('artistName')", ng_init = string.Format("artistName = '{0}'", Model.Track.Album.Artist.Name) })
+                    <div class="suggestions artist-suggestions">
+                        <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
+                        <img class="loading" src="~/Images/loading.gif" alt="loading" />
+                        <p class="empty">No Artists Found</p>
+                        <div class="suggestion" ng-repeat="artist in artists">
+                            <div ng-click="selectSuggestedArtist(artist.Name,'artistName')" class="suggested-artist">{{artist.Name}}</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-label">
@@ -101,8 +127,6 @@
                         $("#Track_Album_ReleaseDate").datepicker({ minDate: minimumDate, maxDate: maximumDate });
                     });
                 </script>
-                <script src="~/Scripts/angular.min.js"></script>
-                <script src="~/Scripts/sixteenbars-utilities.js"></script>
                 <script src="~/Scripts/sixteenbars-track-app.js"></script>
                 <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
                 <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
