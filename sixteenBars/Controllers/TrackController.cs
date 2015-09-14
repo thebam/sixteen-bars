@@ -59,7 +59,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Track/Create
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin,editor")]
         public ActionResult Create()
         {
             return View();
@@ -70,7 +70,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,editor")]
         public ActionResult Create(TrackViewModel trackVM)
         {
             if (ModelState.IsValid)
@@ -123,7 +123,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Track/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,editor")]
         public ActionResult Edit(int id = 0)
         {
             Track track = _db.Tracks.Find(id);
@@ -139,7 +139,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,editor")]
         public ActionResult Edit(Track track)
         {
             if (ModelState.IsValid)
@@ -199,7 +199,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Track/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,editor")]
         public ActionResult Delete(int id = 0)
         {
             Track track = _db.Tracks.Find(id);
@@ -212,7 +212,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
             Track track = _db.Tracks.Find(id);
