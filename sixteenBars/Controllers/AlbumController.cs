@@ -68,7 +68,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Album/Create
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Create()
         {
             return View();
@@ -79,7 +79,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Create(Album album)
         {
             if (ModelState.IsValid)
@@ -123,7 +123,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Album/Edit/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
             Album album = _db.Albums.Find(id);
@@ -138,7 +138,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(Album album)
         {
             if (ModelState.IsValid)
@@ -183,7 +183,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Album/Delete/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult Delete(int id = 0)
         {
             Album album = _db.Albums.Find(id);
@@ -196,6 +196,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
             Album album = _db.Albums.Find(id);
