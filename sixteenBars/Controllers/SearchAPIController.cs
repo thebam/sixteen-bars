@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using sixteenBars.Models;
 using System.Web.Mvc;
+using sixteenBars.Library;
 
 namespace sixteenBars.Controllers
 {
@@ -45,6 +46,13 @@ namespace sixteenBars.Controllers
                     SearchResults = (from q in _db.Quotes
                                      where q.Text.Contains(searchTerm)
                                      select q).ToList();
+
+                    foreach (Quote quote in SearchResults)
+                    {
+                        quote.Text = WordLink.CreateLinks(quote.Text);
+                        quote.Text = LanguageFilter.Filter(quote.Text);
+                    }
+
                     break;
             }
 

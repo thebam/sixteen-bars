@@ -234,7 +234,21 @@ a:link, a:active, a:visited {
     width:70%;
     padding:2%;
     float:left;
+    line-height:2em;
 
+}
+
+
+.word {
+    background-color: #ddd;
+    cursor:pointer;
+}
+
+.word:hover{
+    background-color: #37B8EB;
+    color:#fff;
+    font-weight:bold;
+    font-size:1.25em;
 }
 
 .main-search-results {

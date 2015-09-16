@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quote.cs" />
     <Compile Include="Track.cs" />
+    <Compile Include="WordLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.Debug.config">

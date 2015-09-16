@@ -29,10 +29,11 @@ namespace sixteenBars.Controllers
             { 
 
                 quotes = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
-                LanguageFilter lf = new LanguageFilter();
+                
                 foreach (Quote quote in quotes)
                 {
-                    quote.Text = lf.Filter(quote.Text.ToString());
+                    quote.Text = WordLink.CreateLinks(quote.Text);
+                    quote.Text =  LanguageFilter.Filter(quote.Text);
                 }
 
             }

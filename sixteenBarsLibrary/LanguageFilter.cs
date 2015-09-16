@@ -5,10 +5,11 @@ using System.Web;
 
 namespace sixteenBars.Library
 {
-    public class LanguageFilter
+    public static class LanguageFilter
     {
-        List<String> offensiveWords = new List<string>();
-        public LanguageFilter() {
+
+        public static String Filter(String inputText){
+            List<String> offensiveWords = new List<string>();
             offensiveWords.Add("nigga");
             offensiveWords.Add("nigger");
             offensiveWords.Add("shit");
@@ -16,9 +17,10 @@ namespace sixteenBars.Library
             offensiveWords.Add("puss");
             offensiveWords.Add("dick");
             offensiveWords.Add("bitch");
-        }
 
-        public String Filter(String inputText){
+
+
+
             String output;
             output = inputText;
             foreach (String word in offensiveWords) {

@@ -1087,6 +1087,7 @@
     <Content Include="Scripts\sixteenbars-artist-exists.js" />
     <Content Include="Scripts\sixteenbars-autocomplete-functions.js" />
     <Content Include="Scripts\sixteenbars-exist-functions.js" />
+    <Content Include="Scripts\sixteenbars-keyword-search.js" />
     <Content Include="Scripts\sixteenbars-lastfm.js" />
     <Content Include="Scripts\sixteenBars-search.js" />
     <Content Include="Scripts\sixteenbars-track-app.js" />
