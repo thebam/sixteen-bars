@@ -1,7 +1,7 @@
 ﻿$("body").on("click", ".word", function (e) {
     var txt = $(e.target).text();
    
-    $.getJSON("/api/SearchAPI/Search?searchTerm=" + txt + "&searchType=quote", function (data) {
+    $.getJSON(siteURL + "/api/SearchAPI/Search?searchTerm=" + txt + "&searchType=quote", function (data) {
         var cnt = 1;
         $(".quote-blocks .col-md-4").html("");
         
