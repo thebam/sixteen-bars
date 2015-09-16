@@ -61,7 +61,8 @@ namespace sixteenBars.Controllers
             if (quote != null)
             {
                 quoteVM.Id = quote.Id;
-                quoteVM.Text = quote.Text;
+                quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));
+
                 quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
                 quoteVM.ArtistId = quote.Artist.Id;

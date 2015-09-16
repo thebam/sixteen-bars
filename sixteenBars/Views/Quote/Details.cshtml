@@ -5,7 +5,7 @@
 @if (Model.Id > 0)
 {
     <h2>
-        "@Html.DisplayFor(model => model.Text)" -
+        "@Html.Raw(Model.Text)" -
         @Html.ActionLink(Model.ArtistName, "details", "artist", new { id = Model.ArtistId }, null)
     </h2>
 
@@ -54,3 +54,15 @@ else
     <p>No Quote Found.</p>
 }
 
+@section Scripts {
+    <script>
+        $("body").on("click", ".word", function (e) {
+            var txt = "";
+            var attr = $(e.target).attr("class");
+            if (attr != undefined) {
+                txt = attr.replace(" word", "");
+            }
+            window.location.href = siteURL + "?word=" + txt;
+        });
+    </script>
+}

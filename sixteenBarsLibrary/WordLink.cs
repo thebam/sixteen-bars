@@ -37,6 +37,16 @@ namespace sixteenBars.Library
             commonWords.Add("or");
             commonWords.Add("like");
             commonWords.Add("when");
+            commonWords.Add("be");
+            commonWords.Add("if");
+            commonWords.Add("she");
+            commonWords.Add("he");
+            commonWords.Add("it");
+            commonWords.Add("do");
+            commonWords.Add("don't");
+            commonWords.Add("does");
+            commonWords.Add("doesn't");
+            commonWords.Add("all");
 
             String output="";
             String[] wordArray = input.Split(' ');
