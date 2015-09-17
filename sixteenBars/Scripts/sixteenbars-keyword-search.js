@@ -8,14 +8,7 @@
 });
 
 
-$(document).ready(function () {
-    var queryKeyword = getParameterByName('word');
-    if (queryKeyword != undefined) {
-        if (queryKeyword.length >1) {
-            getQuoteByKeyword(queryKeyword);
-        }
-    }
-});
+
 
 
 function getQuoteByKeyword(keyword) {

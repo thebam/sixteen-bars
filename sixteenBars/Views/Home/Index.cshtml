@@ -1,4 +1,56 @@
-﻿@{Html.RenderAction("RandomQuotes", "Quote", new { allowExplicit = true, numberOfResults = 12 });}
+﻿<div class="container quote-blocks">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div>
 @section Scripts {
     <script src="~/Scripts/sixteenbars-keyword-search.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var queryKeyword = getParameterByName('word');
+            if (queryKeyword != undefined) {
+                if (queryKeyword.length > 1) {
+                    getQuoteByKeyword(queryKeyword);
+                } else {
+                    getRandomQuote();
+                }
+            } else {
+                getRandomQuote();
+            }
+        });
+
+
+
+        function getRandomQuote() {
+            
+            $.getJSON(siteURL + "/api/QuoteAPI/RandomQuotes?allowExplicit=true&numberOfResults=3", function (data) {
+
+                var cnt = 1;
+                $(".quote-blocks .col-md-4").html("");
+
+                $.each(data.Data, function (key, val) {
+                    var block = "<div class='quote-block'><div class='artist-info'><a href='" + siteURL + "/Artist/details/" + this.Artist.Id + "'>" + this.Artist.Name + "</a></div><div class='quote-info'><span class='quote'>" + this.Text + "</span><br><a class='btn btn-standard' href='" + siteURL + "/Quote/details/" + this.Id + "'>details</a></div><div class='clearfix'></div></div>";
+
+                    $(block).appendTo(".quote-blocks .col-md-4:nth-of-type(" + cnt + ")");
+                    cnt++;
+                    if (cnt == 4) {
+                        cnt = 1;
+                    }
+                });
+
+            });
+        }
+
+
+    </script>
+
+
+
     }

@@ -47,5 +47,29 @@ namespace sixteenBars.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return result;
         }
+
+        [System.Web.Http.HttpGet]
+        public JsonResult RandomQuotes(Boolean allowExplicit, Int32 numberOfResults = 1)
+        {
+            List<Quote> quotes = null;
+            if (_db.Quotes.Count() > 0)
+            {
+
+                quotes = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+
+                foreach (Quote quote in quotes)
+                {
+                    quote.Text = WordLink.CreateLinks(quote.Text);
+                    quote.Text = LanguageFilter.Filter(quote.Text);
+                }
+
+            }
+
+
+            JsonResult result = new JsonResult();
+            result.Data = quotes;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return result;
+        }
     }
 }
