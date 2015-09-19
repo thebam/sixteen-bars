@@ -41,16 +41,17 @@ namespace sixteenBars.Tests.Controllers
         }
 
         [TestMethod]
-        public void Album_Create() { 
+        public void Album_Create() {
             ISixteenBarsDb mockDb = new MockSixteenBarsDb();
             AlbumController ctrl = new AlbumController(mockDb);
             Album newAlbum = new Album()
             {
                 Id = 5,
                 Title = "Doggystyle",
-                ReleaseDate = new DateTime(1993,11, 23),
-                Artist = new Artist() { 
-                    Id=11,
+                ReleaseDate = new DateTime(1993, 11, 23),
+                Artist = new Artist()
+                {
+                    Id = 11,
                     Name = "Snoop Doggy Dogg"
                 }
             };
@@ -63,9 +64,10 @@ namespace sixteenBars.Tests.Controllers
             {
                 Id = 6,
                 Title = ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./",
-                ReleaseDate = new DateTime(1993,11, 23),
-                Artist = new Artist() { 
-                    Id=12,
+                ReleaseDate = new DateTime(1993, 11, 23),
+                Artist = new Artist()
+                {
+                    Id = 12,
                     Name = ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./"
                 }
             };
@@ -81,7 +83,8 @@ namespace sixteenBars.Tests.Controllers
                 ReleaseDate = new DateTime(2001, 9, 11),
                 Artist = new Artist()
                 {
-                    Id = 1
+                    Id = 1,
+                    Name = "Jay-Z"
                 }
             };
             ctrl.Create(newAlbum);
@@ -89,7 +92,7 @@ namespace sixteenBars.Tests.Controllers
             Assert.AreEqual(newAlbum.ReleaseDate, mockDb.Albums.Find(7).ReleaseDate, "The Blueprint release date not 9/11/01.");
             Assert.AreEqual("Jay-Z", mockDb.Albums.Find(7).Artist.Name, "Jay-Z not added as artist for The Blueprint.");
 
-            
+
             newAlbum = new Album()
             {
                 Id = 8,
@@ -97,9 +100,10 @@ namespace sixteenBars.Tests.Controllers
                 ReleaseDate = new DateTime(2013, 12, 3),
                 Artist = new Artist()
                 {
-                    Id = 3
+                    Id = 3,
+                    Name = "Childish Gambino"
                 }
-            };
+             };
             ctrl.Create(newAlbum);
             Assert.IsNull(mockDb.Albums.Find(8), "Because the Internet was created twice");
 
@@ -149,7 +153,7 @@ namespace sixteenBars.Tests.Controllers
                 ReleaseDate = new DateTime(2015, 5, 4),
                 ArtistId = 10
             };
-            ctrl.Edit(editedAlbum);
+            ctrl.Edit(1);
             Assert.AreEqual(editedAlbum.Title, mockDb.Albums.Find(1).Title, "Title not changed to 'Because of the interwebs'.");
             Assert.AreEqual(editedAlbum.ReleaseDate, mockDb.Albums.Find(1).ReleaseDate, "Release date not changed to '5/4/15'.");
             Assert.AreEqual(editedAlbum.ArtistId, mockDb.Albums.Find(1).Artist.Id, "Artist not changed to 'Dr. Dre'.");
@@ -161,7 +165,7 @@ namespace sixteenBars.Tests.Controllers
                 ReleaseDate = new DateTime(1993, 11, 23),
                 ArtistName = ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./"
             };
-            ctrl.Edit(editedAlbum);
+            ctrl.Edit(1);
             Assert.AreEqual(editedAlbum.Title, mockDb.Albums.Find(1).Title, "Title not changed to .~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./");
             Assert.AreEqual(editedAlbum.ReleaseDate, mockDb.Albums.Find(1).ReleaseDate, "Release date not changed to 11/23/93.");
             Assert.AreEqual(editedAlbum.ArtistName, mockDb.Albums.Find(1).Artist.Name, "Artist not chnaged to .~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./");
@@ -173,7 +177,7 @@ namespace sixteenBars.Tests.Controllers
                 ReleaseDate = new DateTime(2002, 9, 11),
                 ArtistId = 9
             };
-            ctrl.Edit(editedAlbum);
+            ctrl.Edit(1);
             Assert.AreEqual(editedAlbum.Title, mockDb.Albums.Find(1).Title, "Title not changed to The Blueprint2.");
             Assert.AreEqual(editedAlbum.ReleaseDate, mockDb.Albums.Find(1).ReleaseDate, "Release date not changed to 9/11/02.");
             Assert.AreEqual("50 Cent", mockDb.Albums.Find(1).Artist.Name, "Artist not changed to 50 Cent");
