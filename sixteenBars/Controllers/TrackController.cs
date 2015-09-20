@@ -25,7 +25,9 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
-
+            ViewBag.Title = "Rhyme 4 Rhyme : Tracks/Songs";
+            ViewBag.MetaDescription = "List of Hip-Hop tracks/songs";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
 
             var tracks = (from track in _db.Tracks
                           join quote in _db.Quotes on track.Id equals quote.Track.Id into quotes
@@ -49,19 +51,34 @@ namespace sixteenBars.Controllers
         
         public ActionResult Details(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             Track track = _db.Tracks.Find(id);
-            //if (track == null)
-            //{
-            //    return HttpNotFound();
-            //}
+            if (track != null)
+            {
+
+                ViewBag.Title = "Rhyme 4 Rhyme : " + track.Title +" : " +track.Album.Title;
+                ViewBag.MetaDescription = track.Title + " a Hip-Hop song from " + track.Album.Artist.Name + " off of the album " + track.Album.Title;
+                ViewBag.MetaKeywords = track.Title +", "+ track.Album.Artist.Name +", "+ track.Album.Title + ", hip-hop, hip hop, artist, rapper, rap, music, quote, album";
+            }
             return View(track);
         }
 
 
         public ActionResult TitleTitleDetails(string albumtitle, string tracktitle)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             Track track = _db.Tracks.SingleOrDefault(t => t.Album.Title.ToLower() == albumtitle.ToLower().Trim() && t.Title.ToLower() == tracktitle.ToLower().Trim());
-            
+            if (track != null)
+            {
+
+                ViewBag.Title = "Rhyme 4 Rhyme : " + track.Title + " : " + track.Album.Title;
+                ViewBag.MetaDescription = track.Title + " a Hip-Hop song from " + track.Album.Artist.Name + " off of the album " + track.Album.Title;
+                ViewBag.MetaKeywords = track.Title + ", " + track.Album.Artist.Name + ", " + track.Album.Title + ", hip-hop, hip hop, artist, rapper, rap, music, quote, album";
+            }
             return View("details", track);
         }
 
@@ -71,6 +88,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles="Admin,editor")]
         public ActionResult Create()
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             return View();
         }
 
@@ -82,6 +102,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "Admin,editor")]
         public ActionResult Create(TrackViewModel trackVM)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             if (ModelState.IsValid)
             {
                 Artist artist = _db.Artists.FirstOrDefault(a => a.Name.ToLower() == trackVM.ArtistName.Trim().ToLower());
@@ -135,6 +158,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "Admin,editor")]
         public ActionResult Edit(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             Track track = _db.Tracks.Find(id);
             if (track == null)
             {
@@ -151,6 +177,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "Admin,editor")]
         public ActionResult Edit(Track track)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             if (ModelState.IsValid)
             {
                 TrackAPIController api = new TrackAPIController(_db);
@@ -211,6 +240,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "Admin,editor")]
         public ActionResult Delete(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             Track track = _db.Tracks.Find(id);
             
             return View(track);
@@ -224,6 +256,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "Admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Track/Song";
+            ViewBag.MetaDescription = "Hip-Hop track/song";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             Track track = _db.Tracks.Find(id);
             _db.Tracks.Remove(track);
             _db.SaveChanges();
