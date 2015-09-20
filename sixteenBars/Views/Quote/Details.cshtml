@@ -9,6 +9,7 @@
         @Html.ActionLink(Model.ArtistName, "details", "artist", new { id = Model.ArtistId }, null)
     </h2>
 
+    if(!String.IsNullOrEmpty(Model.Explanation)){
     <p>
         <strong>
             Meaning
@@ -16,7 +17,7 @@
         <br />
         @Html.DisplayFor(model => model.Explanation)
     </p>
-
+    }
 
     <div class="row lower-details">
         <div class="col-md-4">
