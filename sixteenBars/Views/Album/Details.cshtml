@@ -34,16 +34,7 @@
     </div>
     @section Scripts{
         @Scripts.Render("~/bundles/sixteenbars")
-        @Scripts.Render("~/bundles/lastfm")
-
-        <script>
-
-            $(document).ready(function () {
-                getAlbumInfo('@Model.Artist.Name', '@Model.Title', "albumInfo");
-            });
-        </script>
-
-        <script src="~/Scripts/sixteenbars-lastfm.js"></script>
+        
     }
 }
 else

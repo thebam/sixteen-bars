@@ -73,16 +73,7 @@
 
     @section Scripts{
         @Scripts.Render("~/bundles/sixteenbars")
-        @Scripts.Render("~/bundles/lastfm")
-
-        <script>
-
-            $(document).ready(function () {
-                getArtistInfo('@Model.Name', "artistInfo", "");
-            });
-        </script>
-
-        <script src="~/Scripts/sixteenbars-lastfm.js"></script>
+        
     }
 }
 else
