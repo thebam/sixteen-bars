@@ -27,6 +27,9 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Artists";
+            ViewBag.MetaDescription = "List of Hip-Hop artists and rappers";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
 
             var ArtistTrackAlbum = (from artist in _db.Artists
                                     join track in _db.Tracks on artist.Id equals track.Album.Artist.Id into tracks
@@ -50,7 +53,9 @@ namespace sixteenBars.Controllers
         public ActionResult Details(int id = 0)
         {
 
-
+            ViewBag.Title = "Rhyme 4 Rhyme : Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             //Create view model to display quotes and albums
 
             Artist artist = _db.Artists.Find(id);
@@ -60,10 +65,15 @@ namespace sixteenBars.Controllers
                 return View(artistVM);
             }
             else {
-                
+
+                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name;
+                ViewBag.MetaDescription = "Quotes and albums from Hip-Hop artist " + artist.Name;
+                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music, quote, album";
+
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;
-                artistVM.Albums = _db.Albums.Where(a => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
+                artistVM.Albums = _db.Albums.Where(a
+                    => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
                 artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
             }
             return View(artistVM);
@@ -71,6 +81,9 @@ namespace sixteenBars.Controllers
 
         public ActionResult NameDetails(string artistname)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == artistname.ToLower().Trim());
 
             ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
@@ -80,6 +93,9 @@ namespace sixteenBars.Controllers
             }
             else
             {
+                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name;
+                ViewBag.MetaDescription = "Quotes and albums from Hip-Hop artist " + artist.Name;
+                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music,quote,album";
 
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;
@@ -94,6 +110,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create()
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             return View();
         }
 
@@ -105,6 +124,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create(Artist artist)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             if (ModelState.IsValid)
             {
                 Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name);
@@ -128,6 +150,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             Artist artist = _db.Artists.Find(id);
             
             return View(artist);
@@ -141,6 +166,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(Artist artist)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             if (ModelState.IsValid)
             {
                 Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name);
@@ -164,6 +192,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Delete(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             Artist artist = _db.Artists.Find(id);
             
             return View(artist);
@@ -177,6 +208,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Artist";
+            ViewBag.MetaDescription = "Hip-Hop artist or rapper";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             Artist artist = _db.Artists.Find(id);
             if (artist != null)
             {
