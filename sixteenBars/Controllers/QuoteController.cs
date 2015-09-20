@@ -48,6 +48,9 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Quotes";
+            ViewBag.MetaDescription = "List of Hip-Hop quotes";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             return View(_db.Quotes.ToList());
         }
 
@@ -56,10 +59,16 @@ namespace sixteenBars.Controllers
 
         public ActionResult Details(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = _db.Quotes.Find(id);
             QuoteViewModel quoteVM = new QuoteViewModel();
             if (quote != null)
             {
+                ViewBag.Title = "Rhyme 4 Rhyme : " + quote.Artist.Name + " : " + quote.Text;
+                ViewBag.MetaDescription = quote.Text + " - Hip-Hop quote said by " + quote.Artist.Name + " on song " + quote.Track.Title;
+                ViewBag.MetaKeywords = quote.Text +", " +quote.Artist.Name+ ", "+ quote.Track.Title +",Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));
 
@@ -79,10 +88,16 @@ namespace sixteenBars.Controllers
 
         public ActionResult NameQuoteDetails(string speakername, string quotetext)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.Name.ToLower() == speakername.ToLower().Trim() && q.Text.ToLower() == quotetext.ToLower().Trim());
             QuoteViewModel quoteVM = new QuoteViewModel();
             if (quote != null)
             {
+                ViewBag.Title = "Rhyme 4 Rhyme : " + quote.Artist.Name + " : " + quote.Text;
+                ViewBag.MetaDescription = quote.Text + " - Hip-Hop quote said by " + quote.Artist.Name + " on song " + quote.Track.Title;
+                ViewBag.MetaKeywords = quote.Text + ", " + quote.Artist.Name + ", " + quote.Track.Title + ",Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));
 
@@ -104,6 +119,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles="admin,editor")]
         public ActionResult Create()
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = new Quote();
 
             return View(quote);
@@ -117,6 +135,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create(Quote quote)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             if (ModelState.IsValid)
             {
                 Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
@@ -190,6 +211,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = _db.Quotes.Find(id);
             return View(quote);
         }
@@ -202,6 +226,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(Quote quote)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             if (ModelState.IsValid)
             {
                 Quote edittedQuote = _db.Quotes.Find(quote.Id);
@@ -279,6 +306,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Delete(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = _db.Quotes.Find(id);
             QuoteViewModel quoteVM = new QuoteViewModel();
 
@@ -302,6 +332,9 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Quote";
+            ViewBag.MetaDescription = "Hip-Hop quote";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = _db.Quotes.Find(id);
             _db.Quotes.Remove(quote);
             _db.SaveChanges();
