@@ -10,8 +10,26 @@ namespace sixteenBars
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Artist",
+                url: "Artists/{artistname}",
+                defaults: new { controller = "Artist", action = "NameDetails" }
+            );
+
+            routes.MapRoute(
+                name: "Album",
+                url: "Albums/{artistname}/{albumtitle}",
+                defaults: new { controller = "Album", action = "NameTitleDetails" }
+            );
+
+            routes.MapRoute(
+                name: "Track",
+                url: "Tracks/{albumtitle}/{tracktitle}",
+                defaults: new { controller = "Track", action = "TitleTitleDetails" }
+            );
+
+            routes.MapRoute(
                 name: "Quote",
-                url: "{speakername}/{quotetext}",
+                url: "Quotes/{speakername}/{quotetext}",
                 defaults: new { controller = "Quote", action = "NameQuoteDetails" }
             );
 

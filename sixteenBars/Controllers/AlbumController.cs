@@ -66,6 +66,13 @@ namespace sixteenBars.Controllers
             return View(album);
         }
 
+        public ActionResult NameTitleDetails(string artistname, string albumtitle)
+        {
+            Album album = _db.Albums.SingleOrDefault(a => a.Artist.Name.ToLower() == artistname.ToLower().Trim() && a.Title.ToLower() == albumtitle.ToLower().Trim());
+
+            return View("details", album);
+        }
+
         //
         // GET: /Album/Create
         [Authorize(Roles = "admin,editor")]

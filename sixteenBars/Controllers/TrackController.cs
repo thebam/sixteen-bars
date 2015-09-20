@@ -57,6 +57,15 @@ namespace sixteenBars.Controllers
             return View(track);
         }
 
+
+        public ActionResult TitleTitleDetails(string albumtitle, string tracktitle)
+        {
+            Track track = _db.Tracks.SingleOrDefault(t => t.Album.Title.ToLower() == albumtitle.ToLower().Trim() && t.Title.ToLower() == tracktitle.ToLower().Trim());
+            
+            return View("details", track);
+        }
+
+
         //
         // GET: /Track/Create
         [Authorize(Roles="Admin,editor")]

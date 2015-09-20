@@ -69,6 +69,26 @@ namespace sixteenBars.Controllers
             return View(artistVM);
         }
 
+        public ActionResult NameDetails(string artistname)
+        {
+            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == artistname.ToLower().Trim());
+
+            ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
+            if (artist == null)
+            {
+                return View(artistVM);
+            }
+            else
+            {
+
+                artistVM.Id = artist.Id;
+                artistVM.Name = artist.Name;
+                artistVM.Albums = _db.Albums.Where(a => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
+                artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+            }
+            return View("details", artistVM);
+        }
+
         //
         // GET: /Artist/Create
         [Authorize(Roles = "admin,editor")]
