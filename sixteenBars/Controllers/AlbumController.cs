@@ -41,6 +41,10 @@ namespace sixteenBars.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Albums";
+            ViewBag.MetaDescription = "List of Hip-Hop albums";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
+
             var albumQuotes = (from album in _db.Albums
                                join quote in _db.Quotes on album.Id equals quote.Track.Album.Id into quotes
                                from albumQuote in quotes.DefaultIfEmpty()
@@ -61,15 +65,32 @@ namespace sixteenBars.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Album album = _db.Albums.Find(id);
+            ViewBag.Title = "Rhyme 4 Rhyme : Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
+            Album album = _db.Albums.Find(id);
+            if(album.Id>0){
+                ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
+                ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
+                ViewBag.MetaKeywords = album.Title+", "+album.Artist.Name+", Hip-Hop, hip hop, album, record, rap, music";
+            }
             return View(album);
         }
 
         public ActionResult NameTitleDetails(string artistname, string albumtitle)
         {
-            Album album = _db.Albums.SingleOrDefault(a => a.Artist.Name.ToLower() == artistname.ToLower().Trim() && a.Title.ToLower() == albumtitle.ToLower().Trim());
+            ViewBag.Title = "Rhyme 4 Rhyme : Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
+            Album album = _db.Albums.SingleOrDefault(a => a.Artist.Name.ToLower() == artistname.ToLower().Trim() && a.Title.ToLower() == albumtitle.ToLower().Trim());
+            if (album.Id > 0)
+            {
+                ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
+                ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
+                ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
+            }
             return View("details", album);
         }
 
@@ -78,6 +99,10 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create()
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
+
             return View();
         }
 
@@ -89,6 +114,10 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create(Album album)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Create Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
+
             if (ModelState.IsValid)
             {
                 Artist tempArtist = null;
@@ -133,6 +162,10 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
+
             Album album = _db.Albums.Find(id);
 
 
@@ -148,6 +181,10 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(Album album)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Edit Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
+
             if (ModelState.IsValid)
             {
                 if (!AlbumExists(album.Title, album.Artist.Name))
@@ -193,6 +230,10 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult Delete(int id = 0)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
+
             Album album = _db.Albums.Find(id);
 
             return View(album);
@@ -206,6 +247,10 @@ namespace sixteenBars.Controllers
         [Authorize(Roles = "admin,editor")]
         public ActionResult DeleteConfirmed(int id)
         {
+            ViewBag.Title = "Rhyme 4 Rhyme : Delete Album";
+            ViewBag.MetaDescription = "Hip-Hop album";
+            ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
+
             Album album = _db.Albums.Find(id);
             _db.Albums.Remove(album);
             _db.SaveChanges();
