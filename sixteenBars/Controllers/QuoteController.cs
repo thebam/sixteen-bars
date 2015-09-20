@@ -76,6 +76,29 @@ namespace sixteenBars.Controllers
             return View(quoteVM);
         }
 
+
+        public ActionResult NameQuoteDetails(string speakername, string quotetext)
+        {
+            Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.Name.ToLower() == speakername.ToLower().Trim() && q.Text.ToLower() == quotetext.ToLower().Trim());
+            QuoteViewModel quoteVM = new QuoteViewModel();
+            if (quote != null)
+            {
+                quoteVM.Id = quote.Id;
+                quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));
+
+                quoteVM.Explanation = quote.Explanation;
+                quoteVM.ArtistName = quote.Artist.Name;
+                quoteVM.ArtistId = quote.Artist.Id;
+                quoteVM.TrackName = quote.Track.Title;
+                quoteVM.TrackId = quote.Track.Id;
+                quoteVM.AlbumName = quote.Track.Album.Title;
+                quoteVM.AlbumId = quote.Track.Album.Id;
+                quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
+                quoteVM.AlbumArtistId = quote.Track.Album.Artist.Id;
+            }
+            return View("details",quoteVM);
+        }
+
         //
         // GET: /Quote/Create
         [Authorize(Roles="admin,editor")]
