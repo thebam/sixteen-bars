@@ -242,13 +242,15 @@ a:link, a:active, a:visited {
 .word {
     background-color: #ddd;
     cursor:pointer;
+    border-left:solid 4px #ddd;
+    border-right:solid 4px #ddd;
 }
 
 .word:hover{
     background-color: #37B8EB;
     color:#fff;
-    font-weight:bold;
-    font-size:1.25em;
+    border-left:solid 4px #37B8EB;
+    border-right:solid 4px #37B8EB;
 }
 
 .main-search-results {
