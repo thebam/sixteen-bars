@@ -278,6 +278,10 @@ a:link, a:active, a:visited {
     overflow-y: visible !important;
 }
 
+.navbar {
+    border-radius:0;
+}
+
 @media screen and (max-width:768px) {
     .index-list > .row > div:first-of-type {
         margin-bottom: 10px;
@@ -295,9 +299,7 @@ a:link, a:active, a:visited {
 }
 
 @media screen and (min-width:993px) {
-    .main-search-results {
-        
-    }
+    
 }
 /*
     <768

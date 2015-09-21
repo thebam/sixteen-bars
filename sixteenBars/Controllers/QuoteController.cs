@@ -96,7 +96,10 @@ namespace sixteenBars.Controllers
             if (quote != null)
             {
                 ViewBag.Title = "Rhyme 4 Rhyme : " + quote.Artist.Name + " : " + quote.Text;
+                ViewBag.OGTitle = "Quote from " + quote.Artist.Name;
+                
                 ViewBag.MetaDescription = quote.Text + " - Hip-Hop quote said by " + quote.Artist.Name + " on song " + quote.Track.Title;
+                ViewBag.OGDescription = quote.Text + " on song " + quote.Track.Title;
                 ViewBag.MetaKeywords = quote.Text + ", " + quote.Artist.Name + ", " + quote.Track.Title + ",Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));

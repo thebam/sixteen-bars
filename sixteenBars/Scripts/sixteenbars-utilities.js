@@ -9,8 +9,7 @@ if (window.location.hostname.indexOf("localhost") >= 0) {
         siteURL += port[0];
     }
 } else {
-    //siteURL = "http://www.invisiblefury.com/sixteenbars";
-    siteURL = "http://rhyme4rhyme.azurewebsites.net";
+    siteURL = "http://www.rhyme4rhyme.com";
 }
 
 $("#nav-items>li").removeClass("active");
