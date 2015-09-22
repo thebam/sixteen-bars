@@ -1,4 +1,6 @@
-﻿<div class="container quote-blocks">
+﻿
+<div class="container quote-blocks">
+    
     <div class="col-md-4">
 
     </div>
@@ -7,50 +9,57 @@
     </div>
     <div class="col-md-4">
 
+    </div>
+    
+</div>
+<div class="container" style="margin-top:15px">
+    <div class="col-md-12">
+        <img id="init-loading" class="loading" src="~/Images/loading.gif" alt="loading" />
+        <a id="btn-more-quotes" class='btn-more-quotes btn btn-inverse' href='quote'>MORE QUOTES</a>
     </div>
 </div>
-@section Scripts {
-    <script src="~/Scripts/sixteenbars-keyword-search.js"></script>
+    @section Scripts {
+        <script src="~/Scripts/sixteenbars-keyword-search.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            var queryKeyword = getParameterByName('word');
-            if (queryKeyword != undefined) {
-                if (queryKeyword.length > 1) {
-                    getQuoteByKeyword(queryKeyword);
+        <script>
+            $(document).ready(function () {
+                $("#init-loading").show();
+                $("#btn-more-quotes").hide();
+                var queryKeyword = getParameterByName('word');
+                if (queryKeyword != undefined) {
+                    if (queryKeyword.length > 1) {
+                        getQuoteByKeyword(queryKeyword);
+                    } else {
+                        getRandomQuote();
+                    }
                 } else {
                     getRandomQuote();
                 }
-            } else {
-                getRandomQuote();
-            }
-        });
-
-
-
-        function getRandomQuote() {
-            
-            $.getJSON(siteURL + "/api/QuoteAPI/RandomQuotes?allowExplicit=true&numberOfResults=3", function (data) {
-
-                var cnt = 1;
-                $(".quote-blocks .col-md-4").html("");
-
-                $.each(data.Data, function (key, val) {
-                    var block = "<div class='quote-block'><div class='artist-info'><a href='" + siteURL + "/Artist/details/" + this.Artist.Id + "'>" + this.Artist.Name + "</a></div><div class='quote-info'><span class='quote'>" + this.Text + "</span><br><a class='btn btn-standard' href='" + siteURL + "/Quote/details/" + this.Id + "'>details</a></div><div class='clearfix'></div></div>";
-
-                    $(block).appendTo(".quote-blocks .col-md-4:nth-of-type(" + cnt + ")");
-                    cnt++;
-                    if (cnt == 4) {
-                        cnt = 1;
-                    }
-                });
-
             });
-        }
-
-
-    </script>
 
 
 
+            function getRandomQuote() {
+
+                $.getJSON(siteURL + "/api/QuoteAPI/RandomQuotes?allowExplicit=true&numberOfResults=6", function (data) {
+                    $("#init-loading").hide();
+                    $("#btn-more-quotes").show();
+                    var cnt = 1;
+                    $(".quote-blocks .col-md-4").html("");
+
+                    $.each(data.Data, function (key, val) {
+                        var block = "<div class='quote-block'><div class='artist-info'><a href='" + siteURL + "/Artist/details/" + this.Artist.Id + "'>" + this.Artist.Name + "</a></div><div class='quote-info'><span class='quote'>" + this.Text + "</span><br><a class='btn btn-standard' href='" + siteURL + "/Quote/details/" + this.Id + "'>details</a></div><div class='clearfix'></div></div>";
+
+                        $(block).appendTo(".quote-blocks .col-md-4:nth-of-type(" + cnt + ")");
+                        cnt++;
+                        if (cnt == 4) {
+                            cnt = 1;
+                        }
+                    });
+
+                });
+            }
+
+
+        </script>
     }

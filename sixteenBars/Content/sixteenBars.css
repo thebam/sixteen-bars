@@ -1,6 +1,23 @@
-﻿
+﻿/*html {
+    height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background: #000;
+    background-repeat:no-repeat;
+    background: -webkit-linear-gradient( to top, blue, #222);
+    background: -moz-linear-gradient( to top, blue, #222);
+    background: -ms-linear-gradient( to top, blue, #222);
+    background: -o-linear-gradient( to top, blue, #222);
+    background: linear-gradient( to top, blue, #222);
+}*/
+
+
 body {
     color: #404040;
+
+
 }
 
 h3 {
@@ -155,6 +172,11 @@ a:link, a:active, a:visited {
     top: 2px;
     margin-right: 5px;
 }
+
+.btn-more-quotes {
+display:none;
+}
+
 
 .form .form-label {
     text-transform: uppercase;

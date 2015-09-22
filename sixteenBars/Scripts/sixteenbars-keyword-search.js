@@ -1,4 +1,6 @@
 ﻿$("body").on("click", ".word", function (e) {
+    $("#init-loading").show();
+    $("#btn-more-quotes").hide();
     var txt = "";
     var attr = $(e.target).attr("class");
     if (attr != undefined) {
@@ -12,7 +14,10 @@
 
 
 function getQuoteByKeyword(keyword) {
-    $.getJSON(siteURL + "/api/SearchAPI/Search?searchTerm=" + keyword + "&searchType=quote&filter="+true, function (data) {
+    $.getJSON(siteURL + "/api/SearchAPI/Search?searchTerm=" + keyword + "&searchType=quote&filter=" + true, function (data) {
+
+        $("#init-loading").hide();
+        $("#btn-more-quotes").show();
         var cnt = 1;
         $(".quote-blocks .col-md-4").html("");
 
