@@ -56,17 +56,20 @@ namespace sixteenBars.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             HttpCookie isExplicit = Request.Cookies["explicit"];
-            Boolean blnExplicit = false;
             List<Quote> quotes = new List<Quote>();
-            if (isExplicit!=null)
+            if (isExplicit != null)
             {
                 if (isExplicit.Value == "explicit")
                 {
                     quotes = _db.Quotes.OrderByDescending(q => q.DateCreated).ToList();
                 }
-                else {
+                else
+                {
                     quotes = _db.Quotes.Where(q => q.Explicit == false).OrderByDescending(q => q.DateCreated).ToList();
                 }
+            }
+            else {
+                quotes = _db.Quotes.Where(q => q.Explicit == false).OrderByDescending(q => q.DateCreated).ToList();
             }
             
 
