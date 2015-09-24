@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
+using PagedList;
 
 namespace sixteenBars.Controllers
 {
@@ -23,7 +24,7 @@ namespace sixteenBars.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult RandomQuotes(Boolean allowExplicit, Int32 numberOfResults=1) {
+        public ActionResult RandomQuotes(Boolean allowExplicit=false, Int32 numberOfResults=1) {
             List<Quote> quotes = null;
             if (_db.Quotes.Count() > 0)
             { 
@@ -33,7 +34,7 @@ namespace sixteenBars.Controllers
                 foreach (Quote quote in quotes)
                 {
                     quote.Text = WordLink.CreateLinks(quote.Text);
-                    quote.Text =  LanguageFilter.Filter(quote.Text);
+                    
                 }
 
             }
@@ -46,12 +47,30 @@ namespace sixteenBars.Controllers
         //
         // GET: /Quote/
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Quotes";
             ViewBag.MetaDescription = "List of Hip-Hop quotes";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
-            return View(_db.Quotes.ToList());
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            HttpCookie isExplicit = Request.Cookies["explicit"];
+            Boolean blnExplicit = false;
+            List<Quote> quotes = new List<Quote>();
+            if (isExplicit!=null)
+            {
+                if (isExplicit.Value == "explicit")
+                {
+                    quotes = _db.Quotes.OrderByDescending(q => q.DateCreated).ToList();
+                }
+                else {
+                    quotes = _db.Quotes.Where(q => q.Explicit == false).OrderByDescending(q => q.DateCreated).ToList();
+                }
+            }
+            
+
+            return View(quotes.ToPagedList(pageNumber, pageSize));
         }
 
         //

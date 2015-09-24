@@ -24,34 +24,34 @@ namespace sixteenBars.Controllers
         [System.Web.Http.HttpGet]
         public JsonResult Search(String searchTerm = null, String searchType = "quote",Boolean filter=false)
         {
+
             List<Library.Quote> SearchResults = new List<Library.Quote>();
             switch (searchType)
             {
                 case "album":
                     SearchResults = (from q in _db.Quotes
-                                     where q.Track.Album.Title.Contains(searchTerm)
+                                     where q.Track.Album.Title.Contains(searchTerm) 
                                      select q).ToList();
                     break;
                 case "artist":
                     SearchResults = (from q in _db.Quotes
-                                     where q.Artist.Name.Contains(searchTerm)
+                                     where q.Artist.Name.Contains(searchTerm) 
                                      select q).ToList();
                     break;
                 case "track":
                     SearchResults = (from q in _db.Quotes
-                                     where q.Track.Title.Contains(searchTerm)
+                                     where q.Track.Title.Contains(searchTerm) 
                                      select q).ToList();
                     break;
                 default:
                     SearchResults = (from q in _db.Quotes
-                                     where q.Text.Contains(searchTerm)
+                                     where q.Text.Contains(searchTerm) && q.Explicit == filter
                                      select q).ToList();
-                    if(filter){
+                    
                     foreach (Quote quote in SearchResults)
                     {
                         quote.Text = WordLink.CreateLinks(quote.Text);
-                        quote.Text = LanguageFilter.Filter(quote.Text);
-                    }
+                        
                     }
 
                     break;

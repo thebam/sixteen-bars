@@ -60,7 +60,6 @@ namespace sixteenBars.Controllers
                 foreach (Quote quote in quotes)
                 {
                     quote.Text = WordLink.CreateLinks(quote.Text);
-                    quote.Text = LanguageFilter.Filter(quote.Text);
                 }
 
             }

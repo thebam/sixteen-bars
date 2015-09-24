@@ -1,5 +1,6 @@
-﻿@model IEnumerable<sixteenBars.Library.Quote>
-
+﻿@model PagedList.IPagedList<sixteenBars.Library.Quote>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <h1>Quotes</h1>
 @if (Model != null) {
     if (User.IsInRole("admin") || User.IsInRole("editor")) { 
@@ -28,8 +29,12 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             }
         </div>
-    </div>
+    </div>  
     }
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
     <div class="clearfix"></div>
     </div>
     }

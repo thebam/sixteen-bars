@@ -14,6 +14,57 @@ if (window.location.hostname.indexOf("localhost") >= 0) {
 
 $("#nav-items>li").removeClass("active");
 
+function getCookie() {
+    var explicit = "clean";
+    var name = "explicit=";
+    var lang = document.cookie;
+    var ca = lang.split(";");
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) {
+            explicit = c.substring(name.length, c.length);
+        }
+    }
+    if (explicit == "explicit") {
+        return true;
+    } else {
+        return false;
+    }
+    
+}
+function setCookie(value) {
+    document.cookie = "explicit="+value;
+}
+
+
+$(document).ready(function () {
+    if (getCookie() == true) {
+        $("#explicit").addClass("btn-on");
+        $("#clean").addClass("btn-off");
+
+        $("#explicit").removeClass("btn-off");
+        $("#clean").removeClass("btn-on");
+    } else {
+        $("#explicit").addClass("btn-off");
+        $("#clean").addClass("btn-on");
+
+        $("#explicit").removeClass("btn-on");
+        $("#clean").removeClass("btn-off");
+    }
+
+    $("#explicit").click(function () {
+        setCookie("explicit");
+        location.reload();
+    });
+
+    $("#clean").click(function () {
+        setCookie("clean");
+        location.reload();
+    });
+
+});
+
 
 if (window.location.href.toLowerCase().indexOf(siteURL + "/artist") >= 0) {
     $("#artist-nav-item").addClass("active");

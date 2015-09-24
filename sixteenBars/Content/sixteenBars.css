@@ -88,12 +88,25 @@ a:link, a:active, a:visited {
     font-weight: bold;
 }
 
+
 .lower-details {
     margin-bottom: 15px;
     background-color: #ddd;
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
+
+.pagination-container {
+background-color:transparent !important;
+}
+
+.btn-group>.btn, .btn-group>a.btn {
+    margin-right: 0;
+    border-radius: 5px;
+}
+
+
 
 .btn, a.btn {
     border: solid 1px #37B8EB;
@@ -104,6 +117,24 @@ a:link, a:active, a:visited {
     border-radius: 0;
     text-transform: uppercase;
     margin-right: 4px;
+}
+
+.btn-on {
+    color: #fff;
+    background-color: #37B8EB;
+    border-top:solid 1px #fff;
+    border-right:solid 1px #37B8EB;
+    border-bottom:solid 2px #2783a7;
+    border-left:solid 1px #37B8EB;
+}
+
+.btn-off {
+    color: darkgrey;
+    background-color: #ddd;
+    border-top:solid 1px #000;
+    border-right:solid 2px darkgrey;
+    border-bottom:solid 3px darkgrey;
+    border-left:solid 2px darkgrey;
 }
 
     .btn:hover, a.btn:hover {
@@ -303,11 +334,15 @@ display:none;
 .navbar {
     border-radius:0;
 }
-
+.explicit-toggle {
+        display:block !important;
+        margin-top:8px;
+    }
 @media screen and (max-width:768px) {
     .index-list > .row > div:first-of-type {
         margin-bottom: 10px;
     }
+
 }
 
 @media screen and (min-width:769px) and (max-width:992px) {
@@ -318,6 +353,8 @@ display:none;
     .main-search-results {
         position: absolute;
     }
+
+
 }
 
 @media screen and (min-width:993px) {

@@ -14,7 +14,7 @@
 
 
 function getQuoteByKeyword(keyword) {
-    $.getJSON(siteURL + "/api/SearchAPI/Search?searchTerm=" + keyword + "&searchType=quote&filter=" + true, function (data) {
+    $.getJSON(siteURL + "/api/SearchAPI/Search?searchTerm=" + keyword + "&searchType=quote&filter="+getCookie(), function (data) {
 
         $("#init-loading").hide();
         $("#btn-more-quotes").show();
