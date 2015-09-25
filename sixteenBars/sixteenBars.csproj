@@ -292,6 +292,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\rhyme-4-rhyme-favicon.png" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
