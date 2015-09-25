@@ -24,6 +24,13 @@ h3 {
     color: #lightgrey;
 }
 
+.logo {
+    background:url(../Images/logo.png) no-repeat top left;
+    display:block;
+    height:83px;
+    width:200px;
+}
+
 .login-container {
     float: right;
 }
