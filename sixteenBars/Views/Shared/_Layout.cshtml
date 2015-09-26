@@ -77,6 +77,8 @@
                                     </div>
                                 </div>
                                 <div id="searchResults" class="main-search-results col-md-12 col-sm-12 pull-right">
+                                    <h4 class="ng-cloak" ng-cloak ng-show="searchtermTitle">Search Results For '{{searchTerm | uppercase}}'</h4>
+                                    <p class="ng-cloak" ng-cloak ng-show="searchNoResults">No Results Found</p>
                                     <ul class="ng-cloak" ng-cloak>
                                         <li ng-repeat="quote in quotes">
                                             <em>"{{quote.Text}}"</em>  <a href="/quote/details?id={{quote.Id}}">details</a> <br /> <a href="/artist/details?id={{quote.Artist.Id}}">{{quote.Artist.Name}}</a> - <a href="/track/details?id={{quote.Track.Id}}">{{quote.Track.Title}}</a>

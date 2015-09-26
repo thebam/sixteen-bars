@@ -319,6 +319,12 @@ display:none;
     color:#fff;
 }
 
+.main-search-results h4{
+    margin-top:15px;
+    padding-top:15px;
+    border-top:solid 1px #fff;
+}
+
 .main-search-results ul{
     padding:0;
     margin:0;
