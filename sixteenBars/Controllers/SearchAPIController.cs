@@ -22,7 +22,7 @@ namespace sixteenBars.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public JsonResult Search(String searchTerm = null, String searchType = "quote",Boolean filter=false)
+        public JsonResult Search(String searchTerm = null, String searchType = "quote",Boolean wordLink=false,Boolean filter=false)
         {
 
             List<Library.Quote> SearchResults = new List<Library.Quote>();
@@ -47,11 +47,14 @@ namespace sixteenBars.Controllers
                     SearchResults = (from q in _db.Quotes
                                      where q.Text.Contains(searchTerm) && q.Explicit == filter
                                      select q).ToList();
-                    
-                    foreach (Quote quote in SearchResults)
+
+                    if (wordLink)
                     {
-                        quote.Text = WordLink.CreateLinks(quote.Text);
-                        
+                        foreach (Quote quote in SearchResults)
+                        {
+                            quote.Text = WordLink.CreateLinks(quote.Text);
+
+                        }
                     }
 
                     break;

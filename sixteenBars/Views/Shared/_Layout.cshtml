@@ -76,11 +76,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="searchResults" class="main-search-results col-md-12  pull-right">
+                                <div id="searchResults" class="main-search-results col-md-12 col-sm-12 pull-right">
                                     <ul class="ng-cloak" ng-cloak>
                                         <li ng-repeat="quote in quotes">
                                             <em>"{{quote.Text}}"</em>  <a href="/quote/details?id={{quote.Id}}">details</a> <br /> <a href="/artist/details?id={{quote.Artist.Id}}">{{quote.Artist.Name}}</a> - <a href="/track/details?id={{quote.Track.Id}}">{{quote.Track.Title}}</a>
-
                                         </li>
                                     </ul>
                                 </div>
