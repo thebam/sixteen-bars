@@ -1,6 +1,6 @@
-﻿using System;
+﻿using sixteenBars.Library;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,18 +14,23 @@ namespace sixteenBars.Controllers
             ViewBag.MetaDescription = "Rhyme 4 Rhyme is a searchable database of witty, funny, and inspirational quotes from Rap/Hip-Hop music.";
             ViewBag.MetaKeywords = "rhyme, rap, hip-hop, hip hop, music, lyrics, quotes, spit, flow, search, rapper, artist, album, track, verse, song, mixtape";
 
-            QuoteController ctrl = new QuoteController();
-            Boolean blnExplicit = false;
-            HttpCookie isExplicit = Request.Cookies["explicit"];
-            if (isExplicit != null)
-            {
-                if (isExplicit.Value == "explicit")
-                {
-                    blnExplicit = true;
-                }
-            }
-            var quotes = ctrl.RandomQuotes(blnExplicit, 9);
 
+            List<Quote> quotes = new List<Quote>();
+            if (Request.QueryString["word"] == null)
+            {
+
+                QuoteController ctrl = new QuoteController();
+                Boolean blnExplicit = false;
+                HttpCookie isExplicit = Request.Cookies["explicit"];
+                if (isExplicit != null)
+                {
+                    if (isExplicit.Value == "explicit")
+                    {
+                        blnExplicit = true;
+                    }
+                }
+                quotes = ctrl.RandomQuotes(blnExplicit, 9);
+            }
             return View(quotes);
         }
 
