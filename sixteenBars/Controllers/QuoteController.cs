@@ -24,7 +24,8 @@ namespace sixteenBars.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult RandomQuotes(Boolean allowExplicit=false, Int32 numberOfResults=1) {
+        public List<Quote> RandomQuotes(Boolean allowExplicit = false, Int32 numberOfResults = 1)
+        {
             List<Quote> quotes = null;
             if (_db.Quotes.Count() > 0)
             { 
@@ -40,7 +41,7 @@ namespace sixteenBars.Controllers
             }
 
 
-            return PartialView("_RandomQuotes", quotes);
+            return quotes;
         }
 
 
