@@ -28,9 +28,18 @@ namespace sixteenBars.Controllers
         {
             List<Quote> quotes = null;
             if (_db.Quotes.Count() > 0)
-            { 
+            {
 
-                quotes = _db.Quotes.Where(q => q.Explicit == allowExplicit).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                if (allowExplicit)
+                {
+                    quotes = _db.Quotes.OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                }
+                else {
+                    quotes = _db.Quotes.Where(q => q.Explicit == false).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                }
+
+
+                
                 
                 foreach (Quote quote in quotes)
                 {

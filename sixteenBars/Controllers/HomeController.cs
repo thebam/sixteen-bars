@@ -15,7 +15,16 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "rhyme, rap, hip-hop, hip hop, music, lyrics, quotes, spit, flow, search, rapper, artist, album, track, verse, song, mixtape";
 
             QuoteController ctrl = new QuoteController();
-            var quotes = ctrl.RandomQuotes(false, 9);
+            Boolean blnExplicit = false;
+            HttpCookie isExplicit = Request.Cookies["explicit"];
+            if (isExplicit != null)
+            {
+                if (isExplicit.Value == "explicit")
+                {
+                    blnExplicit = true;
+                }
+            }
+            var quotes = ctrl.RandomQuotes(blnExplicit, 9);
 
             return View(quotes);
         }
