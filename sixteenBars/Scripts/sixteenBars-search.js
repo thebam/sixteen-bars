@@ -18,7 +18,7 @@ searchApp.controller('SearchController', function ($scope, $http) {
         //    $scope.quotes = data.Data;
         //});
 
-        var baseUrl = siteURL + "/api/SearchAPI/Search?searchTerm="+$scope.searchTerm+"&searchType=" + $scope.searchType+"&wordLink=false";
+        var baseUrl = siteURL + "/api/SearchAPI/Search?searchTerm=" + $scope.searchTerm + "&searchType=" + $scope.searchType + "&wordLink=false&filter=" + getCookie();
         var promise = $http.get(baseUrl);
         promise.then(function (payload) {
             $scope.quotes = payload.data.Data;

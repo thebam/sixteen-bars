@@ -44,10 +44,17 @@ namespace sixteenBars.Controllers
                                      select q).ToList();
                     break;
                 default:
-                    SearchResults = (from q in _db.Quotes
-                                     where q.Text.Contains(searchTerm) && q.Explicit == filter
-                                     select q).ToList();
-
+                    if (filter)
+                    {
+                        SearchResults = (from q in _db.Quotes
+                                         where q.Text.Contains(searchTerm) 
+                                         select q).ToList();
+                    }
+                    else {
+                        SearchResults = (from q in _db.Quotes
+                                         where q.Text.Contains(searchTerm) && q.Explicit == false
+                                         select q).ToList();
+                    }
                     if (wordLink)
                     {
                         foreach (Quote quote in SearchResults)

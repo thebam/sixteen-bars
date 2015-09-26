@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<sixteenBars.Library.Quote>
 <div class="container quote-blocks">
     @Html.Raw("<div class=\"col-md-4\">")
-    @{ var cnt = 1; }
+    @{ var cnt = 0; }
     @foreach (var item in Model)
     {
-        if (cnt == 3 || cnt == 5)
+        if (cnt == 3)
         {
+            cnt = 0;
             @Html.Raw("</div>")
             @Html.Raw("<div class=\"col-md-4\">")
         }
