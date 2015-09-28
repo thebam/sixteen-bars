@@ -2,3 +2,7 @@
 angular.element(document).ready(function () {
     angular.bootstrap(document.getElementById('trackApp'), ['TrackApp']);
 });
+
+$('body').click(function () {
+    $(".suggestions").hide();
+});

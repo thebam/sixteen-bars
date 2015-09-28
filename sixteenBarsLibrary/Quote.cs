@@ -23,7 +23,6 @@ namespace sixteenBars.Library
         public virtual Artist Artist { get; set; }
         [Display(Name="From Song")]
         public virtual Track Track { get; set; }
-
         public Quote()
         {
             Enabled = true;

@@ -31,6 +31,28 @@ namespace sixteenBars.Controllers
                 }
                 quotes = ctrl.RandomQuotes(blnExplicit, 9);
             }
+
+
+
+
+            //var ama = "http://webservices.amazon.com/onca/xml?";
+            //ama += "Service=AWSECommerceService&";
+            //ama += "AWSAccessKeyId=AKIAJ74EZTOBAX3MDW5A&";
+            //ama += "AssociateTag=5341-2534-4501&";
+            //ama += "Operation=ItemLookup&";
+            //ama += "RelationshipType=Tracks&";
+            //ama += "ItemId=B0013D8EQK&";
+            //ama += "ItemType=ASIN&";
+            //ama += "ResponseGroup=RelatedItems,Small&";
+            //ama += "Version=2013-08-01";
+            //ama += "&Timestamp=[YYYY-MM-DDThh:mm:ssZ]";
+            //ama += "&Signature=[Request Signature]";
+
+
+            //var hc = System.Xml.Linq.XDocument.Load(ama);
+
+
+
             return View(quotes);
         }
 

@@ -9,6 +9,7 @@ namespace sixteenBars.Models
          IDbSet<Artist> Artists { get;  }
          IDbSet<Track> Tracks { get;  }
          IDbSet<Album> Albums { get;  }
+         IDbSet<ChangeLog> ChangeLogs { get; }
          int SaveChanges();
          void SetModified(object entity);
     }

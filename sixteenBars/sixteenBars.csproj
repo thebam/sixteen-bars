@@ -217,6 +217,7 @@
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\ArtistAPIController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\QuoteAPIController.cs" />
     <Compile Include="Controllers\SearchAPIController.cs" />
     <Compile Include="Controllers\TrackAPIController.cs" />

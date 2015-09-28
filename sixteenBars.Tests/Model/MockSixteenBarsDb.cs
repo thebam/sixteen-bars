@@ -289,6 +289,7 @@ namespace sixteenBars.Tests.Model
         public IDbSet<Artist> Artists { get; private set; }
         public IDbSet<Quote> Quotes { get; private set; }
         public IDbSet<Track> Tracks { get; private set; }
+        public IDbSet<ChangeLog> ChangeLogs { get; private set; }
 
         public int SaveChanges()
         {

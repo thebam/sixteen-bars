@@ -17,7 +17,7 @@
             </div>
             <div class="quote-info">
                 <span class="quote">@Html.Raw(item.Text)</span><br />
-                @Html.ActionLink("details", "details", new { id = item.Id }, new { @class = "btn btn-standard" })
+                @Html.ActionLink("details", "details","Quote", new { id = item.Id }, new { @class = "btn btn-standard" })
             </div><div class="clearfix"></div>
         </div>
 

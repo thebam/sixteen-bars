@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
 using PagedList;
+using WebMatrix.WebData;
+using System.Web.Script.Serialization;
 
 namespace sixteenBars.Controllers
 {
@@ -105,7 +107,7 @@ namespace sixteenBars.Controllers
                 ViewBag.OGDescription = "\"" +quote.Text + "\" from track " + quote.Track.Title;
                 ViewBag.OGAppID = "1474377432864288";
                 quoteVM.Id = quote.Id;
-                quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));
+                quoteVM.Text = WordLink.CreateLinks(quote.Text);
 
                 quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
@@ -271,6 +273,7 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Edit Quote";
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
+            Quote previousQuote = _db.Quotes.Find(quote.Id);
             if (ModelState.IsValid)
             {
                 Quote edittedQuote = _db.Quotes.Find(quote.Id);
@@ -335,6 +338,21 @@ namespace sixteenBars.Controllers
                 }
                 _db.SetModified(edittedQuote);
                 _db.SaveChanges();
+
+                try
+                {
+                    ChangeLog log = new ChangeLog();
+                    log.Type = "quote";
+                    log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
+                    log.UserId = WebSecurity.CurrentUserId;
+
+                    LogController ctrl = new LogController();
+                    ctrl.Log(log);
+                }
+                catch (Exception ex) { 
+                    //TO DO handle exception - email change?
+                }
+
                 return RedirectToAction("Index");
             }
             else {
