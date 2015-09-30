@@ -70,10 +70,14 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
             Album album = _db.Albums.Find(id);
-            if(album.Id>0){
-                ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
-                ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
-                ViewBag.MetaKeywords = album.Title+", "+album.Artist.Name+", Hip-Hop, hip hop, album, record, rap, music";
+            if (album != null)
+            {
+                if (album.Id > 0)
+                {
+                    ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
+                    ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
+                    ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
+                }
             }
             return View(album);
         }

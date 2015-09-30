@@ -215,6 +215,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumAPIController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
+    <Compile Include="Controllers\AmazonAPIController.cs" />
     <Compile Include="Controllers\ArtistAPIController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
     <Compile Include="Controllers\LogController.cs" />
@@ -291,6 +292,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Images\buy2._V192207737_.gif" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\rhyme-4-rhyme-favicon.png" />

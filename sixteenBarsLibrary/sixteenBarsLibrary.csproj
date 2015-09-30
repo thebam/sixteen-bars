@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Album.cs" />
+    <Compile Include="AmazonProduct.cs" />
     <Compile Include="Artist.cs" />
     <Compile Include="ChangeLog.cs" />
     <Compile Include="LanguageFilter.cs" />

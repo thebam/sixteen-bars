@@ -167,6 +167,33 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
         $scope.tracks = "";
         $(".suggestions").hide();
     };
+
+    angular.element(document).ready(function () {
+        $scope.amazonInformation();
+    });
+
+    $scope.amazonInformation = function () {
+        $scope.albumArt;
+        $scope.title;
+        $scope.artistName;
+        $scope.type;
+        $scope.products;
+     
+            var promise = autoCompleteFactory.amazonInfo($scope.title, $scope.artistName, $scope.type);
+
+            promise.then(function (payload) {
+                
+                    $scope.albumArt = payload.data.Data[0].ImageURL;
+                    $scope.products = payload.data.Data;
+
+                
+            },
+            function (errorPayload) {
+               
+            });
+        
+    };
+
 });
 
 

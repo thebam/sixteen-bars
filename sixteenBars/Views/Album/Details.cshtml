@@ -5,23 +5,35 @@
 @if (Model != null)
 {
 
+    <div id="trackApp">
+        <div ng-controller="AlbumController">
+            <h2>
+                @Html.DisplayFor(model => model.Title)
+            </h2>
+            @Html.TextBoxFor(model => model.Title, new { ng_model = "title", ng_init = string.Format("title = '{0}'", Model.Title),style="display:none;" })
+            @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "artistName", ng_init = string.Format("artistName = '{0}'", Model.Artist.Name),style="display:none;" })
+            <input type="hidden" ng-model="type" value="album"/>
+            <div class="row">
+                <div class="col-md-3" id="albumInfo">
+                    <img src="{{albumArt}}" />
+                </div>
+                <div class="col-md-9">
+                    <p>
+                        <strong>Artist</strong> : @Html.ActionLink(Model.Artist.Name, "Details", "Artist", new { id = Model.Artist.Id }, null)
+                    </p>
+                    <p>
+                        <strong>Release Date</strong> : @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
+                    </p>
+                </div>
+            </div>
+            <ul ng-repeat="product in products">
+                <li>
+                    {{product.Title}}<a href="{{product.URL}}"><img src="~/Images/buy2._V192207737_.gif" alt="buy from amazon.com" /></a>
+                </li>
+            </ul>
 
-    <h2>
-        @Html.DisplayFor(model => model.Title)
-    </h2>
-    <div class="row">
-        <div class="col-md-3" id="albumInfo">
-        </div>
-        <div class="col-md-9">
-            <p>
-                <strong>Artist</strong> : @Html.ActionLink(Model.Artist.Name, "Details", "Artist", new { id = Model.Artist.Id }, null)
-            </p>
-            <p>
-                <strong>Release Date</strong> : @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
-            </p>
         </div>
     </div>
-
     <div style="margin-top:15px;">
         @Html.ActionLink("Back to List", "Index", "Album", new { @class = "btn btn-back" })
         @if (User.IsInRole("admin") || User.IsInRole("editor"))
@@ -34,7 +46,16 @@
     </div>
     @section Scripts{
         @Scripts.Render("~/bundles/sixteenbars")
-        
+
+
+        <script src="~/Scripts/sixteenbars-track-app.js"></script>
+        <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
+        <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
+        <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
+
+
+
+
     }
 }
 else
