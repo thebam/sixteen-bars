@@ -22,34 +22,71 @@
 
     if (!String.IsNullOrEmpty(Model.Explanation))
     {
-    <p>
-        <strong>
-            Meaning
-        </strong>
-        <br />
-        @Html.DisplayFor(model => model.Explanation)
-    </p>
+        <p>
+            <strong>
+                Meaning
+            </strong>
+            <br />
+            @Html.DisplayFor(model => model.Explanation)
+        </p>
     }
+    <div id="trackApp">
+        <div ng-controller="AlbumController">
 
-    <div class="row lower-details">
-        <div class="col-md-4">
-            Track :
+            <div class="row lower-details">
+                <div class="col-md-3 albumArt">
+                    <div class="ng-cloak notAvailable" ng-cloak ng-show="amzNoProductFound">
+                        Album Art Not Found
+                    </div>
+                    <img class="ng-cloak" ng-cloak ng-show="amzProductFound" src="{{amzAlbumArt}}" />
+                </div>
 
-            @Html.ActionLink(Model.TrackName, "details", "track", new { id = Model.TrackId }, null)
-        </div>
+                <div class="col-md-9">
+                    <p>
+                        <strong>
+                            Album :
+                        </strong>
 
-        <div class="col-md-4">
-            Album :
 
-            @Html.ActionLink(Model.AlbumName, "details", "album", new { id = Model.AlbumId }, null)
-        </div>
+                        @Html.ActionLink(Model.AlbumName, "details", "album", new { id = Model.AlbumId }, null)
+                    </p>
+                
+                    <p>
+                        <strong>
+                            Artist :
+                        </strong>
 
-        <div class="col-md-4">
-            Artist :
 
-            @Html.ActionLink(Model.AlbumArtistName, "details", "artist", new { id = Model.AlbumArtistId }, null)
+                        @Html.ActionLink(Model.AlbumArtistName, "details", "artist", new { id = Model.AlbumArtistId }, null)
+                    </p>
+                
+                    <p>
+                        <strong>
+                            Track :
+                        </strong>
+
+                        @Html.ActionLink(Model.TrackName, "details", "track", new { id = Model.TrackId }, null)
+                    </p>
+                
+                    <div class="ng-cloak" ng-cloak ng-show="amzProductFound">
+                        <hr />
+                        <h4>Get This Track</h4>
+                        <div ng-repeat="product in amzProducts">
+                            <p>
+                                <a href="{{product.URL}}" target="_blank">{{product.Title}}<br /><img src="~/Images/buy2._V192207737_.gif" alt="buy from amazon.com" /></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @Html.TextBoxFor(model => model.TrackName, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Model.TrackName + " " + Model.AlbumName), style = "display:none;" })
+            @Html.TextBoxFor(model => model.AlbumArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Model.AlbumArtistName), style = "display:none;" })
+            <input type="hidden" ng-model="amzType" ng-init="amzType='track'" />
         </div>
     </div>
+
     <div>
         @Html.ActionLink("Back to List", "Index", "Quote", new { @class = "btn btn-back" })
         @if (User.IsInRole("admin") || User.IsInRole("editor"))
@@ -68,6 +105,10 @@ else
 }
 
 @section Scripts {
+    <script src="~/Scripts/sixteenbars-track-app.js"></script>
+    <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
+    <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
+    <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
     <script>
         $("body").on("click", ".word", function (e) {
             var txt = "";
@@ -80,13 +121,13 @@ else
 
         $(".fb-share-button").attr("data-href", window.location.href);
 
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '1474377432864288',
-            xfbml: true,
-            version: 'v2.4'
-        });
-    };
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1474377432864288',
+                xfbml: true,
+                version: 'v2.4'
+            });
+        };
 
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -95,9 +136,9 @@ else
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-        
-        
-       
+
+
+
 
 
     </script>

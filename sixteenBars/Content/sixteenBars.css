@@ -73,9 +73,15 @@ a:link, a:active, a:visited {
         padding-bottom: 15px;
     }
 
-#albumInfo img {
+.albumArt img {
     width: 100%;
-    margin-bottom: 10px;
+}
+
+.albumArt .notAvailable {
+    border:solid 1px darkgrey;
+    padding:15px;
+    font-weight:bold;
+    text-align:center;
 }
 
 

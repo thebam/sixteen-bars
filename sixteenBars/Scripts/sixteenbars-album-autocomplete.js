@@ -169,27 +169,38 @@ app.controller("AlbumController", function ($scope, $http, autoCompleteFactory, 
     };
 
     angular.element(document).ready(function () {
-        $scope.amazonInformation();
+        
+        if ($scope.amzTitle != undefined && $scope.amzArtistName != undefined && $scope.amzType != undefined) {
+            
+            $scope.amazonInformation();
+        }
     });
 
     $scope.amazonInformation = function () {
-        $scope.albumArt;
-        $scope.title;
-        $scope.artistName;
-        $scope.type;
-        $scope.products;
+        $scope.amzAlbumArt;
+        $scope.amzTitle;
+        $scope.amzArtistName;
+        $scope.amzType;
+        $scope.amzProducts;
+        $scope.amzProductFound=false;
+        $scope.amzNoProductFound=false;
      
-            var promise = autoCompleteFactory.amazonInfo($scope.title, $scope.artistName, $scope.type);
-
-            promise.then(function (payload) {
-                
-                    $scope.albumArt = payload.data.Data[0].ImageURL;
-                    $scope.products = payload.data.Data;
-
-                
+        var promise = autoCompleteFactory.amazonInfo($scope.amzTitle, $scope.amzArtistName, $scope.amzType);
+        promise.then(function (payload) {
+            
+            if (payload.data.Data.length > 0) {
+                $scope.amzNoProductFound = false;
+                $scope.amzProductFound = true;
+                $scope.amzAlbumArt = payload.data.Data[0].ImageURL;
+                $scope.amzProducts = payload.data.Data;
+            } else {
+                $scope.amzNoProductFound = true;
+            }
             },
             function (errorPayload) {
-               
+                $scope.amzProducts = "";
+                $scope.amzProductFound = false;
+                $scope.amzNoProductFound = true;
             });
         
     };

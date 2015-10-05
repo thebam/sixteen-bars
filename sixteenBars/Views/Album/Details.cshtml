@@ -10,12 +10,15 @@
             <h2>
                 @Html.DisplayFor(model => model.Title)
             </h2>
-            @Html.TextBoxFor(model => model.Title, new { ng_model = "title", ng_init = string.Format("title = '{0}'", Model.Title),style="display:none;" })
-            @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "artistName", ng_init = string.Format("artistName = '{0}'", Model.Artist.Name),style="display:none;" })
-            <input type="hidden" ng-model="type" value="album"/>
-            <div class="row">
-                <div class="col-md-3" id="albumInfo">
-                    <img src="{{albumArt}}" />
+            @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Model.Title), style = "display:none;" })
+            @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Model.Artist.Name), style = "display:none;" })
+            <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />
+            <div class="lower-details row">
+                <div class="col-md-3 albumArt">
+                    <div class="ng-cloak notAvailable" ng-cloak ng-show="amzNoProductFound">
+                        Album Art Not Found
+                    </div>
+                    <img class="ng-cloak" ng-cloak ng-show="amzProductFound" src="{{amzAlbumArt}}" />
                 </div>
                 <div class="col-md-9">
                     <p>
@@ -24,13 +27,18 @@
                     <p>
                         <strong>Release Date</strong> : @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
                     </p>
+                    <div class="ng-cloak" ng-cloak ng-show="amzProductFound">
+                        <hr />
+                        <h4>Get This Album</h4>
+                        <div ng-repeat="product in amzProducts">
+                            <p>
+                                <a href="{{product.URL}}" target="_blank">{{product.Title}}<br /><img src="~/Images/buy2._V192207737_.gif" alt="buy from amazon.com" /></a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <ul ng-repeat="product in products">
-                <li>
-                    {{product.Title}}<a href="{{product.URL}}"><img src="~/Images/buy2._V192207737_.gif" alt="buy from amazon.com" /></a>
-                </li>
-            </ul>
+            
 
         </div>
     </div>

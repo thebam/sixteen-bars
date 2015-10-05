@@ -49,13 +49,13 @@ namespace sixteenBars.Controllers
 
 
             JsonResult result = new JsonResult();
-            result.Data = ProcessRequest(requestUrl);
+            result.Data = ProcessRequest(requestUrl,type);
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return result;
         }
 
 
-        private static List<AmazonProduct> ProcessRequest(string url)
+        private static List<AmazonProduct> ProcessRequest(string url,string type)
         {
             List<AmazonProduct> products = new List<AmazonProduct>();
             string NAMESPACE = "http://webservices.amazon.com/AWSECommerceService/2011-08-01";
@@ -101,12 +101,21 @@ namespace sixteenBars.Controllers
                         }
                     catch (Exception ex) { }
                     
-
+                    
+                    AmazonProduct tempProduct = products.SingleOrDefault(p=>p.Title.Equals(product.Title));
+                    if (tempProduct == null)
+                    {
                         products.Add(product);
+                    }
                     
                 }
-                
-                return products.OrderBy(p => p.TrackSequence).ToList();
+                if (type == "album")
+                {
+                    return products.OrderBy(p => p.TrackSequence).Take(2).ToList();
+                }
+                else {
+                    return products.OrderBy(p => p.TrackSequence).ToList();
+                }
             }
             catch (Exception e)
             {
