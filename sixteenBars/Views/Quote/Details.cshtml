@@ -81,8 +81,8 @@
             </div>
 
 
-            @Html.TextBoxFor(model => model.TrackName, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Model.TrackName + " " + Model.AlbumName), style = "display:none;" })
-            @Html.TextBoxFor(model => model.AlbumArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Model.AlbumArtistName), style = "display:none;" })
+            @Html.TextBoxFor(model => model.TrackName, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.TrackName) + " " + Url.Encode(Model.AlbumName)), style = "display:none;" })
+            @Html.TextBoxFor(model => model.AlbumArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.AlbumArtistName)), style = "display:none;" })
             <input type="hidden" ng-model="amzType" ng-init="amzType='track'" />
         </div>
     </div>

@@ -10,8 +10,8 @@
             <h2>
                 @Html.DisplayFor(model => model.Title)
             </h2>
-            @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Model.Title), style = "display:none;" })
-            @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Model.Artist.Name), style = "display:none;" })
+            @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.Title)), style = "display:none;" })
+            @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.Artist.Name)), style = "display:none;" })
             <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />
             <div class="lower-details row">
                 <div class="col-md-3 albumArt">
