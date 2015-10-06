@@ -1,5 +1,6 @@
-﻿@model IEnumerable<sixteenBars.Models.AlbumIndexViewModel>
-
+﻿@model PagedList.IPagedList<sixteenBars.Models.AlbumIndexViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <h2>Albums</h2>
 @if (User.IsInRole("admin") || User.IsInRole("editor"))
@@ -8,7 +9,7 @@
         @Html.ActionLink("Add Album", "Create","Album", new { @class = "btn btn-add" })
     </p>
 }
-@if (Model.Count() > 0)
+@if (Model.PageCount > 0)
 {
     <div class="index-list">
         @foreach (var item in Model)
@@ -36,6 +37,10 @@
                 </div>
             </div>
         }
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
         <div class="clearfix"></div>
     </div>
 }

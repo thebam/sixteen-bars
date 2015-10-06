@@ -1,5 +1,6 @@
-﻿@model IEnumerable<sixteenBars.Models.ArtistIndexViewModel>
-
+﻿@model PagedList.IPagedList<sixteenBars.Models.ArtistIndexViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <h2>Artists</h2>
 
 @if (User.IsInRole("admin") || User.IsInRole("editor"))
@@ -31,7 +32,11 @@
 
             </div>
         }
-                <div class="clearfix"></div>
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        <div class="clearfix"></div>
             </div>
 }
         else

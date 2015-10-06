@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
+using PagedList;
 
 
 namespace sixteenBars.Controllers
@@ -25,12 +26,13 @@ namespace sixteenBars.Controllers
         //
         // GET: /Artist/
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Artists";
             ViewBag.MetaDescription = "List of Hip-Hop artists and rappers";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
-
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
             var ArtistTrackAlbum = (from artist in _db.Artists
                                     join track in _db.Tracks on artist.Id equals track.Album.Artist.Id into tracks
                                     from artistTrack in tracks.DefaultIfEmpty()
@@ -44,7 +46,7 @@ namespace sixteenBars.Controllers
                             IsDeleteable = (artistTrack == null && artistQuote == null) ? true : false
                         }).Distinct().OrderBy(a => a.Name).ToList();
 
-            return View(ArtistTrackAlbum);
+            return View(ArtistTrackAlbum.ToPagedList(pageNumber, pageSize));
         }
 
         //

@@ -18,7 +18,7 @@ namespace sixteenBars.Tests.Controllers
             ISixteenBarsDb mockDb = new MockSixteenBarsDb();
             TrackController ctrl = new TrackController(mockDb);
 
-            var result = ctrl.Index() as ViewResult;
+            var result = ctrl.Index(1) as ViewResult;
             Assert.IsInstanceOfType(result.ViewData.Model, typeof(List<TrackIndexViewModel>));
             var tracks = (List<TrackIndexViewModel>)result.ViewData.Model;
             Assert.AreEqual(5, tracks.Count, "More than or less than 5 tracks.");

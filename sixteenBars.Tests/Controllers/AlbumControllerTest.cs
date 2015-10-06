@@ -26,7 +26,7 @@ namespace sixteenBars.Tests.Controllers
         public void Album_Index()
         {
             AlbumController ctrl = new AlbumController(new MockSixteenBarsDb());
-            var result = ctrl.Index() as ViewResult;
+            var result = ctrl.Index(1) as ViewResult;
             var results = (List<AlbumIndexViewModel>)result.ViewData.Model;
             Assert.AreEqual(4, results.Count, "More or less than 4 albums returned.");
 
