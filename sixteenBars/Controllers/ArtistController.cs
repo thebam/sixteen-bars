@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
 using PagedList;
+using System.Web.Script.Serialization;
+using WebMatrix.WebData;
 
 
 namespace sixteenBars.Controllers
@@ -174,11 +176,30 @@ namespace sixteenBars.Controllers
             if (ModelState.IsValid)
             {
                 Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name);
+                Artist previousArtist = null;
                 if (tempArtist == null)
                 {
+                    previousArtist = artist;
                     artist.DateModified = DateTime.Now;
                     _db.SetModified(artist);
                     _db.SaveChanges();
+
+
+                    try
+                    {
+                        ChangeLog log = new ChangeLog();
+                        log.Type = "artist";
+                        log.PreviousValues = new JavaScriptSerializer().Serialize(previousArtist);
+                        log.UserId = WebSecurity.CurrentUserId;
+
+                        LogController ctrl = new LogController();
+                        ctrl.Log(log);
+                    }
+                    catch (Exception ex)
+                    {
+                        //TO DO handle exception - email change?
+                    }
+
                     return RedirectToAction("Index");
                 }
                 else {
@@ -191,7 +212,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Artist/Delete/5
-        [Authorize(Roles = "admin,editor")]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id = 0)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Artist";
@@ -207,13 +228,14 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,editor")]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Artist";
             ViewBag.MetaDescription = "Hip-Hop artist or rapper";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             Artist artist = _db.Artists.Find(id);
+            Artist previousArtist=null;
             if (artist != null)
             {
                 //make sure that the artist doesn't have any ablums or quotes in the database to avoid any orphaned records.
@@ -222,6 +244,7 @@ namespace sixteenBars.Controllers
                     Album album = _db.Albums.SingleOrDefault(a => a.Artist.Id == id);
                     if (album == null)
                     {
+                        previousArtist = artist;
                         _db.Artists.Remove(artist);
                         _db.SaveChanges();
                     }
@@ -235,6 +258,21 @@ namespace sixteenBars.Controllers
                     ViewBag.ErrorMessage = "The artist '" + artist.Name + "' can't be deleted because they have associated quotes. Delete quotes first.";
                     return View(artist);
                 }
+            }
+
+            try
+            {
+                ChangeLog log = new ChangeLog();
+                log.Type = "artist";
+                log.PreviousValues = new JavaScriptSerializer().Serialize(previousArtist);
+                log.UserId = WebSecurity.CurrentUserId;
+
+                LogController ctrl = new LogController();
+                ctrl.Log(log);
+            }
+            catch (Exception ex)
+            {
+                //TO DO handle exception - email change?
             }
 
             return RedirectToAction("Index");

@@ -64,7 +64,9 @@
         {
             @: &nbsp;
             @Html.ActionLink("Edit", "Edit", "Artist", new { id = Model.Id }, new { @class = "btn btn-edit" })
-            @: &nbsp;
+        }
+        @if (User.IsInRole("admin"))
+        {
             @Html.ActionLink("Delete", "Delete", "Artist", new { id = Model.Id }, new { @class = "btn btn-remove" })
         }
         
