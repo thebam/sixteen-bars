@@ -363,7 +363,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Quote/Delete/5
-        [Authorize(Roles = "admin,editor")]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id = 0)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Quote";
@@ -389,15 +389,32 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,editor")]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Quote";
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = _db.Quotes.Find(id);
+            Quote previousQuote = quote;
             _db.Quotes.Remove(quote);
             _db.SaveChanges();
+
+
+            try
+            {
+                ChangeLog log = new ChangeLog();
+                log.Type = "quote";
+                log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
+                log.UserId = WebSecurity.CurrentUserId;
+
+                LogController ctrl = new LogController();
+                ctrl.Log(log);
+            }
+            catch (Exception ex)
+            {
+                //TO DO handle exception - email change?
+            }
             return RedirectToAction("Index");
         }
 

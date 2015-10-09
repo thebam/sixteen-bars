@@ -93,8 +93,11 @@
         {
             @: &nbsp;
             @Html.ActionLink("Edit", "Edit", "Quote", new { id = Model.Id }, new { @class = "btn btn-edit" })
+            if (User.IsInRole("admin"))
+            {
             @: &nbsp;
             @Html.ActionLink("Delete", "Delete", "Quote", new { id = Model.Id }, new { @class = "btn btn-remove" })
+            }
         }
     </div>
 

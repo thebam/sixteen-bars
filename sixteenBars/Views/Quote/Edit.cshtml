@@ -112,8 +112,11 @@
 </div>
 <div>
     @Html.ActionLink("Back to List", "Index", "Quote", new { @class = "btn btn-back" })
-    &nbsp;
+@if (User.IsInRole("admin") )
+            {
+    @:&nbsp;
     @Html.ActionLink("Delete", "Delete", "Quote", new { id = Model.Id }, new { @class = "btn btn-remove" })
+}
 </div>
 
             @section Scripts {

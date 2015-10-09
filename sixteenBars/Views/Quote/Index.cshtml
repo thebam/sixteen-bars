@@ -25,9 +25,11 @@
             @if (User.IsInRole("admin") || User.IsInRole("editor"))
             {
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                if (User.IsInRole("admin"))
+            {
                 <br/>
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            }
+            }}
         </div>
     </div>  
     }
