@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
 using PagedList;
+using System.Web.Script.Serialization;
+using WebMatrix.WebData;
 
 namespace sixteenBars.Controllers
 {
@@ -187,6 +189,7 @@ namespace sixteenBars.Controllers
                 TrackAPIController api = new TrackAPIController(_db);
                 if (!api.TrackExists(track.Title, track.Album.Title, track.Album.Artist.Name,(DateTime)track.ReleaseDate)){
                     Track edittedTrack = _db.Tracks.Find(track.Id);
+                    Track previousTrack = edittedTrack;
                     edittedTrack.Title = track.Title;
                     edittedTrack.ReleaseDate = track.ReleaseDate;
                     Album tempAlbum = _db.Albums.FirstOrDefault(album => album.Title.ToLower() == track.Album.Title.Trim().ToLower() && album.Artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
@@ -225,6 +228,23 @@ namespace sixteenBars.Controllers
 
                     _db.SetModified(edittedTrack);
                     _db.SaveChanges();
+
+                    try
+                    {
+                        ChangeLog log = new ChangeLog();
+                        log.Type = "track";
+                        log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
+                        log.UserId = WebSecurity.CurrentUserId;
+
+                        LogController ctrl = new LogController();
+                        ctrl.Log(log);
+                    }
+                    catch (Exception ex)
+                    {
+                        //TO DO handle exception - email change?
+                    }
+
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -239,7 +259,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Track/Delete/5
-        [Authorize(Roles = "Admin,editor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id = 0)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Track/Song";
@@ -255,15 +275,33 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin,editor")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Track/Song";
             ViewBag.MetaDescription = "Hip-Hop track/song";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             Track track = _db.Tracks.Find(id);
+            Track previousTrack = track;
             _db.Tracks.Remove(track);
             _db.SaveChanges();
+
+
+            try
+            {
+                ChangeLog log = new ChangeLog();
+                log.Type = "track";
+                log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
+                log.UserId = WebSecurity.CurrentUserId;
+
+                LogController ctrl = new LogController();
+                ctrl.Log(log);
+            }
+            catch (Exception ex)
+            {
+                //TO DO handle exception - email change?
+            }
+
             return RedirectToAction("Index");
         }
 

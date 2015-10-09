@@ -66,8 +66,11 @@
                 @if (User.IsInRole("admin") || User.IsInRole("editor")){
                     @: &nbsp;
                     @Html.ActionLink("Edit", "Edit", "Track", new { id = Model.Id }, new { @class = "btn btn-edit" })
+                    if (User.IsInRole("admin"))
+                    {
                     @: &nbsp;
                     @Html.ActionLink("Delete", "Delete", "Track", new { id = Model.Id }, new { @class = "btn btn-remove" })
+                    }
                 }
             </div>
             @section Scripts{
