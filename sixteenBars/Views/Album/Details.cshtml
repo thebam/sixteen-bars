@@ -48,8 +48,11 @@
         {
             @: &nbsp;
             @Html.ActionLink("Edit", "Edit", "Album", new { id = Model.Id }, new { @class = "btn btn-edit" })
+            if (User.IsInRole("admin"))
+                        {
             @: &nbsp;
             @Html.ActionLink("Delete", "Delete", "Album", new { id = Model.Id }, new { @class = "btn btn-remove" })
+        }
         }
     </div>
     @section Scripts{

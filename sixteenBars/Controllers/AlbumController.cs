@@ -234,7 +234,7 @@ namespace sixteenBars.Controllers
 
         //
         // GET: /Album/Delete/5
-        [Authorize(Roles = "admin,editor")]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id = 0)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Album";
@@ -251,7 +251,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,editor")]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Album";

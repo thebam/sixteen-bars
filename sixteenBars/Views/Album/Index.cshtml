@@ -28,7 +28,7 @@
 
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id })
 
-                        if (item.IsDeleteable)
+                        if (item.IsDeleteable && User.IsInRole("admin"))
                         {
 
                             @: <br /> @Html.ActionLink("Delete", "Delete", new { id = item.Id })
