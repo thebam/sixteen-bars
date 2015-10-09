@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
 using PagedList;
+using System.Web.Script.Serialization;
+using WebMatrix.WebData;
 
 namespace sixteenBars.Controllers
 {
@@ -191,12 +193,13 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Edit Album";
             ViewBag.MetaDescription = "Hip-Hop album";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
-
+            Album previousAlbum = null;
             if (ModelState.IsValid)
             {
                 if (!AlbumExists(album.Title, album.Artist.Name))
                 {
                     Album edittedAlbum = _db.Albums.Find(album.Id);
+                    previousAlbum = edittedAlbum;
                     edittedAlbum.Title = album.Title;
                     edittedAlbum.ReleaseDate = album.ReleaseDate;
 
@@ -218,6 +221,22 @@ namespace sixteenBars.Controllers
 
                     _db.SetModified(edittedAlbum);
                     _db.SaveChanges();
+
+                    try
+                    {
+                        ChangeLog log = new ChangeLog();
+                        log.Type = "album";
+                        log.PreviousValues = new JavaScriptSerializer().Serialize(previousAlbum);
+                        log.UserId = WebSecurity.CurrentUserId;
+
+                        LogController ctrl = new LogController();
+                        ctrl.Log(log);
+                    }
+                    catch (Exception ex)
+                    {
+                        //TO DO handle exception - email change?
+                    }
+
                     return RedirectToAction("Index");
 
 
@@ -259,8 +278,27 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
             Album album = _db.Albums.Find(id);
+            Album previousAlbum = album;
             _db.Albums.Remove(album);
             _db.SaveChanges();
+
+
+            try
+            {
+                ChangeLog log = new ChangeLog();
+                log.Type = "album";
+                log.PreviousValues = new JavaScriptSerializer().Serialize(previousAlbum);
+                log.UserId = WebSecurity.CurrentUserId;
+
+                LogController ctrl = new LogController();
+                ctrl.Log(log);
+            }
+            catch (Exception ex)
+            {
+                //TO DO handle exception - email change?
+            }
+
+
             return RedirectToAction("Index");
         }
 
