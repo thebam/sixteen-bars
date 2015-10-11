@@ -226,6 +226,7 @@
     <Compile Include="Migrations\201507251843103_initial.Designer.cs">
       <DependentUpon>201507251843103_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AlbumDetailsViewModel.cs" />
     <Compile Include="Models\ArtistDetailViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuoteController.cs" />

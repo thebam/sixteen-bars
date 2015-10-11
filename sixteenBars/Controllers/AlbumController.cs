@@ -75,6 +75,7 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
             Album album = _db.Albums.Find(id);
+            AlbumDetailsViewModel albumViewModel = new AlbumDetailsViewModel();
             if (album != null)
             {
                 if (album.Id > 0)
@@ -82,9 +83,23 @@ namespace sixteenBars.Controllers
                     ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
                     ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
                     ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
+
+                    
+                    albumViewModel.Id = album.Id;
+                    albumViewModel.Title = album.Title;
+                    albumViewModel.ArtistId = album.Artist.Id;
+                    albumViewModel.ArtistName = album.Artist.Name;
+                    albumViewModel.ReleaseDate = (DateTime)album.ReleaseDate;
+                    try
+                    {
+                        albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.Id == album.Id).OrderBy(t => t.Title).ToList();
+                    }
+                    catch (Exception ex) { 
+                    }
+
                 }
             }
-            return View(album);
+            return View(albumViewModel);
         }
 
         public ActionResult NameTitleDetails(string artistname, string albumtitle)
@@ -94,13 +109,27 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
             Album album = _db.Albums.SingleOrDefault(a => a.Artist.Name.ToLower() == artistname.ToLower().Trim() && a.Title.ToLower() == albumtitle.ToLower().Trim());
+            AlbumDetailsViewModel albumViewModel = new AlbumDetailsViewModel();
             if (album.Id > 0)
             {
                 ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
                 ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
                 ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
+
+                albumViewModel.Id = album.Id;
+                albumViewModel.Title = album.Title;
+                albumViewModel.ArtistId = album.Artist.Id;
+                albumViewModel.ArtistName = album.Artist.Name;
+                albumViewModel.ReleaseDate = (DateTime)album.ReleaseDate;
+                try
+                {
+                    albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.Id == album.Id).OrderBy(t => t.Title).ToList();
+                }
+                catch (Exception ex)
+                {
+                }
             }
-            return View("details", album);
+            return View("details", albumViewModel);
         }
 
         //

@@ -1,4 +1,4 @@
-﻿@model sixteenBars.Library.Album
+﻿@model sixteenBars.Models.AlbumDetailsViewModel
 
 
 <h1>Album Details</h1>
@@ -11,7 +11,7 @@
                 @Html.DisplayFor(model => model.Title)
             </h2>
             @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.Title)), style = "display:none;" })
-            @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.Artist.Name)), style = "display:none;" })
+            @Html.TextBoxFor(model => model.ArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.ArtistName)), style = "display:none;" })
             <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />
             <div class="lower-details row">
                 <div class="col-md-3 albumArt">
@@ -22,7 +22,10 @@
                 </div>
                 <div class="col-md-9">
                     <p>
-                        <strong>Artist</strong> : @Html.ActionLink(Model.Artist.Name, "Details", "Artist", new { id = Model.Artist.Id }, null)
+                        @if (Model.ArtistId != null && Model.ArtistName !=null)
+                        {
+                            <strong>Artist</strong> @Html.ActionLink(Model.ArtistName, "Details", "Artist", new { id = Model.ArtistId }, null)
+                        }
                     </p>
                     <p>
                         <strong>Release Date</strong> : @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
@@ -39,7 +42,24 @@
                 </div>
             </div>
             
-
+            <div>
+                <h2>Tracks</h2>
+                <div class="index-list">
+                    @if (Model.Tracks != null)
+                    {
+                        foreach (var track in Model.Tracks)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.ActionLink(track.Title, "Details", "Track", new { id = track.Id }, null)
+                                </div>
+                            </div>
+                        }
+                    }else{
+                    @:No Tracks Found
+                    }
+                </div>
+            </div>
         </div>
     </div>
     <div style="margin-top:15px;">
