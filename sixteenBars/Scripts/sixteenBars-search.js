@@ -25,7 +25,7 @@ searchApp.controller('SearchController', function ($scope, $http) {
         promise.then(function (payload) {
             $scope.searchtermTitle = true;
             if (payload.data.Data.length > 0) {
-                $scope.quotes = payload.data.Data;
+                $scope.results = payload.data.Data;
                 $scope.searchNoResults = false;
             } else {
 
@@ -36,7 +36,7 @@ searchApp.controller('SearchController', function ($scope, $http) {
             }
         },
             function (errorPayload) {
-                $scope.quotes = "";
+                $scope.results = "";
                 $scope.searchtermTitle = true;
                 $scope.searchNoResults = true;
             });

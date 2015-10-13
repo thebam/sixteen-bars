@@ -26,6 +26,7 @@ namespace sixteenBars.Controllers
         {
 
             List<Library.Quote> SearchResults = new List<Library.Quote>();
+            List<SearchResult> results = new List<SearchResult>();
             switch (searchType)
             {
                 case "album":
@@ -44,33 +45,92 @@ namespace sixteenBars.Controllers
                                      select q).ToList();
                     break;
                 default:
-                    if (filter)
-                    {
-                        SearchResults = (from q in _db.Quotes
-                                         where q.Text.Contains(searchTerm) 
-                                         select q).ToList();
-                    }
-                    else {
-                        SearchResults = (from q in _db.Quotes
-                                         where q.Text.Contains(searchTerm) && q.Explicit == false
-                                         select q).ToList();
-                    }
                     if (wordLink)
                     {
-                        foreach (Quote quote in SearchResults)
+                        if (filter)
                         {
-                            quote.Text = WordLink.CreateLinks(quote.Text);
-
+                            SearchResults = (from q in _db.Quotes
+                                             where q.Text.Contains(searchTerm) && q.Enabled == true
+                                             select q).ToList();
+                        }
+                        else
+                        {
+                            SearchResults = (from q in _db.Quotes
+                                             where q.Text.Contains(searchTerm) && q.Enabled == true && q.Explicit == false
+                                             select q).ToList();
+                        }
+                        foreach (Quote result in SearchResults)
+                        {
+                            result.Text = WordLink.CreateLinks(result.Text);
                         }
                     }
+                    else {
+                        List<SearchResult> resultsQuotes = new List<SearchResult>();
+                        List<SearchResult> resultsTracks = new List<SearchResult>();
+                        List<SearchResult> resultsAlbums = new List<SearchResult>();
+                        List<SearchResult> resultsArtists = new List<SearchResult>();
+                        if (filter)
+                        {
+                            
+                            resultsQuotes = (from q in _db.Quotes
+                                             where q.Text.Contains(searchTerm) && q.Enabled == true
+                                             select new SearchResult
+                                             {
+                                                 Id = q.Id,
+                                                 ResultType = "quote",
+                                                 Text = q.Text + " - " + q.Artist.Name
+                                             }).ToList();
+                        }
+                        else
+                        {
+                            resultsQuotes = (from q in _db.Quotes
+                                             where q.Text.Contains(searchTerm) && q.Enabled == true && q.Explicit == false
+                                             select new SearchResult
+                                             {
+                                                 Id = q.Id,
+                                                 ResultType = "quote",
+                                                 Text = q.Text + " - " + q.Artist.Name
+                                             }).ToList();
+                        }
 
+                        resultsTracks = (from t in _db.Tracks
+                                         where t.Title.Contains(searchTerm) && t.Enabled == true
+                                         select new SearchResult
+                                         {
+                                             Id = t.Id,
+                                             ResultType = "track",
+                                             Text = t.Title + " - " + t.Album.Artist.Name
+                                         }).ToList();
+                        resultsAlbums = (from a in _db.Albums
+                                         where a.Title.Contains(searchTerm) && a.Enabled == true
+                                         select new SearchResult
+                                         {
+                                             Id = a.Id,
+                                             ResultType = "album",
+                                             Text = a.Title + " - " + a.Artist.Name
+                                         }).ToList();
+                        resultsArtists = (from a in _db.Artists
+                                          where a.Name.Contains(searchTerm) && a.Enabled == true
+                                          select new SearchResult
+                                          {
+                                              Id = a.Id,
+                                              ResultType = "artist",
+                                              Text = a.Name
+                                          }).ToList();
+                        results = resultsQuotes.Concat(resultsTracks).Concat(resultsAlbums).Concat(resultsArtists).ToList();
+                        JsonResult jsonCombinedResult = new JsonResult();
+                        jsonCombinedResult.Data = results;
+                        jsonCombinedResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                        return jsonCombinedResult;
+                    }
                     break;
+                    
             }
 
-            JsonResult result = new JsonResult();
-            result.Data = SearchResults;
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            return result;
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = SearchResults;
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return jsonResult;
         } 
     }
 }

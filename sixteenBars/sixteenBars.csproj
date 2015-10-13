@@ -241,6 +241,7 @@
     <Compile Include="Models\ArtistIndexViewModel.cs" />
     <Compile Include="Models\ISixteenBarsDb.cs" />
     <Compile Include="Models\QuoteViewModel.cs" />
+    <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Models\SixteenBarsDb.cs" />
     <Compile Include="Models\TrackIndexViewModel.cs" />
     <Compile Include="Models\TrackViewModel.cs" />
