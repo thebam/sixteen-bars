@@ -47,6 +47,18 @@ namespace sixteenBars.Library
             commonWords.Add("does");
             commonWords.Add("doesn't");
             commonWords.Add("all");
+            commonWords.Add("of");
+            commonWords.Add("me");
+            commonWords.Add("no");
+            commonWords.Add("my");
+            commonWords.Add("will");
+            commonWords.Add("take");
+            commonWords.Add("took");
+            commonWords.Add("he's");
+            commonWords.Add("she's");
+            commonWords.Add("what");
+            commonWords.Add("what's");
+            commonWords.Add("was");
 
             String output="";
             String[] wordArray = input.Split(' ');
@@ -62,7 +74,7 @@ namespace sixteenBars.Library
                 }
                 if (blnAdd)
                 {
-                    output += "<span class=\"" + word + " word\">" + word + "</span> ";
+                    output += "<span class=\"" + word.Replace(",", "").Replace(".", "").Replace("?", "").Replace("!", "") + " word\">" + word + "</span> ";
                 }
                 else {
                     output += word + " ";

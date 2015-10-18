@@ -31,7 +31,7 @@ namespace sixteenBars.Controllers
                         blnExplicit = true;
                     }
                 }
-                quotes = ctrl.RandomQuotes(blnExplicit, 9);
+                quotes = ctrl.RandomQuotes(blnExplicit, 15);
             }
 
             return View(quotes);
