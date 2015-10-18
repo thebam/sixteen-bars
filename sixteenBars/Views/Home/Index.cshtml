@@ -4,7 +4,7 @@
     @{ var cnt = 0; }
     @foreach (var item in Model)
     {
-        if (cnt == 3)
+        if (cnt == Math.Ceiling((decimal)Model.Count()/3))
         {
             cnt = 0;
             @Html.Raw("</div>")
