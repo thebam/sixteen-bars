@@ -88,7 +88,10 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Artist";
             ViewBag.MetaDescription = "Hip-Hop artist or rapper";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
-            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == artistname.ToLower().Trim());
+
+            artistname = URLClean.Clean(artistname);
+
+            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.Replace(".","").Replace(",","").ToLower() == artistname.ToLower().Trim());
 
             ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
             if (artist == null)

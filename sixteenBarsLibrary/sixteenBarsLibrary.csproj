@@ -69,6 +69,7 @@
     <Compile Include="Quote.cs" />
     <Compile Include="SignedRequestHelper.cs" />
     <Compile Include="Track.cs" />
+    <Compile Include="URLClean.cs" />
     <Compile Include="WordLink.cs" />
   </ItemGroup>
   <ItemGroup>
