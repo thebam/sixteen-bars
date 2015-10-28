@@ -91,7 +91,7 @@ namespace sixteenBars.Controllers
 
             artistname = URLClean.Clean(artistname);
 
-            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.Replace(".","").Replace(",","").ToLower() == artistname.ToLower().Trim());
+            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").ToLower() == artistname.ToLower().Trim());
 
             ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
             if (artist == null)

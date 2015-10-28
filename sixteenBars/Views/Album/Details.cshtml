@@ -1,5 +1,5 @@
 ﻿@model sixteenBars.Models.AlbumDetailsViewModel
-
+@using sixteenBars.Library;
 
 <h1>Album Details</h1>
 @if (Model != null)
@@ -24,7 +24,7 @@
                     <p>
                         @if (Model.ArtistId != null && Model.ArtistName !=null)
                         {
-                            <strong>Artist</strong> @Html.ActionLink(Model.ArtistName, "Details", "Artist", new { id = Model.ArtistId }, null)
+                            <strong>Artist</strong> @Html.ActionLink(Model.ArtistName, URLClean.Clean(Model.ArtistName), "Artists")
                         }
                     </p>
                     <p>

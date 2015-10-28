@@ -1,5 +1,5 @@
 ﻿@model sixteenBars.Library.Track
-
+@using sixteenBars.Library;
 <h1>Track Details</h1>
 @if(Model != null){
 
@@ -29,7 +29,7 @@
                             Artist :
                         </strong>
 
-                        @Html.ActionLink(@Model.Album.Artist.Name, "details", "artist", new { id = @Model.Album.Artist.Id }, null)
+                        @Html.ActionLink(Model.Album.Artist.Name, URLClean.Clean(Model.Album.Artist.Name), "Artists")
                     </p>
 
                     <p>

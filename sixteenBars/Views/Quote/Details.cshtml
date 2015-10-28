@@ -1,12 +1,12 @@
 ﻿@model sixteenBars.Models.QuoteViewModel
-
+@using sixteenBars.Library;
 
 <h1>Quote Details</h1>
 @if (Model.Id > 0)
 {
     <h2>
         "@Html.Raw(Model.Text)" -
-        @Html.ActionLink(Model.ArtistName, "details", "artist", new { id = Model.ArtistId }, null)
+        @Html.ActionLink(Model.ArtistName, URLClean.Clean(Model.ArtistName), "Artists")
     </h2>
 
 
@@ -57,7 +57,7 @@
                         </strong>
 
 
-                        @Html.ActionLink(Model.AlbumArtistName, "details", "artist", new { id = Model.AlbumArtistId }, null)
+                        @Html.ActionLink(Model.ArtistName, URLClean.Clean(Model.ArtistName), "Artists")
                     </p>
                 
                     <p>

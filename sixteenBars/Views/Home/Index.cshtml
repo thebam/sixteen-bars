@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<sixteenBars.Library.Quote>
+@using sixteenBars.Library;
 <div class="container quote-blocks">
     @Html.Raw("<div class=\"col-md-4\">")
     @{ var cnt = 0; }
@@ -13,7 +14,7 @@
 
         <div class="quote-block">
             <div class="artist-info">
-                @Html.ActionLink(item.Artist.Name, "details", "Artist", new { id = item.Artist.Id }, null)
+                @Html.ActionLink(item.Artist.Name, URLClean.Clean(item.Artist.Name),"Artists")
             </div>
             <div class="quote-info">
                 <span class="quote">@Html.Raw(item.Text)</span><br />

@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<sixteenBars.Library.Quote>
 @using PagedList.Mvc;
+@using sixteenBars.Library;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <h1>Quotes</h1>
 @if (Model != null) {
@@ -16,7 +17,7 @@
             <span class="quote">@Html.DisplayFor(modelItem => item.Text)</span> <br />@Html.ActionLink("details", "Details", new { id = item.Id })
         </div>
         <div class="col-md-2">
-            Artist : @Html.ActionLink(item.Artist.Name, "details", "artist", new { id = item.Artist.Id }, null)
+            Artist : @Html.ActionLink(item.Artist.Name, URLClean.Clean(item.Artist.Name), "Artists")
         </div>
         <div class="col-md-3">
             Track : @Html.ActionLink(item.Track.Title, "details", "track", new { id = item.Track.Id }, null)

@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<sixteenBars.Models.AlbumIndexViewModel>
 @using PagedList.Mvc;
+@using sixteenBars.Library;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <h2>Albums</h2>
@@ -19,7 +20,7 @@
                     @Html.DisplayFor(modelItem => item.Title)<br />@Html.ActionLink("details", "Details", new { id = item.Id })
                 </div>
                 <div class="col-md-3">
-                    Artist : @Html.ActionLink(item.ArtistName, "Details", "Artist", new { id = item.ArtistId }, null)
+                    Artist : @Html.ActionLink(item.ArtistName, URLClean.Clean(item.ArtistName), "Artists")
                 </div>
                 <div class="col-md-1">
 
