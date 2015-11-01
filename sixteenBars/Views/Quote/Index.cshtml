@@ -22,7 +22,7 @@
             Artist : @Html.ActionLink(item.Artist.Name, URLClean.Clean(item.Artist.Name), "Artists")
         </div>
         <div class="col-md-3">
-            Track : @Html.ActionLink(item.Track.Title, "details", "track", new { id = item.Track.Id }, null)
+            Track : @Html.ActionLink(item.Track.Title, URLClean.Clean(item.Track.Album.Title) + "/" + URLClean.Clean(item.Track.Title), "Tracks")
         </div>
         <div class="col-md-1">
             @if (User.IsInRole("admin") || User.IsInRole("editor"))

@@ -65,7 +65,7 @@
                             Track :
                         </strong>
 
-                        @Html.ActionLink(Model.TrackName, "details", "track", new { id = Model.TrackId }, null)
+                        @Html.ActionLink(Model.TrackName, URLClean.Clean(Model.AlbumName) + "/" + URLClean.Clean(Model.TrackName), "Tracks")
                     </p>
                 
                     <div class="ng-cloak" ng-cloak ng-show="amzProductFound">
