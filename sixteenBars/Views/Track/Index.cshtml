@@ -24,7 +24,7 @@
                     @Html.DisplayFor(modelItem => item.Title)<br />@Html.ActionLink("details", URLClean.Clean(item.AlbumTitle) + "/" + URLClean.Clean(item.Title), "Tracks")
                 </div>
                 <div class="col-md-4">
-                    Album : @Html.ActionLink(item.AlbumTitle, "Details", "Album", new { id = item.AlbumId }, null)
+                    Album : @Html.ActionLink(item.AlbumTitle, URLClean.Clean(item.ArtistName) + "/" + URLClean.Clean(item.AlbumTitle), "Albums")
                 </div>
                 <div class="col-md-3">
                     Artist : @Html.ActionLink(item.ArtistName, URLClean.Clean(item.ArtistName), "Artists")

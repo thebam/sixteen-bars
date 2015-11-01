@@ -22,7 +22,7 @@
                     <p>
                         <strong>
                             Album :</strong>
-                            @Html.ActionLink(@Model.Album.Title, "details", "album", new { id = @Model.Album.Id }, null)</p>
+                    @Html.ActionLink(Model.Album.Title, URLClean.Clean(Model.Album.Artist.Name) + "/" + URLClean.Clean(Model.Album.Title), "Albums")</p>
 
                     <p>
                         <strong>

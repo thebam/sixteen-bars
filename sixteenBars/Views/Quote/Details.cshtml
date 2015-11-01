@@ -48,7 +48,7 @@
                         </strong>
 
 
-                        @Html.ActionLink(Model.AlbumName, "details", "album", new { id = Model.AlbumId }, null)
+                        @Html.ActionLink(Model.AlbumName, URLClean.Clean(Model.AlbumArtistName) + "/" + URLClean.Clean(Model.AlbumName), "Albums")
                     </p>
                 
                     <p>

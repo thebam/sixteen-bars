@@ -108,9 +108,9 @@ namespace sixteenBars.Controllers
             ViewBag.MetaDescription = "Hip-Hop album";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
-            Album album = _db.Albums.SingleOrDefault(a => a.Artist.Name.ToLower() == artistname.ToLower().Trim() && a.Title.ToLower() == albumtitle.ToLower().Trim());
+            Album album = _db.Albums.SingleOrDefault(a => a.Artist.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").ToLower() == artistname.ToLower().Trim() && a.Title.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").ToLower() == albumtitle.ToLower().Trim());
             AlbumDetailsViewModel albumViewModel = new AlbumDetailsViewModel();
-            if (album.Id > 0)
+            if (album!=null)
             {
                 ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
                 ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
