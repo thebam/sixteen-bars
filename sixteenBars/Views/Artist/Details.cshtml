@@ -1,5 +1,5 @@
 ﻿@model sixteenBars.Models.ArtistDetailViewModel
-
+@using sixteenBars.Library;
 
 <h1>Artist Details</h1>
 @if (Model.Id > 0 && !String.IsNullOrEmpty(Model.Name))
@@ -28,7 +28,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <span class="quote">@Html.Raw(item.Text) </span>
-                            @Html.ActionLink("details", "Details", "Quote", new { id = item.Id }, null)
+                            
+                            @Html.ActionLink("details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(item.Text), "Quotes")
                         </div>
                     </div>
                 }

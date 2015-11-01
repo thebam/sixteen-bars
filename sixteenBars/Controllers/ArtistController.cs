@@ -79,9 +79,16 @@ namespace sixteenBars.Controllers
                 artistVM.Name = artist.Name;
                 artistVM.Albums = _db.Albums.Where(a
                     => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
-                if (isExplicit.Value == "explicit")
+                if (isExplicit != null)
                 {
-                    artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+                    if (isExplicit.Value == "explicit")
+                    {
+                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+                    }
+                    else
+                    {
+                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
+                    }
                 }
                 else {
                     artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
@@ -96,6 +103,7 @@ namespace sixteenBars.Controllers
             ViewBag.MetaDescription = "Hip-Hop artist or rapper";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             HttpCookie isExplicit = Request.Cookies["explicit"];
+            
             artistname = URLClean.Clean(artistname);
 
             Artist artist = _db.Artists.SingleOrDefault(a => a.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").ToLower() == artistname.ToLower().Trim());
@@ -114,12 +122,18 @@ namespace sixteenBars.Controllers
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;
                 artistVM.Albums = _db.Albums.Where(a => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
-                if (isExplicit.Value == "explicit")
+                if (isExplicit != null)
                 {
-                    artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+                    if (isExplicit.Value == "explicit")
+                    {
+                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+                    }
+                    else
+                    {
+                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
+                    }
                 }
-                else
-                {
+                else {
                     artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
                 }
             }

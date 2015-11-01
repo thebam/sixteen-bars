@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<sixteenBars.Library.Quote>
 @using sixteenBars.Library;
+@using System.Text.RegularExpressions;
 <div class="container quote-blocks">
     @Html.Raw("<div class=\"col-md-4\">")
     @{ var cnt = 0; }
@@ -18,7 +19,7 @@
             </div>
             <div class="quote-info">
                 <span class="quote">@Html.Raw(item.Text)</span><br />
-                @Html.ActionLink("details", "details","Quote", new { id = item.Id }, new { @class = "btn btn-standard" })
+                @Html.ActionLink("details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(Regex.Replace(item.Text, "<.*?>", string.Empty)), "Quotes", new { @class = "btn btn-standard" })
             </div><div class="clearfix"></div>
         </div>
 
