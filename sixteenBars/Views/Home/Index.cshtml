@@ -19,7 +19,7 @@
             </div>
             <div class="quote-info">
                 <span class="quote">@Html.Raw(item.Text)</span><br />
-                @Html.ActionLink("details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(Regex.Replace(item.Text, "<.*?>", string.Empty)), "Quotes", new { @class = "btn btn-standard" })
+                @Html.ActionLink("details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(Regex.Replace(item.Text, "<.*?>", string.Empty)), "Quotes",null, new { @class = "btn btn-standard" })
             </div><div class="clearfix"></div>
         </div>
 
