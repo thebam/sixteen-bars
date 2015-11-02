@@ -10,5 +10,6 @@ namespace sixteenBars.Models
         public Int32 Id { get; set; }
         public String ResultType { get; set; }
         public String Text { get; set; }
+        public String URL { get; set; }
     }
 }

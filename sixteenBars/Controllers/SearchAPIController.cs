@@ -78,7 +78,8 @@ namespace sixteenBars.Controllers
                                              {
                                                  Id = q.Id,
                                                  ResultType = "quote",
-                                                 Text = q.Text + " - " + q.Artist.Name
+                                                 Text = q.Text + " - " + q.Artist.Name,
+                                                 URL = "Quotes/"+q.Artist.Name+ "/" +q.Text
                                              }).ToList();
                         }
                         else
@@ -89,7 +90,8 @@ namespace sixteenBars.Controllers
                                              {
                                                  Id = q.Id,
                                                  ResultType = "quote",
-                                                 Text = q.Text + " - " + q.Artist.Name
+                                                 Text = q.Text + " - " + q.Artist.Name,
+                                                 URL = "Quotes/" + q.Artist.Name + "/" + q.Text
                                              }).ToList();
                         }
 
@@ -99,7 +101,8 @@ namespace sixteenBars.Controllers
                                          {
                                              Id = t.Id,
                                              ResultType = "track",
-                                             Text = t.Title + " - " + t.Album.Artist.Name
+                                             Text = t.Title + " - " + t.Album.Artist.Name,
+                                             URL = "Tracks/" + t.Album.Title+ "/" + t.Title
                                          }).ToList();
                         resultsAlbums = (from a in _db.Albums
                                          where a.Title.Contains(searchTerm) && a.Enabled == true
@@ -107,7 +110,8 @@ namespace sixteenBars.Controllers
                                          {
                                              Id = a.Id,
                                              ResultType = "album",
-                                             Text = a.Title + " - " + a.Artist.Name
+                                             Text = a.Title + " - " + a.Artist.Name,
+                                             URL = "Albums/" + a.Artist.Name + "/" + a.Title
                                          }).ToList();
                         resultsArtists = (from a in _db.Artists
                                           where a.Name.Contains(searchTerm) && a.Enabled == true
@@ -115,9 +119,29 @@ namespace sixteenBars.Controllers
                                           {
                                               Id = a.Id,
                                               ResultType = "artist",
-                                              Text = a.Name
+                                              Text = a.Name,
+                                              URL = "Artists/" + a.Name
                                           }).ToList();
-                        results = resultsQuotes.Concat(resultsTracks).Concat(resultsAlbums).Concat(resultsArtists).ToList();
+                        //results = resultsQuotes.Concat(resultsTracks).Concat(resultsAlbums).Concat(resultsArtists).ToList();
+                        foreach (var result in resultsQuotes){
+                            result.URL = URLClean.Clean(result.URL);
+                            results.Add(result);
+                        }
+                        foreach (var result in resultsTracks)
+                        {
+                            result.URL = URLClean.Clean(result.URL);
+                            results.Add(result);
+                        }
+                        foreach (var result in resultsAlbums)
+                        {
+                            result.URL = URLClean.Clean(result.URL);
+                            results.Add(result);
+                        }
+                        foreach (var result in resultsArtists)
+                        {
+                            result.URL = URLClean.Clean(result.URL);
+                            results.Add(result);
+                        }
                         JsonResult jsonCombinedResult = new JsonResult();
                         jsonCombinedResult.Data = results;
                         jsonCombinedResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
