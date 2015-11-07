@@ -27,9 +27,7 @@
                 {
                     <div class="row">
                         <div class="col-md-12">
-                            <span class="quote">@Html.Raw(item.Text) </span>
-                            
-                            @Html.ActionLink("details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(item.Text), "Quotes")
+                            <span class="quote">@Html.ActionLink(item.Text, URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(item.Text), "Quotes")</span>
                         </div>
                     </div>
                 }

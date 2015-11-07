@@ -32,7 +32,7 @@ function getQuoteByKeyword(keyword) {
                     artistLink = this.Link;
                 }
             });
-            var block = "<div class='quote-block'><div class='artist-info'><a href='" + siteURL +"/"+ artistLink + "'>"+artistName+"</a></div><div class='quote-info'><span class='quote'>" + this.Text + "</span><br><a class='btn btn-standard' href='" + siteURL + "/" + this.URL + "'>details</a></div><div class='clearfix'></div></div>";
+            var block = "<div class='quote-block'><div class='artist-info'><a href='" + siteURL +"/"+ artistLink + "'>"+artistName+"</a></div><div class='quote-info'><span class='quote'>" + this.Text + "</span><br><a class='btn btn-standard' href='" + siteURL + "/" + this.URL + "'>quote details</a></div><div class='clearfix'></div></div>";
 
             $(block).appendTo(".quote-blocks .col-md-4:nth-of-type(" + cnt + ")");
             cnt++;

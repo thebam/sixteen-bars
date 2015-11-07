@@ -21,7 +21,7 @@
         {
             <div class="row">
                 <div class="col-md-4">
-                    @Html.DisplayFor(modelItem => item.Title)<br />@Html.ActionLink("details", URLClean.Clean(item.AlbumTitle) + "/" + URLClean.Clean(item.Title), "Tracks")
+                    @Html.ActionLink(item.Title, URLClean.Clean(item.AlbumTitle) + "/" + URLClean.Clean(item.Title), "Tracks")
                 </div>
                 <div class="col-md-4">
                     Album : @Html.ActionLink(item.AlbumTitle, URLClean.Clean(item.ArtistName) + "/" + URLClean.Clean(item.AlbumTitle), "Albums")
