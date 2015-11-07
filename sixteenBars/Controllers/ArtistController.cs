@@ -206,7 +206,7 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             if (ModelState.IsValid)
             {
-                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name);
+                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name && a.Id != artist.Id);
                 Artist previousArtist = null;
                 if (tempArtist == null)
                 {

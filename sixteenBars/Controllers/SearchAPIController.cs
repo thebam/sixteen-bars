@@ -29,39 +29,70 @@ namespace sixteenBars.Controllers
             List<SearchResult> results = new List<SearchResult>();
             switch (searchType)
             {
-                case "album":
-                    SearchResults = (from q in _db.Quotes
-                                     where q.Track.Album.Title.Contains(searchTerm) 
-                                     select q).ToList();
-                    break;
-                case "artist":
-                    SearchResults = (from q in _db.Quotes
-                                     where q.Artist.Name.Contains(searchTerm) 
-                                     select q).ToList();
-                    break;
-                case "track":
-                    SearchResults = (from q in _db.Quotes
-                                     where q.Track.Title.Contains(searchTerm) 
-                                     select q).ToList();
-                    break;
+                //case "album":
+                //    SearchResults = (from q in _db.Quotes
+                //                     where q.Track.Album.Title.Contains(searchTerm) 
+                //                     select q).ToList();
+                //    break;
+                //case "artist":
+                //    SearchResults = (from q in _db.Quotes
+                //                     where q.Artist.Name.Contains(searchTerm) 
+                //                     select q).ToList();
+                //    break;
+                //case "track":
+                //    SearchResults = (from q in _db.Quotes
+                //                     where q.Track.Title.Contains(searchTerm) 
+                //                     select q).ToList();
+                //    break;
                 default:
                     if (wordLink)
                     {
                         if (filter)
                         {
-                            SearchResults = (from q in _db.Quotes
-                                             where q.Text.Contains(searchTerm) && q.Enabled == true
-                                             select q).ToList();
+                            results = (from q in _db.Quotes
+                                       where q.Text.Contains(searchTerm) && q.Enabled == true
+                                       select new SearchResult
+                                       {
+                                           Id = q.Id,
+                                           ResultType = "quote",
+                                           Text = q.Text,
+                                           URL = "Quotes/" + q.Artist.Name + "/" + q.Text,
+                                           AdditionalURLS = new List<AdditionalURL>(){
+                                               new AdditionalURL{
+                                                   Type = "artist",
+                                                   Text = q.Artist.Name,
+                                                   Link = "Artists/" + q.Artist.Name
+                                               }
+                                           }
+                                       }).ToList();
                         }
                         else
                         {
-                            SearchResults = (from q in _db.Quotes
+                            results = (from q in _db.Quotes
                                              where q.Text.Contains(searchTerm) && q.Enabled == true && q.Explicit == false
-                                             select q).ToList();
+                                             select new SearchResult
+                                             {
+                                                 Id = q.Id,
+                                                 ResultType = "quote",
+                                                 Text = q.Text,
+                                                 URL = "Quotes/" + q.Artist.Name + "/" + q.Text,
+                                                 AdditionalURLS = new List<AdditionalURL>(){
+                                               new AdditionalURL{
+                                                   Type = "artist",
+                                                   Text = q.Artist.Name,
+                                                   Link = "Artists/" + q.Artist.Name
+                                               }
+                                           }
+                                             }).ToList();
                         }
-                        foreach (Quote result in SearchResults)
+                        foreach (SearchResult result in results)
                         {
                             result.Text = WordLink.CreateLinks(result.Text);
+                            result.URL = URLClean.Clean(result.URL);
+                            foreach (AdditionalURL addURL in result.AdditionalURLS)
+                            {
+                                addURL.Link = URLClean.Clean(addURL.Link);
+                            }
                         }
                     }
                     else {
@@ -152,7 +183,7 @@ namespace sixteenBars.Controllers
             }
 
             JsonResult jsonResult = new JsonResult();
-            jsonResult.Data = SearchResults;
+            jsonResult.Data = results;
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return jsonResult;
         } 
