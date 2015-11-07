@@ -21,6 +21,8 @@ function getQuoteByKeyword(keyword) {
         var cnt = 1;
         $(".quote-blocks .col-md-4").html("");
 
+        $("h1").html("Rap Quotes Containing '<em>" + keyword + "'</em>");
+
         $.each(data.Data, function (key, val) {
 
             var artistName = "";
