@@ -32,7 +32,7 @@ namespace sixteenBars.Controllers
         public ActionResult Index(int? page)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Artists";
-            ViewBag.MetaDescription = "List of Hip-Hop artists and rappers";
+            ViewBag.MetaDescription = "A list of Hip-Hop artists and rappers linked to more details about their quotes.";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -71,9 +71,9 @@ namespace sixteenBars.Controllers
             }
             else {
 
-                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name;
-                ViewBag.MetaDescription = "Quotes and albums from Hip-Hop artist " + artist.Name;
-                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music, quote, album";
+                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name + " : Quotes and Albums";
+                ViewBag.MetaDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music,quote,quotes,album";
 
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;
@@ -106,7 +106,7 @@ namespace sixteenBars.Controllers
             
             artistname = URLClean.Clean(artistname);
 
-            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").ToLower() == artistname.ToLower().Trim());
+            Artist artist = _db.Artists.SingleOrDefault(a => a.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").ToLower() == artistname.ToLower().Trim());
 
             ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
             if (artist == null)
@@ -115,9 +115,9 @@ namespace sixteenBars.Controllers
             }
             else
             {
-                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name;
-                ViewBag.MetaDescription = "Quotes and albums from Hip-Hop artist " + artist.Name;
-                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music,quote,album";
+                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name + " : Quotes and Albums";
+                ViewBag.MetaDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music,quote,quotes,album";
 
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;

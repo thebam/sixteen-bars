@@ -1,12 +1,12 @@
 ﻿@model sixteenBars.Models.ArtistDetailViewModel
 @using sixteenBars.Library;
 
-<h1>Artist Details</h1>
+<h1>
+    @Html.DisplayFor(model => model.Name)
+</h1>
 @if (Model.Id > 0 && !String.IsNullOrEmpty(Model.Name))
 {
-    <h2>
-        @Html.DisplayFor(model => model.Name)
-    </h2>
+    
 
     <div id="artistInfo" class="artist-block">
     </div>
@@ -14,7 +14,7 @@
 
     <div style="clear:both">
         <hr />
-        <h3>Quotes</h3>
+        <h2>Quotes</h2>
 
         @if (Model.Quotes.Count < 1)
         {
@@ -36,7 +36,7 @@
 
     </div>
     <div style="clear:both;margin-bottom:15px;">
-        <h3>Albums</h3>
+        <h2>Albums</h2>
 
         @if (Model.Albums.Count < 1)
         {

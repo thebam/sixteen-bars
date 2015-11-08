@@ -1,15 +1,14 @@
 ﻿@model sixteenBars.Models.AlbumDetailsViewModel
 @using sixteenBars.Library;
 
-<h1>Album Details</h1>
 @if (Model != null)
 {
 
     <div id="trackApp">
         <div ng-controller="AlbumController">
-            <h2>
+            <h1>
                 @Html.DisplayFor(model => model.Title)
-            </h2>
+            </h1>
             @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.Title)), style = "display:none;" })
             @Html.TextBoxFor(model => model.ArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.ArtistName)), style = "display:none;" })
             <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />

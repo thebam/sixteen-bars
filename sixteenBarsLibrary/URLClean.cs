@@ -8,7 +8,7 @@ namespace sixteenBars.Library
     static public class URLClean
     {
         public static String Clean(String queryvalue) {
-            return queryvalue.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "");
+            return queryvalue.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "");
         }
     }
 }

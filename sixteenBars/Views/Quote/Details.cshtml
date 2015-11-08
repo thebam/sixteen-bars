@@ -1,24 +1,15 @@
 ﻿@model sixteenBars.Models.QuoteViewModel
 @using sixteenBars.Library;
 
-<h1>Quote Details</h1>
 @if (Model.Id > 0)
 {
-    <h2>
+    <h1>
         "@Html.Raw(Model.Text)" -
         @Html.ActionLink(Model.ArtistName, URLClean.Clean(Model.ArtistName), "Artists")
-    </h2>
+    </h1>
 
 
 
-    <div class="row" style="margin-bottom:15px;">
-        <div class="col-md-12">
-            <div class="fb-share-button"
-                 data-href=""
-                 data-layout="button_count">
-            </div>
-        </div>
-    </div>
 
     if (!String.IsNullOrEmpty(Model.Explanation))
     {
@@ -121,25 +112,6 @@ else
             }
             window.location.href = siteURL + "?word=" + txt;
         });
-
-        $(".fb-share-button").attr("data-href", window.location.href);
-
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '1474377432864288',
-                xfbml: true,
-                version: 'v2.4'
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
 
 
 

@@ -1,12 +1,11 @@
 ﻿@model sixteenBars.Library.Track
 @using sixteenBars.Library;
-<h1>Track Details</h1>
 @if(Model != null){
 
 
-    <h2>
+    <h1>
         @Html.DisplayFor(model => model.Title)
-    </h2>
+    </h1>
     <div id="trackApp">
         <div ng-controller="AlbumController">
             <div class="row lower-details">
