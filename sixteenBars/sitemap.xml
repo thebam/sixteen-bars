@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+   <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <sitemap>
+      <loc>http://www.rhyme4rhyme.com/Sitemap/index?mapType=album"</loc>
+      <lastmod>2015-11-08</lastmod>
+   </sitemap>
+   <sitemap>
+      <loc>http://www.rhyme4rhyme.com/Sitemap/index?mapType=artist</loc>
+      <lastmod>2005-11-08</lastmod>
+   </sitemap>
+      <sitemap>
+      <loc>http://www.rhyme4rhyme.com/Sitemap/index?mapType=quote</loc>
+      <lastmod>2005-11-08</lastmod>
+   </sitemap>
+   <sitemap>
+      <loc>http://www.rhyme4rhyme.com/Sitemap/index?mapType=track</loc>
+      <lastmod>2005-11-08</lastmod>
+   </sitemap>
+      <sitemap>
+      <loc>http://www.rhyme4rhyme.com/sitemap-general.xml</loc>
+      <lastmod>2005-11-08</lastmod>
+   </sitemap>
+   </sitemapindex>

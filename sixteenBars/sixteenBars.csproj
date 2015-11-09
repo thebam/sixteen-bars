@@ -221,6 +221,7 @@
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\QuoteAPIController.cs" />
     <Compile Include="Controllers\SearchAPIController.cs" />
+    <Compile Include="Controllers\SitemapController.cs" />
     <Compile Include="Controllers\TrackAPIController.cs" />
     <Compile Include="Migrations\201507251843103_initial.cs" />
     <Compile Include="Migrations\201507251843103_initial.Designer.cs">
@@ -294,10 +295,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="google637ceae3e100e750.html" />
     <Content Include="Images\buy2._V192207737_.gif" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\rhyme-4-rhyme-favicon.png" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -1116,6 +1119,8 @@
     <Content Include="Scripts\sixteenbars-track-exists.js" />
     <Content Include="Scripts\sixteenbars-utilities.js" />
     <Content Include="Scripts\sixteenbars.js" />
+    <Content Include="sitemap-general.xml" />
+    <Content Include="sitemap.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
