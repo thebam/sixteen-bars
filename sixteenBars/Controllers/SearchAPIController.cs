@@ -56,12 +56,12 @@ namespace sixteenBars.Controllers
                                            Id = q.Id,
                                            ResultType = "quote",
                                            Text = q.Text,
-                                           URL = "Quotes/" + q.Artist.Name + "/" + q.Text,
+                                           URL = "Quotes-slash-" + q.Artist.Name + "-slash-" + q.Text,
                                            AdditionalURLS = new List<AdditionalURL>(){
                                                new AdditionalURL{
                                                    Type = "artist",
                                                    Text = q.Artist.Name,
-                                                   Link = "Artists/" + q.Artist.Name
+                                                   Link = "Artists-slash-" + q.Artist.Name
                                                }
                                            }
                                        }).ToList();
@@ -75,12 +75,12 @@ namespace sixteenBars.Controllers
                                                  Id = q.Id,
                                                  ResultType = "quote",
                                                  Text = q.Text,
-                                                 URL = "Quotes/" + q.Artist.Name + "/" + q.Text,
+                                                 URL = "Quotes-slash-" + q.Artist.Name + "-slash-" + q.Text,
                                                  AdditionalURLS = new List<AdditionalURL>(){
                                                new AdditionalURL{
                                                    Type = "artist",
                                                    Text = q.Artist.Name,
-                                                   Link = "Artists/" + q.Artist.Name
+                                                   Link = "Artists-slash-" + q.Artist.Name
                                                }
                                            }
                                              }).ToList();
@@ -88,10 +88,10 @@ namespace sixteenBars.Controllers
                         foreach (SearchResult result in results)
                         {
                             result.Text = WordLink.CreateLinks(result.Text);
-                            result.URL = URLClean.Clean(result.URL);
+                            result.URL = URLClean.Clean(result.URL).Replace("-slash-", "/");
                             foreach (AdditionalURL addURL in result.AdditionalURLS)
                             {
-                                addURL.Link = URLClean.Clean(addURL.Link);
+                                addURL.Link = URLClean.Clean(addURL.Link).Replace("-slash-", "/");
                             }
                         }
                     }
@@ -110,7 +110,7 @@ namespace sixteenBars.Controllers
                                                  Id = q.Id,
                                                  ResultType = "quote",
                                                  Text = q.Text + " - " + q.Artist.Name,
-                                                 URL = "Quotes/"+q.Artist.Name+ "/" +q.Text
+                                                 URL = "Quotes-slash-"+q.Artist.Name+ "-slash-" +q.Text
                                              }).ToList();
                         }
                         else
@@ -122,7 +122,7 @@ namespace sixteenBars.Controllers
                                                  Id = q.Id,
                                                  ResultType = "quote",
                                                  Text = q.Text + " - " + q.Artist.Name,
-                                                 URL = "Quotes/" + q.Artist.Name + "/" + q.Text
+                                                 URL = "Quotes-slash-" + q.Artist.Name + "-slash-" + q.Text
                                              }).ToList();
                         }
 
@@ -133,7 +133,7 @@ namespace sixteenBars.Controllers
                                              Id = t.Id,
                                              ResultType = "track",
                                              Text = t.Title + " - " + t.Album.Artist.Name,
-                                             URL = "Tracks/" + t.Album.Title+ "/" + t.Title
+                                             URL = "Tracks-slash-" + t.Album.Title+ "-slash-" + t.Title
                                          }).ToList();
                         resultsAlbums = (from a in _db.Albums
                                          where a.Title.Contains(searchTerm) && a.Enabled == true
@@ -142,7 +142,7 @@ namespace sixteenBars.Controllers
                                              Id = a.Id,
                                              ResultType = "album",
                                              Text = a.Title + " - " + a.Artist.Name,
-                                             URL = "Albums/" + a.Artist.Name + "/" + a.Title
+                                             URL = "Albums-slash-" + a.Artist.Name + "-slash-" + a.Title
                                          }).ToList();
                         resultsArtists = (from a in _db.Artists
                                           where a.Name.Contains(searchTerm) && a.Enabled == true
@@ -151,26 +151,26 @@ namespace sixteenBars.Controllers
                                               Id = a.Id,
                                               ResultType = "artist",
                                               Text = a.Name,
-                                              URL = "Artists/" + a.Name
+                                              URL = "Artists-slash-" + a.Name
                                           }).ToList();
                         //results = resultsQuotes.Concat(resultsTracks).Concat(resultsAlbums).Concat(resultsArtists).ToList();
                         foreach (var result in resultsQuotes){
-                            result.URL = URLClean.Clean(result.URL);
+                            result.URL = URLClean.Clean(result.URL).Replace("-slash-","/");
                             results.Add(result);
                         }
                         foreach (var result in resultsTracks)
                         {
-                            result.URL = URLClean.Clean(result.URL);
+                            result.URL = URLClean.Clean(result.URL).Replace("-slash-", "/");
                             results.Add(result);
                         }
                         foreach (var result in resultsAlbums)
                         {
-                            result.URL = URLClean.Clean(result.URL);
+                            result.URL = URLClean.Clean(result.URL).Replace("-slash-", "/");
                             results.Add(result);
                         }
                         foreach (var result in resultsArtists)
                         {
-                            result.URL = URLClean.Clean(result.URL);
+                            result.URL = URLClean.Clean(result.URL).Replace("-slash-", "/");
                             results.Add(result);
                         }
                         JsonResult jsonCombinedResult = new JsonResult();
