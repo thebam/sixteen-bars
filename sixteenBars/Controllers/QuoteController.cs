@@ -64,6 +64,18 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Quotes";
             ViewBag.MetaDescription = "List of Hip-Hop quotes";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
+            ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
+
+            ViewBag.OGTitle = "Rap/Hip Hop Quotes";
+            ViewBag.OGDescription = "List of Rap/Hip-Hop quotes from various artists.";
+            ViewBag.OGURL = "http://www.rhyme4rhyme.com/quote";
+            ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+            ViewBag.OGAppID = "1474377432864288";
+
+            ViewBag.TwitterTitle = "Rap/Hip Hop Quotes";
+            ViewBag.TwitterDescription = "List of Rap/Hip-Hop quotes from various artists.";
+            ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -96,16 +108,45 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Quote";
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
+            ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
+
+            ViewBag.OGTitle = "Rap/Hip Hop Quotes";
+            ViewBag.OGDescription = "List of Rap/Hip-Hop quotes from various artists.";
+            ViewBag.OGURL = "http://www.rhyme4rhyme.com/quote";
+            ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+            ViewBag.OGAppID = "1474377432864288";
+
+            ViewBag.TwitterTitle = "Rap/Hip Hop Quotes";
+            ViewBag.TwitterDescription = "List of Rap/Hip-Hop quotes from various artists.";
+            ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
             Quote quote = _db.Quotes.Find(id);
             QuoteViewModel quoteVM = new QuoteViewModel();
             if (quote != null)
             {
-                ViewBag.Title = "Rhyme 4 Rhyme : " + quote.Artist.Name + " : " + quote.Text;
+                ViewBag.Title = quote.Artist.Name + " : " + quote.Text;
                 ViewBag.MetaDescription = quote.Text + " - Hip-Hop quote said by " + quote.Artist.Name + " on track " + quote.Track.Title;
                 ViewBag.MetaKeywords = quote.Text +", " +quote.Artist.Name+ ", "+ quote.Track.Title +",Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
-                ViewBag.OGTitle = "Quote from Hip-Hop Artist " + quote.Artist.Name;
+                ViewBag.OGTitle = quote.Artist.Name + " : " + quote.Text;
                 ViewBag.OGDescription = "\"" +quote.Text + "\" from track " + quote.Track.Title;
                 ViewBag.OGAppID = "1474377432864288";
+
+
+                ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
+
+
+                ViewBag.OGURL = "http://www.rhyme4rhyme.com/quotes/" + URLClean.Clean(quote.Artist.Name) + "/" + URLClean.Clean(quote.Text);
+                ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
+                ViewBag.TwitterTitle = quote.Artist.Name + " : " + quote.Text;
+                ViewBag.TwitterDescription = "\"" + quote.Text + "\" from track " + quote.Track.Title;
+                ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = WordLink.CreateLinks(quote.Text);
 
@@ -140,7 +181,17 @@ namespace sixteenBars.Controllers
                 ViewBag.OGTitle = "Quote from Hip-Hop Artist " + quote.Artist.Name;
                 ViewBag.OGDescription = "\"" + quote.Text + "\" from track " + quote.Track.Title;
                 ViewBag.OGAppID = "1474377432864288";
+                ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
 
+
+                ViewBag.OGURL = "http://www.rhyme4rhyme.com/quotes/" + URLClean.Clean(quote.Artist.Name) + "/" + URLClean.Clean(quote.Text);
+                ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
+                ViewBag.TwitterTitle = quote.Artist.Name + " : " + quote.Text;
+                ViewBag.TwitterDescription = "\"" + quote.Text + "\" from track " + quote.Track.Title;
+                ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
 
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));

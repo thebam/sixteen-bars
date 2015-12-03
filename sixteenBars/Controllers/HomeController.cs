@@ -19,7 +19,7 @@ namespace sixteenBars.Controllers
 
             ViewBag.OGTitle = "Rhyme 4 Rhyme";
             ViewBag.OGDescription = "Rhyme 4 Rhyme is a collection of witty quotes from rap lyrics.";
-            @ViewBag.OGURL = "http://www.rhyme4rhyme.com";
+            ViewBag.OGURL = "http://www.rhyme4rhyme.com";
             ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
 
             ViewBag.OGAppID = "1474377432864288";
