@@ -128,7 +128,7 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Quote";
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
-            Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").ToLower() == speakername.ToLower().Trim() && q.Text.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").ToLower().StartsWith(quotetext.Trim()));
+            Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#","").ToLower() == speakername.ToLower().Trim() && q.Text.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#","").ToLower().StartsWith(quotetext.Trim()));
             QuoteViewModel quoteVM = new QuoteViewModel();
             if (quote != null)
             {

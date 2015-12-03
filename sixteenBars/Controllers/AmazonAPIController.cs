@@ -32,7 +32,7 @@ namespace sixteenBars.Controllers
                         + "&Operation=ItemSearch"
                         + "&SearchIndex=MP3Downloads"
                         + "&ResponseGroup=ItemAttributes,Images"
-                        + "&Keywords=" + title + " " + artist
+                         + "&Keywords=" + title + " " + artist
                         + "&AssociateTag=" + AssociateTag;
             }
             else {
