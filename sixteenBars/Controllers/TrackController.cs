@@ -75,7 +75,7 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Track/Song";
             ViewBag.MetaDescription = "Hip-Hop track/song";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
-            Track track = _db.Tracks.SingleOrDefault(t => t.Album.Title.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#","").ToLower() == albumtitle.ToLower().Trim() && t.Title.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#","").ToLower() == tracktitle.ToLower().Trim());
+            Track track = _db.Tracks.SingleOrDefault(t => t.Album.Title.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#", "").Replace(" ", "_").ToLower() == albumtitle.ToLower().Trim() && t.Title.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#", "").Replace(" ", "_").ToLower() == tracktitle.ToLower().Trim());
             if (track != null)
             {
 
