@@ -26,10 +26,7 @@
 
             <div class="row lower-details">
                 <div class="col-md-3 albumArt">
-                    <div class="ng-cloak notAvailable" ng-cloak ng-show="amzNoProductFound">
-                        Album Art Not Found
-                    </div>
-                    <img class="ng-cloak" ng-cloak ng-show="amzProductFound" src="{{amzAlbumArt}}" />
+                    <img src="@Html.Raw(ViewBag.AlbumImage)" />
                 </div>
 
                 <div class="col-md-9">
@@ -58,16 +55,14 @@
 
                         @Html.ActionLink(Model.TrackName, URLClean.Clean(Model.AlbumName) + "/" + URLClean.Clean(Model.TrackName), "Tracks")
                     </p>
-                
-                    <div class="ng-cloak" ng-cloak ng-show="amzProductFound">
+                    @if (ViewBag.PurchaseLinks.Length>0)
+                    { 
+                    <div>
                         <hr />
                         <h4>Get This Track</h4>
-                        <div ng-repeat="product in amzProducts">
-                            <p>
-                                <a href="{{product.URL}}" target="_blank">{{product.Title}}<br /><img src="~/Images/buy2._V192207737_.gif" alt="buy from amazon.com" /></a>
-                            </p>
-                        </div>
+                        @Html.Raw(ViewBag.PurchaseLinks)
                     </div>
+                    }
                 </div>
             </div>
 

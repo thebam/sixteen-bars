@@ -20,6 +20,38 @@ namespace sixteenBars.Controllers
         string AssociateTag = "rhy4rhy-20";
 
 
+
+        [System.Web.Http.HttpGet]
+        public List<AmazonProduct> GetProducts(string title, string artist, string type)
+        {
+            SignedRequestHelper helper = new SignedRequestHelper(MY_AWS_ACCESS_KEY_ID, MY_AWS_SECRET_KEY, DESTINATION);
+            String requestString = "";
+            if (type == "track")
+            {
+                requestString = "Service=AWSECommerceService"
+                        + "&Version=2009-03-31"
+                        + "&Operation=ItemSearch"
+                        + "&SearchIndex=MP3Downloads"
+                        + "&ResponseGroup=ItemAttributes,Images"
+                         + "&Keywords=" + title + " " + artist
+                        + "&AssociateTag=" + AssociateTag;
+            }
+            else
+            {
+                requestString = "Service=AWSECommerceService"
+                        + "&Version=2009-03-31"
+                        + "&Operation=ItemSearch"
+                        + "&SearchIndex=Music"
+                        + "&ResponseGroup=ItemAttributes,Images"
+                        + "&Keywords=" + title + " " + artist
+                        + "&AssociateTag=" + AssociateTag;
+            }
+
+            String requestUrl = helper.Sign(requestString);
+            return ProcessRequest(requestUrl, type);
+        }
+
+
         [System.Web.Http.HttpGet]
         public JsonResult GetProductInformation(string title, string artist,string type)
         {
