@@ -83,7 +83,27 @@ namespace sixteenBars.Controllers
                     ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
                     ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
                     ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
+                    
 
+
+                    ViewBag.OGTitle = album.Title + " : " + album.Artist.Name;
+                    ViewBag.OGDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
+                    ViewBag.OGAppID = "1474377432864288";
+                    ViewBag.MetaAuthor = album.Artist.Name;
+
+
+                    ViewBag.OGURL = "http://www.rhyme4rhyme.com/albums/" + URLClean.Clean(album.Artist.Name) + "/" + URLClean.Clean(album.Title);
+                    ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
+                    ViewBag.TwitterTitle = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
+                    ViewBag.TwitterDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
+                    ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+                    ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+                    ViewBag.PurchaseLinks = "";
                     
                     albumViewModel.Id = album.Id;
                     albumViewModel.Title = album.Title;
@@ -95,6 +115,26 @@ namespace sixteenBars.Controllers
                         albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.Id == album.Id).OrderBy(t => t.Title).ToList();
                     }
                     catch (Exception ex) { 
+                    }
+
+                    AmazonAPIController amz = new AmazonAPIController();
+                    List<AmazonProduct> amzList = new List<AmazonProduct>();
+                    amzList = amz.GetProducts(album.Title, album.Artist.Name, "album");
+
+
+                    if (amzList != null)
+                    {
+                        if (amzList.Count > 0)
+                        {
+                            ViewBag.AlbumImage = amzList[0].ImageURL;
+                            ViewBag.TwitterImage = amzList[0].ImageURL;
+                            ViewBag.OGImage = amzList[0].ImageURL;
+
+                            foreach (AmazonProduct product in amzList)
+                            {
+                                ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
+                            }
+                        }
                     }
 
                 }
@@ -115,7 +155,24 @@ namespace sixteenBars.Controllers
                 ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
                 ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
                 ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
+               
 
+                ViewBag.OGTitle = album.Title + " : " + album.Artist.Name;
+                ViewBag.OGDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
+                ViewBag.OGAppID = "1474377432864288";
+                ViewBag.MetaAuthor = album.Artist.Name;
+
+
+                ViewBag.OGURL = "http://www.rhyme4rhyme.com/albums/" + URLClean.Clean(album.Artist.Name) + "/" + URLClean.Clean(album.Title);
+                ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
+                ViewBag.TwitterTitle = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
+                ViewBag.TwitterDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
+                ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+                ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+                ViewBag.PurchaseLinks = "";
                 albumViewModel.Id = album.Id;
                 albumViewModel.Title = album.Title;
                 albumViewModel.ArtistId = album.Artist.Id;
@@ -127,6 +184,26 @@ namespace sixteenBars.Controllers
                 }
                 catch (Exception ex)
                 {
+                }
+
+                AmazonAPIController amz = new AmazonAPIController();
+                List<AmazonProduct> amzList = new List<AmazonProduct>();
+                amzList = amz.GetProducts(album.Title, album.Artist.Name, "album");
+
+
+                if (amzList != null)
+                {
+                    if (amzList.Count > 0)
+                    {
+                        ViewBag.AlbumImage = amzList[0].ImageURL;
+                        ViewBag.TwitterImage = amzList[0].ImageURL;
+                        ViewBag.OGImage = amzList[0].ImageURL;
+
+                        foreach (AmazonProduct product in amzList)
+                        {
+                            ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
+                        }
+                    }
                 }
             }
             return View("details", albumViewModel);

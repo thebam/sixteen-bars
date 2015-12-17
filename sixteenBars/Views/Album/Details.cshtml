@@ -14,10 +14,7 @@
             <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />
             <div class="lower-details row">
                 <div class="col-md-3 albumArt">
-                    <div class="ng-cloak notAvailable" ng-cloak ng-show="amzNoProductFound">
-                        Album Art Not Found
-                    </div>
-                    <img class="ng-cloak" ng-cloak ng-show="amzProductFound" src="{{amzAlbumArt}}" />
+                    <img src="@Html.Raw(ViewBag.AlbumImage)" />
                 </div>
                 <div class="col-md-9">
                     <p>
@@ -29,15 +26,14 @@
                     <p>
                         <strong>Release Date</strong> : @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
                     </p>
-                    <div class="ng-cloak" ng-cloak ng-show="amzProductFound">
-                        <hr />
-                        <h4>Get This Album</h4>
-                        <div ng-repeat="product in amzProducts">
-                            <p>
-                                <a href="{{product.URL}}" target="_blank">{{product.Title}}<br /><img src="~/Images/buy2._V192207737_.gif" alt="buy from amazon.com" /></a>
-                            </p>
+                    @if (ViewBag.PurchaseLinks.Length > 0)
+                    {
+                        <div>
+                            <hr />
+                            <h4>Get This Track</h4>
+                            @Html.Raw(ViewBag.PurchaseLinks)
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
             

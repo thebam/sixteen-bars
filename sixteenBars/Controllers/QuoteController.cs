@@ -146,7 +146,8 @@ namespace sixteenBars.Controllers
                 ViewBag.TwitterDescription = quote.Text + " from track " + quote.Track.Title;
                 ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
 
-
+                ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+                ViewBag.PurchaseLinks = "";
 
                 quoteVM.Id = quote.Id;
                 quoteVM.Text = WordLink.CreateLinks(quote.Text);
@@ -160,6 +161,26 @@ namespace sixteenBars.Controllers
                 quoteVM.AlbumId = quote.Track.Album.Id;
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
                 quoteVM.AlbumArtistId = quote.Track.Album.Artist.Id;
+
+                AmazonAPIController amz = new AmazonAPIController();
+                List<AmazonProduct> amzList = new List<AmazonProduct>();
+                amzList = amz.GetProducts(quote.Track.Title, quote.Artist.Name, "track");
+
+
+                if (amzList != null)
+                {
+                    if (amzList.Count > 0)
+                    {
+                        ViewBag.AlbumImage = amzList[0].ImageURL;
+                        ViewBag.TwitterImage = amzList[0].ImageURL;
+                        ViewBag.OGImage = amzList[0].ImageURL;
+
+                        foreach (AmazonProduct product in amzList)
+                        {
+                            ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
+                        }
+                    }
+                }
             }
             return View(quoteVM);
         }
