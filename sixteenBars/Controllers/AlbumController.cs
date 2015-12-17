@@ -152,9 +152,7 @@ namespace sixteenBars.Controllers
             AlbumDetailsViewModel albumViewModel = new AlbumDetailsViewModel();
             if (album!=null)
             {
-                ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
-                ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
-                ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
+                
                
 
                 ViewBag.OGTitle = album.Title + " : " + album.Artist.Name;
