@@ -61,6 +61,10 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Artist";
             ViewBag.MetaDescription = "Hip-Hop artist or rapper";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
+
+
+
+
             //Create view model to display quotes and albums
             HttpCookie isExplicit = Request.Cookies["explicit"];
             Artist artist = _db.Artists.Find(id);
@@ -71,9 +75,26 @@ namespace sixteenBars.Controllers
             }
             else {
 
-                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name + " : Quotes and Albums";
+                ViewBag.Title = artist.Name + " : Quotes and Albums";
                 ViewBag.MetaDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
-                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music,quote,quotes,album";
+                ViewBag.MetaKeywords = artist.Name + ", artist, rapper, quote,album";
+
+                ViewBag.OGTitle = artist.Name + " : Quotes and Albums";
+                ViewBag.OGDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                ViewBag.OGAppID = "1474377432864288";
+                ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
+
+
+                ViewBag.OGURL = "http://www.rhyme4rhyme.com/artists/" + URLClean.Clean(artist.Name);
+                ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
+                ViewBag.TwitterTitle = artist.Name + " : Quotes and Albums";
+                ViewBag.TwitterDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
 
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;
@@ -115,9 +136,24 @@ namespace sixteenBars.Controllers
             }
             else
             {
-                ViewBag.Title = "Rhyme 4 Rhyme : " + artist.Name + " : Quotes and Albums";
+                ViewBag.Title = artist.Name + " : Quotes and Albums";
                 ViewBag.MetaDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
-                ViewBag.MetaKeywords = artist.Name + ",hip-hop, hip hop, artist, rapper, rap, music,quote,quotes,album";
+                ViewBag.MetaKeywords = artist.Name + ", artist, rapper, quote,album";
+
+                ViewBag.OGTitle = artist.Name + " : Quotes and Albums";
+                ViewBag.OGDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                ViewBag.OGAppID = "1474377432864288";
+                ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
+
+
+                ViewBag.OGURL = "http://www.rhyme4rhyme.com/artists/" + URLClean.Clean(artist.Name);
+                ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
+                ViewBag.TwitterTitle = artist.Name + " : Quotes and Albums";
+                ViewBag.TwitterDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
 
                 artistVM.Id = artist.Id;
                 artistVM.Name = artist.Name;
