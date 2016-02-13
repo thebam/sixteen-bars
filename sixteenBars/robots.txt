@@ -1,4 +1,4 @@
-﻿User-agent: *
-Allow:
+User-agent: *
+Disallow:
 
-SITEMAP: http://www.rhyme4rhyme.com/sitemap.xml
+Sitemap: http://www.rhyme4rhyme.com/sitemap.xml
