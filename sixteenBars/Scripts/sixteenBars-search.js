@@ -6,7 +6,14 @@ searchApp.controller('SearchController', function ($scope, $http) {
     $scope.searchType;
     $scope.searchtermTitle = false;
     $scope.searchNoResults = false;
-                
+    
+    $scope.closeSearch = function () {
+        $scope.results = "";
+        $scope.searchTerm = "";
+        $scope.searchtermTitle = false;
+        $scope.searchNoResults = false;
+    };
+
     $scope.search = function () {
         if ($scope.searchType == "" || $scope.searchType == undefined) {
             $scope.searchType = "quote";

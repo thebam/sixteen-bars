@@ -9,10 +9,10 @@
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta name="keywords" content="@ViewBag.MetaKeywords" />
     <meta name="author" content="@ViewBag.MetaAuthor" />
-    
-    
+
+
     <meta property="fb:app_id" content="@ViewBag.OGAppID" />
-    
+
     <!-- Facebook, LinkedIn, Pinterest Open Graph data -->
     <meta property="og:site_name" content="Rhyme 4 Rhyme" />
     <meta property="og:title" content="@ViewBag.OGTitle" />
@@ -50,10 +50,10 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
-    }
-        </style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
     <!--
     To collect end-user usage analytics about your application,
     insert the following script into each page you want to track.
@@ -62,13 +62,13 @@
     automatically in just a few seconds.
     -->
     <script type="text/javascript">
-        var appInsights=window.appInsights||function(config){
-            function r(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s=u.createElement(o),i,f;for(s.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)r("track"+i.pop());return r("setAuthenticatedUserContext"),r("clearAuthenticatedUserContext"),config.disableExceptionTracking||(i="onerror",r("_"+i),f=e[i],e[i]=function(config,r,u,e,o){var s=f&&f(config,r,u,e,o);return s!==!0&&t["_"+i](config,r,u,e,o),s}),t
+        var appInsights = window.appInsights || function (config) {
+            function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = u.createElement(o), i, f; for (s.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", u.getElementsByTagName(o)[0].parentNode.appendChild(s), t.cookie = u.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) r("track" + i.pop()); return r("setAuthenticatedUserContext"), r("clearAuthenticatedUserContext"), config.disableExceptionTracking || (i = "onerror", r("_" + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t["_" + i](config, r, u, e, o), s }), t
         }({
-            instrumentationKey:"efb64c2b-5c71-44ca-816d-1b8f728028d4"
+            instrumentationKey: "efb64c2b-5c71-44ca-816d-1b8f728028d4"
         });
 
-        window.appInsights=appInsights;
+        window.appInsights = appInsights;
         appInsights.trackPageView();
     </script>
 </head>
@@ -77,38 +77,20 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-inverse">
+        <nav>
             <div class="container">
+
                 
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink(" ", "Index", "Home", null, new { @class="logo"})
-                </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <ul id="nav-items" class="nav navbar-nav">
-                        <li id="quote-nav-item">@Html.ActionLink("Quotes", "Index", "Quote")</li>
-                        <li id="artist-nav-item">@Html.ActionLink("Artists", "Index", "Artist")</li>
-                        <li id="album-nav-item">@Html.ActionLink("Albums", "Index", "Album")</li>
-                        <li id="track-nav-item">@Html.ActionLink("Tracks", "Index", "Track")</li>
-                    </ul>
-                    <div class="btn-group explicit-toggle pull-right" role="group" aria-label="...">
-                        <div id="explicit" class="language btn">
-                            explicit
-                        </div>
-                        <div id="clean" class="language btn">
-                            clean
-                        </div>
-                    </div>
-                        <div id="searchApp" ng-app="SearchApp">
-                            <div ng-controller="SearchController">
-                                <div class="navbar-form col-sm-12 col-md-3 pull-right" role="search">
+                
+                    <div id="searchApp" ng-app="SearchApp">
+                        <div ng-controller="SearchController">
+                            <div class="col-md-3">
+                                @Html.ActionLink(" ", "Index", "Home", null, new { @class = "logo" })
+                            </div>
+                            <div class="col-md-6">
+                                <div class="search-bar" role="search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search" ng-model="searchTerm" name="srch-term" id="srch-term">
+                                        <input type="text" class="form-control" placeholder="Search quotes, tracks, albums, or artists" ng-model="searchTerm" name="srch-term" id="srch-term" ng-keyup="$event.keyCode == 13 && search()" />
                                         <span class="ng-cloak" ng-cloak style="color:red" ng-show="myForm.searchTerm.$dirty&&myForm.searchTerm.$isvalid">
                                             <span ng-show="myForm.searchTerm.$error.required">Search term is required</span>
                                         </span>
@@ -117,40 +99,55 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="searchResults" class="main-search-results col-md-12 col-sm-12 pull-right">
-                                    <h4 class="ng-cloak" ng-cloak ng-show="searchtermTitle">Search Results For '{{searchTerm | uppercase}}'</h4>
-                                    <p class="ng-cloak" ng-cloak ng-show="searchNoResults">No Results Found</p>
-                                    <ul class="ng-cloak" ng-cloak>
-                                        <li ng-repeat="result in results">
-                                            {{result.Text}}  <a href="/{{result.URL}}">details</a>
-                                        </li>
-                                    </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="btn-group explicit-toggle" role="group" aria-label="...">
+                                    <div id="explicit" class="language btn">
+                                        explicit
+                                    </div>
+                                    <div id="clean" class="language btn">
+                                        clean
+                                    </div>
                                 </div>
                             </div>
-
+                            <div id="searchResults" class="main-search-results col-md-12 col-sm-12">
+                                <h4 class="ng-cloak" ng-cloak ng-show="searchtermTitle">Search Results For '{{searchTerm | uppercase}}'</h4>
+                                <p class="ng-cloak" ng-cloak ng-show="searchNoResults">No Results Found</p>
+                                <ul class="ng-cloak" ng-cloak>
+                                    <li ng-repeat="result in results">
+                                        {{result.Text}}  <a href="/{{result.URL}}">details</a>
+                                    </li>
+                                </ul>
+                                <div class="pull-right ng-cloak" ng-cloak ng-click="closeSearch()" ng-show="searchtermTitle"><i class="glyphicon glyphicon-remove-circle"></i> CLOSE</div>
+                            </div>
                         </div>
-
-                    </div><!--/.nav-collapse -->
+                    </div>
+                    
             </div>
         </nav>
     </header>
-    <div class="container">
-        @RenderSection("featured", required: false)
-        
-        <div class="main-content">
-            @RenderBody()
+    <div class="main-container-wrapper">
+        <div class="container">
+            @RenderSection("featured", required: false)
+
+            <div class="main-content">
+                @RenderBody()
+            </div>
         </div>
     </div>
     <footer>
-        
+
         <div class="container">
-            <div class="login-container">
-                @Html.Partial("_LoginPartial")
-            </div>
+            <ul>
+                <li id="quote-nav-item">@Html.ActionLink("Quotes", "Index", "Quote")</li>
+                <li id="artist-nav-item">@Html.ActionLink("Artists", "Index", "Artist")</li>
+                <li id="album-nav-item">@Html.ActionLink("Albums", "Index", "Album")</li>
+                <li id="track-nav-item">@Html.ActionLink("Tracks", "Index", "Track")</li>
+            </ul>
+            @Html.Partial("_LoginPartial")
             <p>&copy; @DateTime.Now.Year</p>
-            
+
         </div>
-        
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
@@ -161,21 +158,21 @@
     @Scripts.Render("~/Scripts/angular.min.js")
     @Scripts.Render("~/Scripts/sixteenBars-search.js")
 
-    
-    
+
+
 
     @RenderSection("scripts", required: false)
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-563e10cde2a16f18" async="async"></script>
     <script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-69874315-1', 'auto');
-    ga('send', 'pageview');
+        ga('create', 'UA-69874315-1', 'auto');
+        ga('send', 'pageview');
 
     </script>
 
