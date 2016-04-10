@@ -17,7 +17,7 @@ namespace sixteenBars.Controllers
         string MY_AWS_ACCESS_KEY_ID = "AKIAJGE6S6HIJ6EKMROA";
         string MY_AWS_SECRET_KEY = "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";
         string DESTINATION = "ecs.amazonaws.com";
-        string AssociateTag = "rhy4rhy-20";
+        string AssociateTag = "rhyme4rhyme-20";
 
 
 

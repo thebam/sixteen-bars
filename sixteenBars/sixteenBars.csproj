@@ -343,6 +343,7 @@
     <None Include="Properties\PublishProfiles\invisiblefury.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\rhyme4rhyme - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\rhyme4rhyme - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\SmarterASP.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1130,6 +1131,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Images\accent.png" />
