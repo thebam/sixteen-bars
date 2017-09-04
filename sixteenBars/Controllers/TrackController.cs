@@ -34,16 +34,16 @@ namespace sixteenBars.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             var tracks = (from track in _db.Tracks
-                          join quote in _db.Quotes on track.Id equals quote.Track.Id into quotes
+                          join quote in _db.Quotes on track.TrackId equals quote.Track.TrackId into quotes
                           from trackQuotes in quotes.DefaultIfEmpty()
                           where track.Enabled == true
                           select new TrackIndexViewModel()
                           {
-                              Id = track.Id,
+                              Id = track.TrackId,
                               Title = track.Title,
-                              AlbumId = track.Album.Id,
+                              AlbumId = track.Album.AlbumId,
                               AlbumTitle = track.Album.Title,
-                              ArtistId = track.Album.Artist.Id,
+                              ArtistId = track.Album.Artist.ArtistId,
                               ArtistName = track.Album.Artist.Name,
                               IsDeleteable = (trackQuotes == null) ? true:false
                           }).Distinct().OrderBy(t => t.Title).ToList();
@@ -270,7 +270,7 @@ namespace sixteenBars.Controllers
             {
                 TrackAPIController api = new TrackAPIController(_db);
                 if (!api.TrackExists(track.Title, track.Album.Title, track.Album.Artist.Name,(DateTime)track.ReleaseDate)){
-                    Track edittedTrack = _db.Tracks.Find(track.Id);
+                    Track edittedTrack = _db.Tracks.Find(track.TrackId);
                     Track previousTrack = edittedTrack;
                     edittedTrack.Title = track.Title;
                     edittedTrack.ReleaseDate = track.ReleaseDate;
@@ -313,13 +313,13 @@ namespace sixteenBars.Controllers
 
                     try
                     {
-                        ChangeLog log = new ChangeLog();
-                        log.Type = "track";
-                        log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
-                        log.UserId = WebSecurity.CurrentUserId;
+                        //ChangeLog log = new ChangeLog();
+                        //log.Type = "track";
+                        //log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
+                        //log.UserId = WebSecurity.CurrentUserId;
 
-                        LogController ctrl = new LogController();
-                        ctrl.Log(log);
+                        //LogController ctrl = new LogController();
+                        //ctrl.Log(log);
                     }
                     catch (Exception ex)
                     {
@@ -371,13 +371,13 @@ namespace sixteenBars.Controllers
 
             try
             {
-                ChangeLog log = new ChangeLog();
-                log.Type = "track";
-                log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
-                log.UserId = WebSecurity.CurrentUserId;
+                //ChangeLog log = new ChangeLog();
+                //log.Type = "track";
+                //log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
+                //log.UserId = WebSecurity.CurrentUserId;
 
-                LogController ctrl = new LogController();
-                ctrl.Log(log);
+                //LogController ctrl = new LogController();
+                //ctrl.Log(log);
             }
             catch (Exception ex)
             {

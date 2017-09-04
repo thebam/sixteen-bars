@@ -1,0 +1,27 @@
+﻿@model IEnumerable<sixteenBars.Library.Quote>
+<div class="container quote-blocks">
+    @Html.Raw("<div class=\"col-md-4\">")
+    @{ var cnt = 1; }
+    @foreach (var item in Model)
+    {
+        if (cnt==5 || cnt==9)
+        {
+            @Html.Raw("</div>")
+            @Html.Raw("<div class=\"col-md-4\">")
+        }
+
+        <div class="quote-block">
+            <div class="artist-info">
+                @Html.ActionLink(item.Artist.Name, "details", "Artist", new { id = item.Artist.Id }, null)
+            </div>
+            <div class="quote-info">
+                <span class="quote">@Html.Raw(item.Text)</span><br />
+                @Html.ActionLink("details", "details", new { id = item.Id }, new { @class = "btn btn-standard" })
+            </div><div class="clearfix"></div>
+        </div>
+        
+
+        cnt++;
+    }
+    @Html.Raw("</div>")
+</div>

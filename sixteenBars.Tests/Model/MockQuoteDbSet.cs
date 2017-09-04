@@ -7,7 +7,7 @@ namespace sixteenBars.Tests.Model
     {
         public override Quote Find(params object[] keyValues)
         {
-            return this.SingleOrDefault(q => q.Id == (int)keyValues.Single());
+            return this.SingleOrDefault(q => q.QuoteId == (int)keyValues.Single());
         }
     }
 

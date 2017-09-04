@@ -32,7 +32,6 @@ namespace sixteenBars.Controllers
             List<Quote> quotes = null;
             if (_db.Quotes.Count() > 0)
             {
-
                 if (allowExplicit)
                 {
                     quotes = _db.Quotes.OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
@@ -40,19 +39,12 @@ namespace sixteenBars.Controllers
                 else {
                     quotes = _db.Quotes.Where(q => q.Explicit == false).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
                 }
-
-
-                
                 
                 foreach (Quote quote in quotes)
                 {
-                    quote.Text = WordLink.CreateLinks(quote.Text);
-                    
+                    quote.Text = WordLink.CreateLinks(quote.Text);    
                 }
-
             }
-
-
             return quotes;
         }
 
@@ -97,14 +89,13 @@ namespace sixteenBars.Controllers
                 quotes = _db.Quotes.Where(q => q.Explicit == false).OrderByDescending(q => q.DateCreated).ToList();
             }
             
-
             return View(quotes.ToPagedList(pageNumber, pageSize));
         }
 
         //
         // GET: /Quote/Details/5
 
-        public ActionResult Details(int id = 0)
+        public ActionResult Details(uint id = 0)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Quote";
             ViewBag.MetaDescription = "Hip-Hop quote";
@@ -149,18 +140,18 @@ namespace sixteenBars.Controllers
                 ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
                 ViewBag.PurchaseLinks = "";
 
-                quoteVM.Id = quote.Id;
+                quoteVM.Id = quote.QuoteId;
                 quoteVM.Text = WordLink.CreateLinks(quote.Text);
 
                 quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
-                quoteVM.ArtistId = quote.Artist.Id;
+                quoteVM.ArtistId = quote.Artist.ArtistId;
                 quoteVM.TrackName = quote.Track.Title;
-                quoteVM.TrackId = quote.Track.Id;
+                quoteVM.TrackId = quote.Track.TrackId;
                 quoteVM.AlbumName = quote.Track.Album.Title;
-                quoteVM.AlbumId = quote.Track.Album.Id;
+                quoteVM.AlbumId = quote.Track.Album.AlbumId;
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
-                quoteVM.AlbumArtistId = quote.Track.Album.Artist.Id;
+                quoteVM.AlbumArtistId = quote.Track.Album.Artist.ArtistId;
 
                 AmazonAPIController amz = new AmazonAPIController();
                 List<AmazonProduct> amzList = new List<AmazonProduct>();
@@ -219,18 +210,18 @@ namespace sixteenBars.Controllers
                 ViewBag.PurchaseLinks = "";
 
 
-                quoteVM.Id = quote.Id;
+                quoteVM.Id = quote.QuoteId;
                 quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));
 
                 quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
-                quoteVM.ArtistId = quote.Artist.Id;
+                quoteVM.ArtistId = quote.Artist.ArtistId;
                 quoteVM.TrackName = quote.Track.Title;
-                quoteVM.TrackId = quote.Track.Id;
+                quoteVM.TrackId = quote.Track.TrackId;
                 quoteVM.AlbumName = quote.Track.Album.Title;
-                quoteVM.AlbumId = quote.Track.Album.Id;
+                quoteVM.AlbumId = quote.Track.Album.AlbumId;
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
-                quoteVM.AlbumArtistId = quote.Track.Album.Artist.Id;
+                quoteVM.AlbumArtistId = quote.Track.Album.Artist.ArtistId;
 
 
 
@@ -369,10 +360,10 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Edit Quote";
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
-            Quote previousQuote = _db.Quotes.Find(quote.Id);
+            Quote previousQuote = _db.Quotes.Find(quote.QuoteId);
             if (ModelState.IsValid)
             {
-                Quote edittedQuote = _db.Quotes.Find(quote.Id);
+                Quote edittedQuote = _db.Quotes.Find(quote.QuoteId);
                 edittedQuote.Text = quote.Text;
                 edittedQuote.Explanation = quote.Explanation;
                 edittedQuote.Explicit = quote.Explicit;
@@ -437,13 +428,13 @@ namespace sixteenBars.Controllers
 
                 try
                 {
-                    ChangeLog log = new ChangeLog();
-                    log.Type = "quote";
-                    log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
-                    log.UserId = WebSecurity.CurrentUserId;
+                    //ChangeLog log = new ChangeLog();
+                    //log.Type = "quote";
+                    //log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
+                    //log.UserId = WebSecurity.CurrentUserId;
 
-                    LogController ctrl = new LogController();
-                    ctrl.Log(log);
+                    //LogController ctrl = new LogController();
+                    //ctrl.Log(log);
                 }
                 catch (Exception ex) { 
                     //TO DO handle exception - email change?
@@ -472,7 +463,7 @@ namespace sixteenBars.Controllers
             {
                 
             } else {
-                quoteVM.Id = quote.Id;
+                quoteVM.Id = quote.QuoteId;
                 quoteVM.Text = quote.Text;
                 quoteVM.ArtistName = quote.Artist.Name;
                 quoteVM.TrackName = quote.Track.Title;
@@ -499,13 +490,13 @@ namespace sixteenBars.Controllers
 
             try
             {
-                ChangeLog log = new ChangeLog();
-                log.Type = "quote";
-                log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
-                log.UserId = WebSecurity.CurrentUserId;
+                //ChangeLog log = new ChangeLog();
+                //log.Type = "quote";
+                //log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
+                //log.UserId = WebSecurity.CurrentUserId;
 
-                LogController ctrl = new LogController();
-                ctrl.Log(log);
+                //LogController ctrl = new LogController();
+                //ctrl.Log(log);
             }
             catch (Exception ex)
             {

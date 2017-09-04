@@ -25,35 +25,18 @@ namespace sixteenBars.Controllers
         public JsonResult Search(String searchTerm = null, String searchType = "quote",Boolean wordLink=false,Boolean filter=false)
         {
 
-            List<Library.Quote> SearchResults = new List<Library.Quote>();
+            List<Quote> SearchResults = new List<Quote>();
             List<SearchResult> results = new List<SearchResult>();
-            switch (searchType)
+            
+            if (wordLink)
             {
-                //case "album":
-                //    SearchResults = (from q in _db.Quotes
-                //                     where q.Track.Album.Title.Contains(searchTerm) 
-                //                     select q).ToList();
-                //    break;
-                //case "artist":
-                //    SearchResults = (from q in _db.Quotes
-                //                     where q.Artist.Name.Contains(searchTerm) 
-                //                     select q).ToList();
-                //    break;
-                //case "track":
-                //    SearchResults = (from q in _db.Quotes
-                //                     where q.Track.Title.Contains(searchTerm) 
-                //                     select q).ToList();
-                //    break;
-                default:
-                    if (wordLink)
-                    {
-                        if (filter)
+                if (filter)
                         {
                             results = (from q in _db.Quotes
                                        where q.Text.Contains(searchTerm) && q.Enabled == true
                                        select new SearchResult
                                        {
-                                           Id = q.Id,
+                                           Id = q.QuoteId,
                                            ResultType = "quote",
                                            Text = q.Text,
                                            URL = "Quotes-slash-" + q.Artist.Name + "-slash-" + q.Text,
@@ -72,7 +55,7 @@ namespace sixteenBars.Controllers
                                              where q.Text.Contains(searchTerm) && q.Enabled == true && q.Explicit == false
                                              select new SearchResult
                                              {
-                                                 Id = q.Id,
+                                                 Id = q.QuoteId,
                                                  ResultType = "quote",
                                                  Text = q.Text,
                                                  URL = "Quotes-slash-" + q.Artist.Name + "-slash-" + q.Text,
@@ -107,7 +90,7 @@ namespace sixteenBars.Controllers
                                              where q.Text.Contains(searchTerm) && q.Enabled == true
                                              select new SearchResult
                                              {
-                                                 Id = q.Id,
+                                                 Id = q.QuoteId,
                                                  ResultType = "quote",
                                                  Text = q.Text + " - " + q.Artist.Name,
                                                  URL = "Quotes-slash-"+q.Artist.Name+ "-slash-" +q.Text
@@ -119,7 +102,7 @@ namespace sixteenBars.Controllers
                                              where q.Text.Contains(searchTerm) && q.Enabled == true && q.Explicit == false
                                              select new SearchResult
                                              {
-                                                 Id = q.Id,
+                                                 Id = q.QuoteId,
                                                  ResultType = "quote",
                                                  Text = q.Text + " - " + q.Artist.Name,
                                                  URL = "Quotes-slash-" + q.Artist.Name + "-slash-" + q.Text
@@ -130,7 +113,7 @@ namespace sixteenBars.Controllers
                                          where t.Title.Contains(searchTerm) && t.Enabled == true
                                          select new SearchResult
                                          {
-                                             Id = t.Id,
+                                             Id = t.TrackId,
                                              ResultType = "track",
                                              Text = t.Title + " - " + t.Album.Artist.Name,
                                              URL = "Tracks-slash-" + t.Album.Title+ "-slash-" + t.Title
@@ -139,7 +122,7 @@ namespace sixteenBars.Controllers
                                          where a.Title.Contains(searchTerm) && a.Enabled == true
                                          select new SearchResult
                                          {
-                                             Id = a.Id,
+                                             Id = a.AlbumId,
                                              ResultType = "album",
                                              Text = a.Title + " - " + a.Artist.Name,
                                              URL = "Albums-slash-" + a.Artist.Name + "-slash-" + a.Title
@@ -148,7 +131,7 @@ namespace sixteenBars.Controllers
                                           where a.Name.Contains(searchTerm) && a.Enabled == true
                                           select new SearchResult
                                           {
-                                              Id = a.Id,
+                                              Id = a.ArtistId,
                                               ResultType = "artist",
                                               Text = a.Name,
                                               URL = "Artists-slash-" + a.Name
@@ -177,8 +160,7 @@ namespace sixteenBars.Controllers
                         jsonCombinedResult.Data = results;
                         jsonCombinedResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
                         return jsonCombinedResult;
-                    }
-                    break;
+                    
                     
             }
 

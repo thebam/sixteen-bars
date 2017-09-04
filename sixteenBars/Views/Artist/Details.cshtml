@@ -2,7 +2,7 @@
 @using sixteenBars.Library;
 
 <h1>
-    @Html.DisplayFor(model => model.Name)
+    @Model.Name
 </h1>
 @if (Model.Id > 0 && !String.IsNullOrEmpty(Model.Name))
 {

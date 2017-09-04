@@ -1,10 +1,8 @@
 ﻿using sixteenBars.Library;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Xml;
 
 namespace sixteenBars.Controllers
 {
@@ -25,15 +23,12 @@ namespace sixteenBars.Controllers
             ViewBag.OGAppID = "1474377432864288";
 
             ViewBag.TwitterTitle= "Rhyme 4 Rhyme";
-    ViewBag.TwitterDescription= "Rhyme 4 Rhyme is a collection of witty quotes from rap lyrics.";
-    ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
-
-
-
+            ViewBag.TwitterDescription= "Rhyme 4 Rhyme is a collection of witty quotes from rap lyrics.";
+            ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+            
             List<Quote> quotes = new List<Quote>();
             if (Request.QueryString["word"] == null)
             {
-
                 QuoteController ctrl = new QuoteController();
                 Boolean blnExplicit = false;
                 HttpCookie isExplicit = Request.Cookies["explicit"];
@@ -46,11 +41,7 @@ namespace sixteenBars.Controllers
                 }
                 quotes = ctrl.RandomQuotes(blnExplicit, 15);
             }
-
             return View(quotes);
         }
-
-
-        
     }
 }

@@ -7,8 +7,9 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
+
 using sixteenBars.Models;
+using WebMatrix.WebData;
 
 namespace sixteenBars.Controllers
 {
@@ -79,6 +80,7 @@ namespace sixteenBars.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
+                    Roles.AddUserToRole(model.UserName,"User");
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -196,6 +198,59 @@ namespace sixteenBars.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        //[Authorize(Roles = "admin")]
+        public ActionResult List() {
+            SixteenBarsDb db = new SixteenBarsDb();
+            var users = db.UserProfiles.ToList();
+            return View(users);
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult UserEdit(string username) {
+            ViewBag.Roles = Roles.GetAllRoles();
+            ViewBag.SelectedRoles = Roles.GetRolesForUser(username).ToList<string>();
+            ViewBag.Username = username;
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles ="admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult UserEdit(string userName, string[] newUserRoles) {
+            string[] roles = Roles.GetAllRoles();
+
+            try
+            {
+                Roles.RemoveUserFromRoles(userName, roles);
+            }catch(Exception ex)
+            {
+                //TODO fix this
+                //user not in any roles
+            }
+
+            try
+            {
+                foreach (string role in newUserRoles)
+                    if (!Roles.IsUserInRole(userName,role)) {
+                        Roles.AddUserToRole(userName, role);
+                    }
+                RedirectToAction("list");
+            }
+            catch (InvalidOperationException ioex) {
+                
+                ViewBag.ErrorMessage = "User is already in role.";
+                
+            }
+            catch (Exception ex) {
+                
+                ViewBag.ErrorMessage = "An error occured.";
+            }
+            ViewBag.Roles = Roles.GetAllRoles(); ;
+            ViewBag.SelectedRoles = Roles.GetRolesForUser(userName).ToList<string>();
+            ViewBag.Username = userName;
+            return View();
         }
 
         //

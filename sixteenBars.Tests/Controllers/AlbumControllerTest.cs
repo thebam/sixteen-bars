@@ -46,12 +46,12 @@ namespace sixteenBars.Tests.Controllers
             AlbumController ctrl = new AlbumController(mockDb);
             Album newAlbum = new Album()
             {
-                Id = 5,
+                AlbumId = 5,
                 Title = "Doggystyle",
                 ReleaseDate = new DateTime(1993, 11, 23),
                 Artist = new Artist()
                 {
-                    Id = 11,
+                    ArtistId = 11,
                     Name = "Snoop Doggy Dogg"
                 }
             };
@@ -62,12 +62,12 @@ namespace sixteenBars.Tests.Controllers
 
             newAlbum = new Album()
             {
-                Id = 6,
+                AlbumId = 6,
                 Title = ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./",
                 ReleaseDate = new DateTime(1993, 11, 23),
                 Artist = new Artist()
                 {
-                    Id = 12,
+                    ArtistId = 12,
                     Name = ".~`!@#$%^&*()_+-={}|:\"<>?[]\\;',./"
                 }
             };
@@ -78,12 +78,12 @@ namespace sixteenBars.Tests.Controllers
 
             newAlbum = new Album()
             {
-                Id = 7,
+                AlbumId = 7,
                 Title = "The Blueprint",
                 ReleaseDate = new DateTime(2001, 9, 11),
                 Artist = new Artist()
                 {
-                    Id = 1,
+                    ArtistId = 1,
                     Name = "Jay-Z"
                 }
             };
@@ -95,12 +95,12 @@ namespace sixteenBars.Tests.Controllers
 
             newAlbum = new Album()
             {
-                Id = 8,
+                AlbumId = 8,
                 Title = "Because the Internet",
                 ReleaseDate = new DateTime(2013, 12, 3),
                 Artist = new Artist()
                 {
-                    Id = 3,
+                    ArtistId = 3,
                     Name = "Childish Gambino"
                 }
              };
@@ -109,12 +109,12 @@ namespace sixteenBars.Tests.Controllers
 
             newAlbum = new Album()
             {
-                Id = 9,
+                AlbumId = 9,
                 Title = "Because the Internet",
                 ReleaseDate = new DateTime(2013, 12, 3),
                 Artist = new Artist()
                 {
-                    Id = 12,
+                    ArtistId = 12,
                     Name = "Childish Gambino"
                 }
             };
@@ -124,12 +124,12 @@ namespace sixteenBars.Tests.Controllers
 
             newAlbum = new Album()
             {
-                Id = 9,
+                AlbumId = 9,
                 Title = "The Blueprint",
                 ReleaseDate = new DateTime(2015, 5, 4),
                 Artist = new Artist()
                 {
-                    Id = 12,
+                    ArtistId = 12,
                     Name = "Jay-Z Imposter"
                 }
             };
@@ -156,7 +156,7 @@ namespace sixteenBars.Tests.Controllers
             ctrl.Edit(1);
             Assert.AreEqual(editedAlbum.Title, mockDb.Albums.Find(1).Title, "Title not changed to 'Because of the interwebs'.");
             Assert.AreEqual(editedAlbum.ReleaseDate, mockDb.Albums.Find(1).ReleaseDate, "Release date not changed to '5/4/15'.");
-            Assert.AreEqual(editedAlbum.ArtistId, mockDb.Albums.Find(1).Artist.Id, "Artist not changed to 'Dr. Dre'.");
+            Assert.AreEqual(editedAlbum.ArtistId, mockDb.Albums.Find(1).Artist.ArtistId, "Artist not changed to 'Dr. Dre'.");
 
             editedAlbum = new AlbumViewModel()
             {

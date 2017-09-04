@@ -7,7 +7,7 @@ namespace sixteenBars.Tests.Model
     {
         public override Album Find(params object[] keyValues)
         {
-            return this.SingleOrDefault(a => a.Id == (int)keyValues.Single());
+            return this.SingleOrDefault(a => a.AlbumId == (int)keyValues.Single());
         }
     }
 

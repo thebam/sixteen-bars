@@ -1,11 +1,7 @@
 ﻿using sixteenBars.Library;
 using sixteenBars.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sixteenBars.Tests.Model
 {
@@ -18,67 +14,67 @@ namespace sixteenBars.Tests.Model
             {
                 new Artist
                 {
-                    Id = 1,
+                    ArtistId = 1,
                     Name = "Jay-Z",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 2,
+                    ArtistId = 2,
                     Name = "Kanye West",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 3,
+                    ArtistId = 3,
                     Name = "Childish Gambino",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 4,
+                    ArtistId = 4,
                     Name = "Drake",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 5,
+                    ArtistId = 5,
                     Name = "Lil' Kim",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 6,
+                    ArtistId = 6,
                     Name = "The Game",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 7,
+                    ArtistId = 7,
                     Name = "Lil Wayne",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 8,
+                    ArtistId = 8,
                     Name = "Curren$y",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 9,
+                    ArtistId = 9,
                     Name = "50 Cent",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 10,
+                    ArtistId = 10,
                     Name = "Dr. Dre",
                     DateModified = DateTime.Now                    
                 },
                 new Artist
                 {
-                    Id = 13,
+                    ArtistId = 13,
                     Name = "Mystikal",
                     DateModified = DateTime.Now,
                     Enabled=false
@@ -86,44 +82,44 @@ namespace sixteenBars.Tests.Model
             };
             this.Albums = new MockAlbumDbSet() { 
                 new Album{
-                    Id=1,
+                    AlbumId=1,
                     Title="Because The Internet",
                     ReleaseDate=new DateTime(2013,12,3),
                     Artist = new Artist(){
-                        Id=3,
+                        ArtistId=3,
                         Name="Childish Gambino",
                         DateModified =DateTime.Now
                     },
                     DateModified=DateTime.Now
                 },
                 new Album{
-                    Id=2,
+                    AlbumId=2,
                     Title="Thank Me Later",
                     ReleaseDate=new DateTime(2010,6,14),
                     Artist = new Artist(){
-                        Id=4,
+                        ArtistId=4,
                         Name="Drake",
                         DateModified =DateTime.Now
                     },
                     DateModified=DateTime.Now
                 },
                  new Album{
-                    Id=3, 
+                    AlbumId=3, 
                     Title="Yeezus",
                     ReleaseDate=new DateTime(2013,6,18),
                     Artist = new Artist(){
-                        Id=2,
+                        ArtistId=2,
                         Name="Kanye West",
                         DateModified =DateTime.Now
                     },
                     DateModified=DateTime.Now
                 },
                 new Album{
-                    Id=4, 
+                    AlbumId=4, 
                     Title="The Blueprint 2: The Gift & The Curse",
                     ReleaseDate=new DateTime(2002,11,12),
                     Artist = new Artist(){
-                        Id=1,
+                        ArtistId=1,
                         Name="Jay-Z",
                         DateModified =DateTime.Now
                     },
@@ -132,24 +128,24 @@ namespace sixteenBars.Tests.Model
             };
             this.Quotes = new MockQuoteDbSet() { 
                 new Quote(){
-                    Id=1,
+                    QuoteId=1,
                     Text="I am winning so you have to dump the gatorade",
                     Explanation = "winners",
                     Explicit = false,
                     Artist = new Artist(){
-                        Id=3,
+                        ArtistId=3,
                         Name="Childish Gambino",
                         DateModified =DateTime.Now
                     },
                     Track = new Track(){
-                        Id=1,
+                        TrackId=1,
                         Title="IV. Sweatpants",
                         Album= new Album(){
-                            Id=1,
+                            AlbumId=1,
                             Title="Because The Internet",
                             ReleaseDate=new DateTime(2013,12,3),
                             Artist = new Artist(){
-                                Id=3,
+                                ArtistId=3,
                                 Name="Childish Gambino",
                                 DateModified =DateTime.Now
                             },
@@ -159,24 +155,24 @@ namespace sixteenBars.Tests.Model
                     }
                 },
                 new Quote(){
-                    Id=2,
+                    QuoteId=2,
                     Text="Con Edison flow I'm connected to a higher power",
                     Explanation = "electric",
                     Explicit = false,
                     Artist = new Artist(){
-                        Id=1,
+                        ArtistId=1,
                         Name="Jay-Z",
                         DateModified =DateTime.Now
                     },
                     Track = new Track(){
-                        Id=2,
+                        TrackId=2,
                         Title="Light Up",
                         Album= new Album(){
-                            Id=2,
+                            AlbumId=2,
                             Title="Thank Me Later",
                             ReleaseDate=new DateTime(2010,6,14),
                             Artist = new Artist(){
-                                Id=4,
+                                ArtistId=4,
                                 Name="Drake",
                                 DateModified =DateTime.Now
                             },
@@ -189,16 +185,16 @@ namespace sixteenBars.Tests.Model
             this.Tracks = new MockTrackDbSet() {
                 new Track()
                 {
-                    Id = 2,
+                    TrackId = 2,
                     Title = "Light Up",
                     Album = new Album()
                     {
-                        Id = 2,
+                        AlbumId = 2,
                         Title = "Thank Me Later",
                         ReleaseDate = new DateTime(2010, 6, 14),
                         Artist = new Artist()
                         {
-                            Id = 4,
+                            ArtistId = 4,
                             Name = "Drake",
                             DateModified = DateTime.Now
                         },
@@ -208,16 +204,16 @@ namespace sixteenBars.Tests.Model
                 },
                 new Track()
                 {
-                    Id = 1,
+                    TrackId = 1,
                     Title = "IV. Sweatpants",
                     Album = new Album()
                     {
-                        Id = 1,
+                        AlbumId = 1,
                         Title = "Because The Internet",
                         ReleaseDate = new DateTime(2013, 12, 3),
                         Artist = new Artist()
                         {
-                            Id = 3,
+                            ArtistId = 3,
                             Name = "Childish Gambino",
                             DateModified = DateTime.Now
                         },
@@ -227,16 +223,16 @@ namespace sixteenBars.Tests.Model
                 },
                 new Track()
                 {
-                    Id = 3,
+                    TrackId = 3,
                     Title = "Wetter Than Tsunami",
                     Album = new Album()
                     {
-                        Id = 4,
+                        AlbumId = 4,
                         Title = "Neon Icon",
                         ReleaseDate = new DateTime(2014, 6, 24),
                         Artist = new Artist()
                         {
-                            Id = 11,
+                            ArtistId = 11,
                             Name = "Riff Raff",
                             DateModified = DateTime.Now
                         },
@@ -246,16 +242,16 @@ namespace sixteenBars.Tests.Model
                 },
                 new Track()
                 {
-                    Id = 4,
+                    TrackId = 4,
                     Title = "King Sh*t",
                     Album = new Album()
                     {
-                        Id = 5,
+                        AlbumId = 5,
                         Title = "I am",
                         ReleaseDate = new DateTime(2013, 11, 19),
                         Artist = new Artist()
                         {
-                            Id = 12,
+                            ArtistId = 12,
                             Name = "Yo Gotti",
                             DateModified = DateTime.Now
                         },
@@ -265,16 +261,16 @@ namespace sixteenBars.Tests.Model
                 },
                 new Track()
                 {
-                    Id = 5,
+                    TrackId = 5,
                     Title = "Bandz A Make Her Dance",
                     Album = new Album()
                     {
-                        Id = 6,
+                        AlbumId = 6,
                         Title = "Stay Trippy",
                         ReleaseDate = new DateTime(2013, 8, 27),
                         Artist = new Artist()
                         {
-                            Id = 14,
+                            ArtistId = 14,
                             Name = "Juicy J",
                             DateModified = DateTime.Now
                         },

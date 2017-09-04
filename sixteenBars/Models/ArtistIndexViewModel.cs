@@ -12,6 +12,7 @@ namespace sixteenBars.Models
         [Display(Name="Artist Name")]
         public String Name { get; set; }
         public Boolean IsDeleteable { get; set; }
+        public Boolean Enabled { get; set; }
 
         public ArtistIndexViewModel() {
             IsDeleteable = false;

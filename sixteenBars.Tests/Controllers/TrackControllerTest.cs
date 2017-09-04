@@ -102,7 +102,7 @@ namespace sixteenBars.Tests.Controllers
             
             
             Track editted = db.Tracks.Find(1);
-            Assert.AreEqual(editted.Id, 1, "Track Id not 1");
+            Assert.AreEqual(editted.TrackId, 1, "Track Id not 1");
             Assert.AreEqual(editted.Title, "IV. Sweatpants", "Track title not 'IV. Sweatpants'");
 
 
@@ -117,7 +117,7 @@ namespace sixteenBars.Tests.Controllers
 
             Track actual = db.Tracks.Find(1);
 
-            Assert.AreEqual(actual.Id, 1, "Track Id not 1");
+            Assert.AreEqual(actual.TrackId, 1, "Track Id not 1");
             Assert.AreEqual(actual.Title, newTitle, "Track title not 'Push It'");
             Assert.AreEqual(actual.Album.Artist.Name, newArtist, "Track artist not 'Salt-n-Pepa'");
             Assert.AreEqual(actual.Album.Title, newAlbumTitle, "Track album title not 'Hot, Cool & Vicious'");
@@ -128,7 +128,7 @@ namespace sixteenBars.Tests.Controllers
             
 
             editted = db.Tracks.Find(2);
-            Assert.AreEqual(editted.Id, 2, "Track Id not 2");
+            Assert.AreEqual(editted.TrackId, 2, "Track Id not 2");
             Assert.AreEqual(editted.Title, "Light Up", "Track title not 'Light Up'");
 
 
@@ -143,14 +143,14 @@ namespace sixteenBars.Tests.Controllers
 
             actual = db.Tracks.Find(2);
 
-            Assert.AreEqual(actual.Id, 2, "Track Id not 2");
+            Assert.AreEqual(actual.TrackId, 2, "Track Id not 2");
             Assert.AreEqual(actual.Title, editted.Title, "Track title not 'Light Up'");
             Assert.AreEqual(actual.Album.Artist.Name, newArtist, "Track artist not 'Riff Raff'");
             Assert.AreEqual(actual.Album.Title, newAlbumTitle, "Track album title not 'Neon Icon'");
             Assert.AreEqual(actual.ReleaseDate, newDate, "Track release date not '5/1/2014'");
 
             editted = db.Tracks.Find(5);
-            Assert.AreEqual(editted.Id, 5, "Track Id not 5");
+            Assert.AreEqual(editted.TrackId, 5, "Track Id not 5");
             Assert.AreEqual(editted.Title, "Bandz A Make Her Dance", "Track title not 'Bandz A Make Her Dance'");
 
 
@@ -163,7 +163,7 @@ namespace sixteenBars.Tests.Controllers
 
             actual = db.Tracks.Find(5);
 
-            Assert.AreEqual(actual.Id, 5, "Track Id not 5");
+            Assert.AreEqual(actual.TrackId, 5, "Track Id not 5");
             Assert.AreEqual(actual.Title, editted.Title, "Track title not 'Bandz A Make Her Dance'");
             Assert.AreEqual(actual.Album.Artist.Name, newArtist, "Track artist not 'Riff Raff'");
             Assert.AreEqual(actual.Album.Title, editted.Album.Title, "Track album title not 'Stay Trippy'");
@@ -172,7 +172,7 @@ namespace sixteenBars.Tests.Controllers
             
 
             editted = db.Tracks.Find(4);
-            Assert.AreEqual(editted.Id, 4, "Track Id not 4");
+            Assert.AreEqual(editted.TrackId, 4, "Track Id not 4");
             Assert.AreEqual(editted.Title, "King Sh*t", "Track title not 'King Sh*t'");
 
 
@@ -185,7 +185,7 @@ namespace sixteenBars.Tests.Controllers
 
             actual = db.Tracks.Find(4);
 
-            Assert.AreEqual(actual.Id, 4, "Track Id not 4");
+            Assert.AreEqual(actual.TrackId, 4, "Track Id not 4");
             Assert.AreEqual(actual.Title, editted.Title, "Track title not 'King Sh*t'");
             Assert.AreEqual(actual.Album.Artist.Name, editted.Album.Artist.Name, "Track artist not 'Yo Gotti'");
             Assert.AreEqual(actual.Album.Title, newAlbumTitle, "Track album title not 'Neon Icon'");

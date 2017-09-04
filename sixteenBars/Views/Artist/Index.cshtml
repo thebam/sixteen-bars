@@ -18,6 +18,11 @@
         {
             <div class="row">
                 <div class="col-md-11">
+                    @if (User.IsInRole("Admin") || User.IsInRole("Editor")) {
+                        if (item.Enabled == false) {
+                            <div class="glyphicon glyphicon-ban-circle" class="disabledItem" style="font-size:large;color:#37B8EB;"></div>
+                        }
+                    }
                     @Html.ActionLink(item.Name, URLClean.Clean(item.Name), "Artists")
                 </div>
                 <div class="col-md-1">

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using sixteenBars.Library;
 using sixteenBars.Models;
 using PagedList;
-using System.Web.Script.Serialization;
+using System.Web;
 using WebMatrix.WebData;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace sixteenBars.Controllers
 {
@@ -50,18 +51,23 @@ namespace sixteenBars.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             var albumQuotes = (from album in _db.Albums
-                               join quote in _db.Quotes on album.Id equals quote.Track.Album.Id into quotes
+                               join quote in _db.Quotes on album.AlbumId equals quote.Track.Album.AlbumId into quotes
                                from albumQuote in quotes.DefaultIfEmpty()
                                select new AlbumIndexViewModel
                                {
-                                   Id = album.Id,
+                                   Id = album.AlbumId,
                                    Title = album.Title,
                                    ArtistName = album.Artist.Name,
-                                   ArtistId = album.Artist.Id,
+                                   ArtistId = album.Artist.ArtistId,
+                                   Enabled = album.Enabled,
                                    IsDeleteable = (albumQuote == null) ? true : false
                                }).Distinct().OrderBy(a => a.Title).ToList();
 
-         
+            //TODO - remove enabled == false if not admin or editor
+            if (!User.IsInRole("Admin") && !User.IsInRole("Editor"))
+            {
+                albumQuotes.RemoveAll(a => a.Enabled == false);
+            }
             return View(albumQuotes.ToPagedList(pageNumber, pageSize));
         }
 
@@ -78,12 +84,12 @@ namespace sixteenBars.Controllers
             AlbumDetailsViewModel albumViewModel = new AlbumDetailsViewModel();
             if (album != null)
             {
-                if (album.Id > 0)
+                if (album.AlbumId > 0)
                 {
                     ViewBag.Title = "Rhyme 4 Rhyme : " + album.Title + " : " + album.Artist.Name;
                     ViewBag.MetaDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
                     ViewBag.MetaKeywords = album.Title + ", " + album.Artist.Name + ", Hip-Hop, hip hop, album, record, rap, music";
-                    
+
 
 
                     ViewBag.OGTitle = album.Title + " : " + album.Artist.Name;
@@ -104,17 +110,18 @@ namespace sixteenBars.Controllers
 
                     ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
                     ViewBag.PurchaseLinks = "";
-                    
-                    albumViewModel.Id = album.Id;
+
+                    albumViewModel.Id = album.AlbumId;
                     albumViewModel.Title = album.Title;
-                    albumViewModel.ArtistId = album.Artist.Id;
+                    albumViewModel.ArtistId = album.Artist.ArtistId;
                     albumViewModel.ArtistName = album.Artist.Name;
                     albumViewModel.ReleaseDate = (DateTime)album.ReleaseDate;
                     try
                     {
-                        albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.Id == album.Id).OrderBy(t => t.Title).ToList();
+                        albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.AlbumId == album.AlbumId).OrderBy(t => t.Title).ToList();
                     }
-                    catch (Exception ex) { 
+                    catch (Exception ex)
+                    {
                     }
 
                     AmazonAPIController amz = new AmazonAPIController();
@@ -150,10 +157,10 @@ namespace sixteenBars.Controllers
 
             Album album = _db.Albums.SingleOrDefault(a => a.Artist.Name.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#", "").Replace(" ", "_").ToLower() == artistname.ToLower().Trim() && a.Title.Replace(".", "").Replace(",", "").Replace("&", "").Replace("?", "").Replace("%", "").Replace("!", "").Replace("*", "").Replace(":", "").Replace("<", "").Replace(">", "").Replace("\\", "").Replace(";", "").Replace("/", "").Replace("#", "").Replace(" ", "_").ToLower() == albumtitle.ToLower().Trim());
             AlbumDetailsViewModel albumViewModel = new AlbumDetailsViewModel();
-            if (album!=null)
+            if (album != null)
             {
-                
-               
+
+
 
                 ViewBag.OGTitle = album.Title + " : " + album.Artist.Name;
                 ViewBag.OGDescription = album.Title + ", a Hip-Hop album by " + album.Artist.Name;
@@ -171,14 +178,14 @@ namespace sixteenBars.Controllers
                 ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
                 ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
                 ViewBag.PurchaseLinks = "";
-                albumViewModel.Id = album.Id;
+                albumViewModel.Id = album.AlbumId;
                 albumViewModel.Title = album.Title;
-                albumViewModel.ArtistId = album.Artist.Id;
+                albumViewModel.ArtistId = album.Artist.ArtistId;
                 albumViewModel.ArtistName = album.Artist.Name;
                 albumViewModel.ReleaseDate = (DateTime)album.ReleaseDate;
                 try
                 {
-                    albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.Id == album.Id).OrderBy(t => t.Title).ToList();
+                    albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.AlbumId == album.AlbumId).OrderBy(t => t.Title).ToList();
                 }
                 catch (Exception ex)
                 {
@@ -233,31 +240,49 @@ namespace sixteenBars.Controllers
 
             if (ModelState.IsValid)
             {
-                Artist tempArtist = null;
-                Album tempAlbum = null;
-                tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == album.Artist.Name.ToLower());
-                if (tempAlbum == null)
+                Artist selectedArtist = null;
+                if (_db.Albums.Where(a => a.Title.ToLower() == album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == album.Artist.Name.ToLower()).Count() == 0)
                 {
-                    tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == album.Artist.Name.Trim().ToLower());
-                    if (tempArtist != null)
+                    selectedArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == album.Artist.Name.Trim().ToLower());
+                    if (selectedArtist != null)
                     {
-                        album.Artist = tempArtist;
-
+                        album.Artist = selectedArtist;
                     }
                     else
                     {
-                        _db.Artists.Add(new Artist()
+                        selectedArtist = new Artist();
+                        selectedArtist.Name = album.Artist.Name.Trim();
+                        if (User.IsInRole("Admin"))
                         {
-                            Name = album.Artist.Name.Trim()
-                        });
+                            selectedArtist.Enabled = true;
+                        }
+                        _db.Artists.Add(selectedArtist);
+                        //TODO is this needed
                         _db.SaveChanges();
-                        album.Artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == album.Artist.Name.Trim().ToLower());
+                        LogUtility.Log(
+                            new ChangeLog
+                            {
+                                Type = "artist",
+                                PreviousValues = "ADD - " + selectedArtist.ToString(),
+                                UserId = WebSecurity.CurrentUserId
+                            });
+                        album.Artist = selectedArtist;
                     }
 
-
+                    if (User.IsInRole("Admin"))
+                    {
+                        album.Enabled = true;
+                    }
                     _db.Albums.Add(album);
                     _db.SaveChanges();
 
+                    LogUtility.Log(
+                        new ChangeLog
+                        {
+                            Type = "album",
+                            PreviousValues = "ADD - " + album.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
                     return RedirectToAction("Index");
                 }
                 else
@@ -292,62 +317,53 @@ namespace sixteenBars.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,editor")]
-        public ActionResult Edit(Album album)
+        public ActionResult Edit([Bind(Include = "Id,Enabled,Title,Artist,ReleaseDate")] Album album)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Edit Album";
             ViewBag.MetaDescription = "Hip-Hop album";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
-            Album previousAlbum = null;
             if (ModelState.IsValid)
             {
-                if (!AlbumExists(album.Title, album.Artist.Name))
+                string temp = Request.Form["previousAlbum"];
+                if (_db.Albums.Where(a => a.Title.ToLower() == album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == album.Artist.Name.Trim().ToLower() && a.AlbumId != album.AlbumId).Count() > 0)
                 {
-                    Album edittedAlbum = _db.Albums.Find(album.Id);
-                    previousAlbum = edittedAlbum;
-                    edittedAlbum.Title = album.Title;
-                    edittedAlbum.ReleaseDate = album.ReleaseDate;
-
-                    Artist tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == album.Artist.Name.Trim().ToLower());
-                    if (tempArtist == null)
-                    {
-                        edittedAlbum.Artist = new Artist()
-                        {
-                            Name = album.Artist.Name,
-                            DateModified = DateTime.Now
-                        };
-                    }
-                    else
-                    {
-                        edittedAlbum.Artist = tempArtist;
-                    }
-
-
-
-                    _db.SetModified(edittedAlbum);
-                    _db.SaveChanges();
-
-                    try
-                    {
-                        ChangeLog log = new ChangeLog();
-                        log.Type = "album";
-                        log.PreviousValues = new JavaScriptSerializer().Serialize(previousAlbum);
-                        log.UserId = WebSecurity.CurrentUserId;
-
-                        LogController ctrl = new LogController();
-                        ctrl.Log(log);
-                    }
-                    catch (Exception ex)
-                    {
-                        //TO DO handle exception - email change?
-                    }
-
-                    return RedirectToAction("Index");
-
-
+                    ModelState.AddModelError("", "The album already exists.");
+                    return View(album);
                 }
+                Artist tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == album.Artist.Name.Trim().ToLower());
+                if (tempArtist == null)
+                {
+                    tempArtist = new Artist();
+                    tempArtist.Name = album.Artist.Name;
+                    tempArtist.DateModified = DateTime.Now;
+                    if (User.IsInRole("Admin")) {
+                        tempArtist.Enabled = true;
+                    }
+                    _db.Artists.Add(tempArtist);
+                    _db.SaveChanges();
+                    LogUtility.Log(new ChangeLog {
+                        Type = "artist",
+                        PreviousValues = album.Artist.ToString(),
+                        UserId = WebSecurity.CurrentUserId
+                    });
+                }
+                //TO DO - artist will not update
+                album.Artist = tempArtist;
+                _db.SetModified(album);
+                _db.SaveChanges();
+                LogUtility.Log(new ChangeLog {
+                    Type="album",
+                    PreviousValues = "EDIT - " + Request["previousAlbum"],
+                    UserId = WebSecurity.CurrentUserId
+                });
 
-                return View(album);
+                
+
+                return RedirectToAction("Index");
+
+
             }
+
             else
             {
                 ViewBag.ErrorMessage = "The album '" + album.Title + "' by '" + album.Artist.Name + "' already exists.";
@@ -363,9 +379,7 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Delete Album";
             ViewBag.MetaDescription = "Hip-Hop album";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
-
             Album album = _db.Albums.Find(id);
-
             return View(album);
         }
 
@@ -382,26 +396,15 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
 
             Album album = _db.Albums.Find(id);
-            Album previousAlbum = album;
+            LogUtility.Log(
+                new ChangeLog
+                {
+                    Type = "album",
+                    PreviousValues = "DELETE - " + album.ToString(),
+                    UserId = WebSecurity.CurrentUserId
+                });
             _db.Albums.Remove(album);
             _db.SaveChanges();
-
-
-            try
-            {
-                ChangeLog log = new ChangeLog();
-                log.Type = "album";
-                log.PreviousValues = new JavaScriptSerializer().Serialize(previousAlbum);
-                log.UserId = WebSecurity.CurrentUserId;
-
-                LogController ctrl = new LogController();
-                ctrl.Log(log);
-            }
-            catch (Exception ex)
-            {
-                //TO DO handle exception - email change?
-            }
-
 
             return RedirectToAction("Index");
         }

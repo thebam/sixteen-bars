@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using sixteenBars.Library;
-using System.Data;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace sixteenBars.Models
 {
@@ -19,5 +19,11 @@ namespace sixteenBars.Models
             Entry(entity).State = EntityState.Modified;
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            //base.OnModelCreating(modelBuilder);
+        }
     }
 }

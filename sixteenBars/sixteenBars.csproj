@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -223,10 +224,6 @@
     <Compile Include="Controllers\SearchAPIController.cs" />
     <Compile Include="Controllers\SitemapController.cs" />
     <Compile Include="Controllers\TrackAPIController.cs" />
-    <Compile Include="Migrations\201507251843103_initial.cs" />
-    <Compile Include="Migrations\201507251843103_initial.Designer.cs">
-      <DependentUpon>201507251843103_initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\AlbumDetailsViewModel.cs" />
     <Compile Include="Models\ArtistDetailViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -235,7 +232,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AlbumIndexViewModel.cs" />
     <Compile Include="Models\AlbumViewModel.cs" />
@@ -1184,6 +1180,8 @@
     <Content Include="Views\Track\Edit.cshtml" />
     <Content Include="Views\Track\Delete.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Account\List.cshtml" />
+    <Content Include="Views\Account\UserEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1197,11 +1195,6 @@
       <Project>{3ea10d4f-4e0b-42e0-b406-c11d5edd9083}</Project>
       <Name>sixteenBarsLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507251843103_initial.resx">
-      <DependentUpon>201507251843103_initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

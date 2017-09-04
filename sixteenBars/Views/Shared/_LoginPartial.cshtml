@@ -6,8 +6,13 @@
             <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
         }
     </text>
+    if (User.IsInRole("admin")) {
+        @Html.ActionLink("Manage Users","List","Account",null,null)
+    }
+
+
 } else {
-    
+
         @*<div class="col-md-6">@Html.ActionLink("Register", "register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</div>*@
         <div class="col-md-6">@Html.ActionLink("Login", "login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</div>
     

@@ -11,12 +11,25 @@
 
         @Html.HiddenFor(model => model.Id)
         <div class="form">
-            
+            <div class="form-label">
+                @Html.LabelFor(model => model.Enabled)
+            </div>
+            <div class="form-element">
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.EditorFor(model => model.Enabled)
+                }
+                else
+                {
+                    <span>@Model.Enabled</span>
+                }
+            </div>
                 <div class="form-label">
                     @Html.LabelFor(model => model.Name)
                 </div>
                 <div class="form-element">
-                    @Html.EditorFor(model => model.Name)
+                    @Html.TextBox("Name",Model.Name)
+                    @Html.Hidden("previousArtist",Model.ToString())
                     @Html.ValidationMessageFor(model => model.Name)
                 </div>
            

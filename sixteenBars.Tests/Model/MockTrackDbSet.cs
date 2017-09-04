@@ -7,7 +7,7 @@ namespace sixteenBars.Tests.Model
     {
         public override Track Find(params object[] keyValues)
         {
-            return this.SingleOrDefault(t => t.Id == (int)keyValues.Single());
+            return this.SingleOrDefault(t => t.TrackId == (int)keyValues.Single());
         }
     }
 

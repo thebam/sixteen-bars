@@ -1,6 +1,4 @@
-﻿using sixteenBars.Migrations;
-using System.Data.Entity.Migrations;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -15,15 +13,16 @@ namespace sixteenBars
     {
         protected void Application_Start()
         {
-            var migator = new DbMigrator(new Configuration());
-            migator.Update();
+            //var migator = new DbMigrator(new Configuration());
+            //migator.Update();
             if (!WebSecurity.Initialized)
             {
                 WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             }
+            
 
 
-            AreaRegistration.RegisterAllAreas();
+        AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

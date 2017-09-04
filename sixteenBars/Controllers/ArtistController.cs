@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using sixteenBars.Library;
@@ -37,17 +36,22 @@ namespace sixteenBars.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             var ArtistTrackAlbum = (from artist in _db.Artists
-                                    join track in _db.Tracks on artist.Id equals track.Album.Artist.Id into tracks
+                                    join track in _db.Tracks on artist.ArtistId equals track.Album.Artist.ArtistId into tracks
                                     from artistTrack in tracks.DefaultIfEmpty()
-                                    join quote in _db.Quotes on artist.Id equals quote.Artist.Id into quotes
+                                    join quote in _db.Quotes on artist.ArtistId equals quote.Artist.ArtistId into quotes
                                     from artistQuote in quotes.DefaultIfEmpty()
-                                    where artist.Enabled == true
+                                    
                         select new ArtistIndexViewModel()
                         {
-                            Id = artist.Id,
+                            Id = artist.ArtistId,
                             Name = artist.Name,
+                            Enabled = artist.Enabled,
                             IsDeleteable = (artistTrack == null && artistQuote == null) ? true : false
                         }).Distinct().OrderBy(a => a.Name).ToList();
+
+            if (!User.IsInRole("Admin") && !User.IsInRole("Editor")) {
+                ArtistTrackAlbum.RemoveAll(a => a.Enabled == false);
+            }
 
             return View(ArtistTrackAlbum.ToPagedList(pageNumber, pageSize));
         }
@@ -67,7 +71,7 @@ namespace sixteenBars.Controllers
 
             //Create view model to display quotes and albums
             HttpCookie isExplicit = Request.Cookies["explicit"];
-            Artist artist = _db.Artists.Find(id);
+            Artist artist = _db.Artists.FirstOrDefault(a=>a.ArtistId == id);
             ArtistDetailViewModel artistVM = new ArtistDetailViewModel();
             if (artist == null)
             {
@@ -96,23 +100,23 @@ namespace sixteenBars.Controllers
 
 
 
-                artistVM.Id = artist.Id;
+                artistVM.Id = artist.ArtistId;
                 artistVM.Name = artist.Name;
                 artistVM.Albums = _db.Albums.Where(a
-                    => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
+                    => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.Title).ToList();
                 if (isExplicit != null)
                 {
                     if (isExplicit.Value == "explicit")
                     {
-                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.ArtistId == artist.ArtistId && q.Enabled == true).OrderBy(q => q.Text).ToList();
                     }
                     else
                     {
-                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
+                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.ArtistId == artist.ArtistId && q.Explicit == false && q.Enabled == true).OrderBy(q => q.Text).ToList();
                     }
                 }
                 else {
-                    artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
+                    artistVM.Quotes = _db.Quotes.Where(q => q.Artist.ArtistId == artist.ArtistId && q.Explicit == false && q.Enabled == true).OrderBy(q => q.Text).ToList();
                 }
             }
             return View(artistVM);
@@ -136,41 +140,45 @@ namespace sixteenBars.Controllers
             }
             else
             {
-                ViewBag.Title = artist.Name + " : Quotes and Albums";
-                ViewBag.MetaDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
-                ViewBag.MetaKeywords = artist.Name + ", artist, rapper, quote,album";
-
-                ViewBag.OGTitle = artist.Name + " : Quotes and Albums";
-                ViewBag.OGDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
-                ViewBag.OGAppID = "1474377432864288";
-                ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
-
-
-                ViewBag.OGURL = "http://www.rhyme4rhyme.com/artists/" + URLClean.Clean(artist.Name);
-                ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
-
-
-
-                ViewBag.TwitterTitle = artist.Name + " : Quotes and Albums";
-                ViewBag.TwitterDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
-                ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
-
-                artistVM.Id = artist.Id;
-                artistVM.Name = artist.Name;
-                artistVM.Albums = _db.Albums.Where(a => a.Artist.Id == artist.Id).OrderBy(a => a.Title).ToList();
-                if (isExplicit != null)
+                if (artist.Enabled == true || (artist.Enabled == false && User.IsInRole("Admin") || User.IsInRole("Editor")))
                 {
-                    if (isExplicit.Value == "explicit")
+                    ViewBag.Title = artist.Name + " : Quotes and Albums";
+                    ViewBag.MetaDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                    ViewBag.MetaKeywords = artist.Name + ", artist, rapper, quote,album";
+
+                    ViewBag.OGTitle = artist.Name + " : Quotes and Albums";
+                    ViewBag.OGDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                    ViewBag.OGAppID = "1474377432864288";
+                    ViewBag.MetaAuthor = "Rhyme 4 Rhyme";
+
+
+                    ViewBag.OGURL = "http://www.rhyme4rhyme.com/artists/" + URLClean.Clean(artist.Name);
+                    ViewBag.OGImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+
+
+                    ViewBag.TwitterTitle = artist.Name + " : Quotes and Albums";
+                    ViewBag.TwitterDescription = "Explore quotes and albums from hip-hop artist " + artist.Name;
+                    ViewBag.TwitterImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+
+                    artistVM.Id = artist.ArtistId;
+                    artistVM.Name = artist.Name;
+                    artistVM.Albums = _db.Albums.Where(a => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.Title).ToList();
+                    if (isExplicit != null)
                     {
-                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id).OrderBy(q => q.Text).ToList();
+                        if (isExplicit.Value == "explicit")
+                        {
+                            artistVM.Quotes = _db.Quotes.Where(q => q.Artist.ArtistId == artist.ArtistId && q.Enabled == true).OrderBy(q => q.Text).ToList();
+                        }
+                        else
+                        {
+                            artistVM.Quotes = _db.Quotes.Where(q => q.Artist.ArtistId == artist.ArtistId && q.Explicit == false && q.Enabled == true).OrderBy(q => q.Text).ToList();
+                        }
                     }
                     else
                     {
-                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
+                        artistVM.Quotes = _db.Quotes.Where(q => q.Artist.ArtistId == artist.ArtistId && q.Explicit == false && q.Enabled == true).OrderBy(q => q.Text).ToList();
                     }
-                }
-                else {
-                    artistVM.Quotes = _db.Quotes.Where(q => q.Artist.Id == artist.Id && q.Explicit == false).OrderBy(q => q.Text).ToList();
                 }
             }
             return View("details", artistVM);
@@ -200,11 +208,27 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             if (ModelState.IsValid)
             {
-                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name);
-                if (tempArtist == null)
+                if (_db.Artists.Where(a => a.Name == artist.Name).Count()==0)
                 {
+                    if (User.IsInRole("Admin")) {
+                        artist.Enabled = true;
+                    }
+                    artist.Name = artist.Name.Trim();
                     _db.Artists.Add(artist);
                     _db.SaveChanges();
+
+                    try
+                    {
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "artist",
+                            PreviousValues = "ADD - " + artist.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
+                    }
+                    catch (Exception ex) {
+
+                    }
                 }
                 else {
                     ViewBag.ErrorMessage = "The artist titled '" + artist.Name + "' already exists.";
@@ -242,31 +266,24 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             if (ModelState.IsValid)
             {
-                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name == artist.Name && a.Id != artist.Id);
-                Artist previousArtist = null;
-                if (tempArtist == null)
+                if (_db.Artists.Where(a => a.Name == artist.Name && a.ArtistId != artist.ArtistId).Count()==0)
                 {
-                    previousArtist = artist;
+                    artist.Name = artist.Name.Trim();
                     artist.DateModified = DateTime.Now;
                     _db.SetModified(artist);
                     _db.SaveChanges();
-
-
                     try
                     {
-                        ChangeLog log = new ChangeLog();
-                        log.Type = "artist";
-                        log.PreviousValues = new JavaScriptSerializer().Serialize(previousArtist);
-                        log.UserId = WebSecurity.CurrentUserId;
-
-                        LogController ctrl = new LogController();
-                        ctrl.Log(log);
+                        LogUtility.Log(new ChangeLog {
+                            Type = "artist",
+                            PreviousValues = "EDIT - " + Request["previousArtist"],
+                            UserId = WebSecurity.CurrentUserId
+                        });
                     }
                     catch (Exception ex)
                     {
                         //TO DO handle exception - email change?
                     }
-
                     return RedirectToAction("Index");
                 }
                 else {
@@ -302,16 +319,27 @@ namespace sixteenBars.Controllers
             ViewBag.MetaDescription = "Hip-Hop artist or rapper";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, artist, rapper, rap, music";
             Artist artist = _db.Artists.Find(id);
-            Artist previousArtist=null;
             if (artist != null)
             {
                 //make sure that the artist doesn't have any ablums or quotes in the database to avoid any orphaned records.
-                Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.Id == id);
+                Quote quote = _db.Quotes.SingleOrDefault(q => q.Artist.ArtistId == id);
                 if (quote == null) {
-                    Album album = _db.Albums.SingleOrDefault(a => a.Artist.Id == id);
+                    Album album = _db.Albums.SingleOrDefault(a => a.Artist.ArtistId == id);
                     if (album == null)
                     {
-                        previousArtist = artist;
+                        try
+                        {
+                            LogUtility.Log(new ChangeLog
+                            {
+                                Type = "artist",
+                                PreviousValues = "DELETE - " + artist.ToString(),
+                                UserId = WebSecurity.CurrentUserId
+                            });       
+                        }
+                        catch (Exception ex)
+                        {
+                            //TO DO handle exception - email change?
+                        }
                         _db.Artists.Remove(artist);
                         _db.SaveChanges();
                     }
@@ -326,22 +354,6 @@ namespace sixteenBars.Controllers
                     return View(artist);
                 }
             }
-
-            try
-            {
-                ChangeLog log = new ChangeLog();
-                log.Type = "artist";
-                log.PreviousValues = new JavaScriptSerializer().Serialize(previousArtist);
-                log.UserId = WebSecurity.CurrentUserId;
-
-                LogController ctrl = new LogController();
-                ctrl.Log(log);
-            }
-            catch (Exception ex)
-            {
-                //TO DO handle exception - email change?
-            }
-
             return RedirectToAction("Index");
         }
 
@@ -352,7 +364,6 @@ namespace sixteenBars.Controllers
                 ((IDisposable)_db).Dispose();
             }
             base.Dispose(disposing);
-
         }
     }
 }

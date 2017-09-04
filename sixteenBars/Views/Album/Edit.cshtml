@@ -9,15 +9,26 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         <h2>@ViewBag.ErrorMessage</h2>
-
-
-
-
+        
         <div class="form">
             <div id="trackApp">
                 <div ng-controller="AlbumController">
 
                     @Html.HiddenFor(model => model.Id)
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.Enabled)
+                    </div>
+                    <div class="form-element">
+                        @if (User.IsInRole("Admin"))
+                        {
+                        @Html.EditorFor(model => model.Enabled)
+                        @Html.ValidationMessageFor(model => model.Enabled)
+                        }
+                        else
+                        {
+                            <span>@Model.Enabled</span>
+                        }
+                    </div>
                     <div class="form-label">
                         @Html.LabelFor(model => model.Title)
                     </div>
@@ -30,7 +41,7 @@
                         @Html.LabelFor(model => model.Artist.Name)
                     </div>
                     <div class="form-element">
-                        @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "artistName", ng_keyup = "autoCompleteArtist('artistName')", ng_init = string.Format("artistName = '{0}'", Model.Artist.Name) })
+                        @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "artistName", ng_keyup = "autoCompleteArtist('artistName')", ng_init = string.Format("artistName = \"{0}\"", Model.Artist.Name) })
                         @Html.ValidationMessageFor(model => model.Artist.Name)
                         <div class="suggestions artist-suggestions">
                             <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
@@ -50,7 +61,7 @@
                         @Html.ValidationMessageFor(model => model.ReleaseDate)
                     </div>
 
-
+                    @Html.Hidden("previousAlbum", Model.ToString())
 
                     <div style="margin:15px 0">
                         <input type="submit" value="Save" class="btn-inverse" />
