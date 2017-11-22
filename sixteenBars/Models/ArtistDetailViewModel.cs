@@ -8,6 +8,7 @@ namespace sixteenBars.Models
     {
         public Int32 Id { get; set; }
         public String Name { get; set; }
+        public String Image { get; set; }
         public List<Album> Albums { get; set; }
         public List<Quote> Quotes { get; set; }
     }

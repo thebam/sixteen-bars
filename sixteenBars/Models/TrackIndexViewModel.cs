@@ -1,9 +1,6 @@
 ﻿using sixteenBars.Library;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace sixteenBars.Models
 {
@@ -18,6 +15,8 @@ namespace sixteenBars.Models
         [Display(Name="Artist")]
         public String ArtistName { get; set; }
         public Boolean IsDeleteable { get; set; }
+        public Boolean Enabled { get; set; }
+        public Album Album { get; set; }
         public TrackIndexViewModel()
         {
             IsDeleteable = false;

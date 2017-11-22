@@ -14,5 +14,6 @@ namespace sixteenBars.Models
         public String ArtistName { get; set; }
         public DateTime ReleaseDate { get; set; }
         public List<Track> Tracks { get; set; }
+        public string Image { get; set; }
     }
 }

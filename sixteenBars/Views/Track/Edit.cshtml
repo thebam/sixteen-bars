@@ -11,13 +11,19 @@
     <div class="form">
         
 
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.TrackId)
 
+        <div class="form-label">
+            @Html.LabelFor(model => model.Enabled)
+        </div>
+        <div class="form-element">
+            @Html.EditorFor(model => model.Enabled)
+        </div>
         <div class="form-label">
             @Html.LabelFor(model => model.Title)
         </div>
         <div class="form-element">
-            @Html.EditorFor(model => model.Title)
+            @Html.TextBoxFor(model => model.Title,new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Title)
         </div>
         <div id="trackApp">
@@ -26,7 +32,7 @@
                     <label for="AlbumTitle">Album Title</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Album.Title, new { ng_model = "albumTitle", ng_keyup = "autoCompleteAlbum()", ng_init = string.Format("albumTitle = '{0}'", Model.Album.Title) })
+                    @Html.TextBoxFor(model => model.Album.Title, new { ng_model = "albumTitle", ng_keyup = "autoCompleteAlbum()", ng_init = string.Format("albumTitle = '{0}'", Model.Album.Title),@class="form-control" })
                     @Html.ValidationMessageFor(model => model.Album.Title)
 
                     <div class="suggestions album-suggestions">
@@ -45,7 +51,7 @@
                     <label for="AlbumArtistName">Artist</label>
                 </div> 
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Album.Artist.Name, new { ng_model = "artistName",ng_blur="existTrack()", ng_keyup="autoCompleteArtist('artistName')",ng_init = string.Format("artistName = '{0}'", Model.Album.Artist.Name) })
+                    @Html.TextBoxFor(model => model.Album.Artist.Name, new { ng_model = "artistName",ng_blur="existTrack()", ng_keyup="autoCompleteArtist('artistName')",ng_init = string.Format("artistName = '{0}'", Model.Album.Artist.Name), @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Album.Artist.Name)
 
                     <div class="suggestions artist-suggestions">
@@ -63,26 +69,36 @@
                     <label for="ReleaseDate">Track Release Date</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.ReleaseDate, new { ng_model = "releaseDate", ng_init = string.Format("releaseDate = '{0}'", Model.ReleaseDate != null ? Model.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")) })
+                    @Html.TextAreaFor(model => model.ReleaseDate, new { ng_model = "releaseDate", ng_init = string.Format("releaseDate = '{0}'", Model.ReleaseDate != null ? Model.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")), @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ReleaseDate)
                 </div>
+
+                <div class="form-label">
+                    <label for="trackVideo">Track Video</label>
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.Video, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Video)
+                </div>
+
+
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Order)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.Order, new { @class = "form-control", @type="number", @min="1" })
+                    @Html.ValidationMessageFor(model => model.Order)
+                </div>
+
                 </div>
             </div>
-
+        @Html.Hidden("previousTrack", Model.ToString())
         <div style="margin:15px 0">
-            <input type="submit" value="Save" class="btn-inverse" />
+            <input type="submit" value="Save" class="btn" />
+            @Html.ActionLink("Cancel", "Index", "Track",null, new { @class = "btn btn-inverse" })
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index", "Track", new { @class = "btn btn-back" })
-@if (User.IsInRole("admin"))
-                    {
-    @:&nbsp;
-    @Html.ActionLink("Delete", "Delete", "Track", new { id = Model.Id }, new { @class = "btn btn-remove" })
-}
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")

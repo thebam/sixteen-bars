@@ -34,10 +34,14 @@ namespace sixteenBars.Controllers
             {
                 if (allowExplicit)
                 {
-                    quotes = _db.Quotes.OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                    //TODO - check if artist, album artist, track, and album are enabled
+                    quotes = _db.Quotes.Where(q=>q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image !=null) ).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+
+                    
                 }
                 else {
-                    quotes = _db.Quotes.Where(q => q.Explicit == false).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                    //TODO - check if artist, album artist, track, and album are enabled
+                    quotes = _db.Quotes.Where(q => q.Explicit == false && q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image != null)).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
                 }
                 
                 foreach (Quote quote in quotes)
@@ -88,7 +92,10 @@ namespace sixteenBars.Controllers
             else {
                 quotes = _db.Quotes.Where(q => q.Explicit == false).OrderByDescending(q => q.DateCreated).ToList();
             }
-            
+            if (!User.IsInRole("Admin") && !User.IsInRole("Editor"))
+            {
+                quotes.RemoveAll(q => q.Enabled == false || q.Track.Enabled == false || q.Track.Album.Enabled == false || q.Artist.Enabled == false || q.Track.Album.Artist.Enabled ==false);
+            }
             return View(quotes.ToPagedList(pageNumber, pageSize));
         }
 
@@ -153,25 +160,7 @@ namespace sixteenBars.Controllers
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
                 quoteVM.AlbumArtistId = quote.Track.Album.Artist.ArtistId;
 
-                AmazonAPIController amz = new AmazonAPIController();
-                List<AmazonProduct> amzList = new List<AmazonProduct>();
-                amzList = amz.GetProducts(quote.Track.Title, quote.Artist.Name, "track");
-
-
-                if (amzList != null)
-                {
-                    if (amzList.Count > 0)
-                    {
-                        ViewBag.AlbumImage = amzList[0].ImageURL;
-                        ViewBag.TwitterImage = amzList[0].ImageURL;
-                        ViewBag.OGImage = amzList[0].ImageURL;
-
-                        foreach (AmazonProduct product in amzList)
-                        {
-                            ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
-                        }
-                    }
-                }
+                
             }
             return View(quoteVM);
         }
@@ -222,25 +211,28 @@ namespace sixteenBars.Controllers
                 quoteVM.AlbumId = quote.Track.Album.AlbumId;
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
                 quoteVM.AlbumArtistId = quote.Track.Album.Artist.ArtistId;
-
-
-
-                AmazonAPIController amz = new AmazonAPIController();
-                List<AmazonProduct> amzList= new List<AmazonProduct>();
-                amzList = amz.GetProducts(quote.Track.Title, quote.Artist.Name, "track");
-
-               
-                if(amzList!=null){
-                    if(amzList.Count>0){
-                        ViewBag.AlbumImage = amzList[0].ImageURL;
-                        ViewBag.TwitterImage = amzList[0].ImageURL;
-                        ViewBag.OGImage = amzList[0].ImageURL;
-
-                        foreach(AmazonProduct product in amzList){
-                            ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
-                        }
+                if (string.IsNullOrWhiteSpace(quote.Track.Video))
+                {
+                    
+                    if (!string.IsNullOrWhiteSpace(quote.Artist.Image))
+                    {
+                        quoteVM.Image = quote.Artist.Image;
+                    }
+                    else if(!string.IsNullOrWhiteSpace(quote.Track.Album.Image))
+                    {
+                        quoteVM.Image = quote.Track.Album.Image;
+                    }
+                    else
+                    {
+                        quoteVM.Image = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
                     }
                 }
+                else
+                {
+                    quoteVM.Video = quote.Track.Video;
+                }
+
+                
             }
             return View("details",quoteVM);
         }
@@ -254,7 +246,6 @@ namespace sixteenBars.Controllers
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = new Quote();
-
             return View(quote);
         }
 
@@ -271,70 +262,137 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             if (ModelState.IsValid)
             {
-                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
+                if (_db.Quotes.Where(q => q.Text == quote.Text.Trim() && q.Artist.Name == quote.Artist.Name.Trim()).Count() == 0)
+                {
+
+
+
+
+
+
+
+
+
+
+
+
+                    if (User.IsInRole("admin"))
+                    {
+                        quote.Enabled = true;
+                    }
+                    Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
                     if (tempArtist == null)
                     {
-                        _db.Artists.Add(new Artist()
+                        tempArtist = new Artist();
+                        tempArtist.Name = quote.Artist.Name.Trim();
+                        if (User.IsInRole("admin"))
                         {
-                            Name = quote.Artist.Name.Trim()
-                        });
+                            tempArtist.Enabled = true;
+                        }
+                        _db.Artists.Add(tempArtist);
                         _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "artist",
+                            PreviousValues = "ADD - " + tempArtist.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
                         quote.Artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
                     }
-                    else {
+                    else
+                    {
                         quote.Artist = tempArtist;
                     }
 
                     Artist tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                     if (tempArtistAlbum == null)
                     {
-                        _db.Artists.Add(new Artist()
+                        tempArtistAlbum = new Artist();
+                        tempArtistAlbum.Name = quote.Track.Album.Artist.Name.Trim();
+                        if (User.IsInRole("admin"))
                         {
-                            Name = quote.Track.Album.Artist.Name.Trim()
-                        });
+                            tempArtistAlbum.Enabled = true;
+                        }
+                        _db.Artists.Add(tempArtistAlbum);
                         _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "artist",
+                            PreviousValues = "ADD - " + tempArtistAlbum.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
                         tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                     }
 
                     Album tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                     if (tempAlbum == null)
                     {
-                        _db.Albums.Add(new Album()
+                        tempAlbum = new Album();
+                        tempAlbum.Title = quote.Track.Album.Title.Trim();
+                        tempAlbum.Artist = tempArtistAlbum;
+                        tempAlbum.ReleaseDate = quote.Track.Album.ReleaseDate;
+                        if (User.IsInRole("admin"))
                         {
-                            Title = quote.Track.Album.Title.Trim(),
-                            Artist = tempArtistAlbum,
-                            ReleaseDate = quote.Track.Album.ReleaseDate
-                        });
+                            tempAlbum.Enabled = true;
+                        }
+                        _db.Albums.Add(tempAlbum);
                         _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "album",
+                            PreviousValues = "ADD - " + tempAlbum.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
                         tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
                     }
-                    
-
 
                     Track tempTrack = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
                     if (tempTrack == null)
                     {
-                        _db.Tracks.Add(new Track()
+                        tempTrack = new Track();
+                        tempTrack.Title = quote.Track.Title.Trim();
+                        tempTrack.ReleaseDate = quote.Track.Album.ReleaseDate;
+                        tempTrack.Album = tempAlbum;
+                        if (User.IsInRole("admin"))
                         {
-                            Title = quote.Track.Title.Trim(),
-                            ReleaseDate = quote.Track.Album.ReleaseDate,
-                            Album = tempAlbum
-                        });
+                            tempTrack.Enabled = true;
+                        }
+                        _db.Tracks.Add(tempTrack);
                         _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "track",
+                            PreviousValues = "ADD - " + tempTrack.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
                         quote.Track = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
                     }
                     else
                     {
                         quote.Track = tempTrack;
                     }
+
+
+                    _db.Quotes.Add(quote);
+                    _db.SaveChanges();
+                    LogUtility.Log(new ChangeLog
+                    {
+                        Type = "quote",
+                        PreviousValues = "ADD - " + quote.ToString(),
+                        UserId = WebSecurity.CurrentUserId
+                    });
+                    return RedirectToAction("Index");
                 
-
-                _db.Quotes.Add(quote);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            return View(quote);
+                else
+                {
+                    ViewBag.ErrorMessage = "The quote '" + quote.Text + "' said by '" + quote.Artist.Name + "' already exists.";
+                    return View(quote);
+                }
+            }
+            else {
+                return View(quote);
+            }
         }
 
         //
@@ -360,87 +418,124 @@ namespace sixteenBars.Controllers
             ViewBag.Title = "Rhyme 4 Rhyme : Edit Quote";
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
-            Quote previousQuote = _db.Quotes.Find(quote.QuoteId);
             if (ModelState.IsValid)
             {
-                Quote edittedQuote = _db.Quotes.Find(quote.QuoteId);
-                edittedQuote.Text = quote.Text;
-                edittedQuote.Explanation = quote.Explanation;
-                edittedQuote.Explicit = quote.Explicit;
-                Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
-                if (tempArtist == null)
+                int matchingQuotes = (from item in _db.Quotes
+                           where item.Text == quote.Text.Trim() && item.Artist.Name == quote.Artist.Name.Trim() && item.QuoteId != quote.QuoteId
+                           select item).Count();
+                //SELECT * quotes where text == text and quoteid != quoteid
+                //from that list see if any have quote.artist.name = artistname
+
+                if (matchingQuotes == 0)
                 {
-                    _db.Artists.Add(new Artist()
+
+                    Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
+                    if (tempArtist == null)
                     {
-                        Name = quote.Artist.Name.Trim()
-                    });
-                    _db.SaveChanges();
-                    edittedQuote.Artist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
-                }
-                else
-                {
-                    edittedQuote.Artist = tempArtist;
-                }
+                        tempArtist = new Artist();
+                        tempArtist.Name = quote.Artist.Name.Trim();
+                        if (User.IsInRole("admin"))
+                        {
+                            tempArtist.Enabled = true;
+                        }
+                        _db.Artists.Add(tempArtist);
+                        _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "artist",
+                            PreviousValues = "ADD - " + tempArtist.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
+                    }
+                    quote.ArtistId = tempArtist.ArtistId;
+                    quote.Artist = tempArtist;
 
-                Artist tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
-                if (tempArtistAlbum == null)
-                {
-                    _db.Artists.Add(new Artist()
+
+                    Artist tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                    if (tempArtistAlbum == null)
                     {
-                        Name = quote.Track.Album.Artist.Name.Trim()
-                    });
-                    _db.SaveChanges();
-                    tempArtistAlbum = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
-                }
+                        tempArtistAlbum = new Artist();
+                        tempArtistAlbum.Name = quote.Track.Album.Artist.Name.Trim();
+                        if (User.IsInRole("admin"))
+                        {
+                            tempArtistAlbum.Enabled = true;
+                        }
+                        _db.Artists.Add(tempArtistAlbum);
+                        _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "artist",
+                            PreviousValues = "ADD - " + tempArtistAlbum.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
+                    }
+                    quote.Track.Album.ArtistId = tempArtistAlbum.ArtistId;
+                    quote.Track.Album.Artist = tempArtistAlbum;
 
-                Album tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
-                if (tempAlbum == null)
-                {
-                    _db.Albums.Add(new Album()
+
+                    Album tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
+                    if (tempAlbum == null)
                     {
-                        Title = quote.Track.Album.Title.Trim(),
-                        Artist = tempArtistAlbum,
-                        ReleaseDate = quote.Track.Album.ReleaseDate
-                    });
-                    _db.SaveChanges();
-                    tempAlbum = _db.Albums.SingleOrDefault(a => a.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower() && a.Artist.Name.ToLower() == quote.Track.Album.Artist.Name.Trim().ToLower());
-                }
+                        tempAlbum = new Album();
+                        tempAlbum.Title = quote.Track.Album.Title.Trim();
+                        tempAlbum.Artist = tempArtistAlbum;
+                        tempAlbum.ReleaseDate = quote.Track.Album.ReleaseDate;
+                        if (User.IsInRole("admin"))
+                        {
+                            tempAlbum.Enabled = true;
+                        }
+                        _db.Albums.Add(tempAlbum);
+                        _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "album",
+                            PreviousValues = "ADD - " + tempAlbum.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
+                    }
+                    quote.Track.Album = tempAlbum;
 
 
-                Track tempTrack = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
-                if (tempTrack == null)
-                {
-                    _db.Tracks.Add(new Track()
+
+                    Track tempTrack = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
+                    if (tempTrack == null)
                     {
-                        Title = quote.Track.Title.Trim(),
-                        ReleaseDate = quote.Track.Album.ReleaseDate,
-                        Album = tempAlbum
-                    });
+                        tempTrack = new Track();
+                        tempTrack.Title = quote.Track.Title.Trim();
+                        tempTrack.ReleaseDate = quote.Track.Album.ReleaseDate;
+                        tempTrack.Album = tempAlbum;
+                        if (User.IsInRole("admin"))
+                        {
+                            tempTrack.Enabled = true;
+                        }
+                        _db.Tracks.Add(tempTrack);
+                        _db.SaveChanges();
+                        LogUtility.Log(new ChangeLog
+                        {
+                            Type = "track",
+                            PreviousValues = "ADD - " + tempTrack.ToString(),
+                            UserId = WebSecurity.CurrentUserId
+                        });
+                    }
+                    quote.TrackId = tempTrack.TrackId;
+                    quote.Track = tempTrack;
+
+                    _db.SetModified(quote);
                     _db.SaveChanges();
-                    edittedQuote.Track = _db.Tracks.SingleOrDefault(t => t.Title.ToLower() == quote.Track.Title.Trim().ToLower() && t.Album.Title.ToLower() == quote.Track.Album.Title.Trim().ToLower());
-                }
-                else
-                {
-                    edittedQuote.Track = tempTrack;
-                }
-                _db.SetModified(edittedQuote);
-                _db.SaveChanges();
 
-                try
-                {
-                    //ChangeLog log = new ChangeLog();
-                    //log.Type = "quote";
-                    //log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
-                    //log.UserId = WebSecurity.CurrentUserId;
+                    LogUtility.Log(new ChangeLog
+                    {
+                        Type = "quote",
+                        PreviousValues = "EDIT - " + Request.Form["previousQuote"],
+                        UserId = WebSecurity.CurrentUserId
+                    });
 
-                    //LogController ctrl = new LogController();
-                    //ctrl.Log(log);
-                }
-                catch (Exception ex) { 
-                    //TO DO handle exception - email change?
+                    return RedirectToAction("Index");
+                } else {
+                    ViewBag.ErrorMessage = "The quote '" + quote.Text + "' said by '" + quote.Artist.Name + "' already exists.";
+                    return View(quote);
                 }
 
-                return RedirectToAction("Index");
             }
             else {
                 ViewBag.ErrorMessage = "The quote already exists.";
@@ -483,25 +578,13 @@ namespace sixteenBars.Controllers
             ViewBag.MetaDescription = "Hip-Hop quote";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             Quote quote = _db.Quotes.Find(id);
-            Quote previousQuote = quote;
+            LogUtility.Log(new ChangeLog {
+                Type = "quote",
+                PreviousValues = "DELETE - " + quote.ToString(),
+                UserId = WebSecurity.CurrentUserId
+            });
             _db.Quotes.Remove(quote);
             _db.SaveChanges();
-
-
-            try
-            {
-                //ChangeLog log = new ChangeLog();
-                //log.Type = "quote";
-                //log.PreviousValues = new JavaScriptSerializer().Serialize(previousQuote);
-                //log.UserId = WebSecurity.CurrentUserId;
-
-                //LogController ctrl = new LogController();
-                //ctrl.Log(log);
-            }
-            catch (Exception ex)
-            {
-                //TO DO handle exception - email change?
-            }
             return RedirectToAction("Index");
         }
 

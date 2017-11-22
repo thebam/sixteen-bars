@@ -7,7 +7,7 @@
 @if (User.IsInRole("admin") || User.IsInRole("editor"))
 {
     <p>
-        @Html.ActionLink("Add Artist", "Create","Artist", new { @class = "btn btn-add" })
+        @Html.ActionLink("Add Artist", "Create","Artist",null, new { @class = "btn btn-add" })
     </p>
 }
 @if (Model != null)
@@ -17,21 +17,21 @@
         @foreach (var item in Model)
         {
             <div class="row">
-                <div class="col-md-11">
+                <div class="col-md-10">
                     @if (User.IsInRole("Admin") || User.IsInRole("Editor")) {
                         if (item.Enabled == false) {
-                            <div class="glyphicon glyphicon-ban-circle" class="disabledItem" style="font-size:large;color:#37B8EB;"></div>
+                            <div class="glyphicon glyphicon-ban-circle disabledItem"></div>
                         }
                     }
                     @Html.ActionLink(item.Name, URLClean.Clean(item.Name), "Artists")
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     @if (User.IsInRole("admin") || User.IsInRole("editor"))
                     {
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                         if (item.IsDeleteable && User.IsInRole("admin"))
                         {
-                            @:<br/> @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            @:&nbsp; @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         }
                     }
                 </div>
@@ -49,19 +49,3 @@
         {
         <p>No Artists Found</p>
         }
-<hr />
-<div class="col-md-12">
-    <script type="text/javascript">
-        amzn_assoc_placement = "adunit0";
-        amzn_assoc_tracking_id = "rhy4rhy-20";
-        amzn_assoc_ad_mode = "manual";
-        amzn_assoc_ad_type = "smart";
-        amzn_assoc_marketplace = "amazon";
-        amzn_assoc_region = "US";
-        amzn_assoc_linkid = "99366fd5778d915842cc778984d7eddb";
-        amzn_assoc_search_bar = "false";
-        amzn_assoc_title = "Music Accessories";
-        amzn_assoc_asins = "B011SLD1NC,B008EQ1YUC,B008CQVSXC,B00PQWIZPY";
-    </script>
-    <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
-</div>

@@ -1,19 +1,18 @@
-﻿@if (Request.IsAuthenticated) {
-    <text>
-        @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
-            @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-        }
-    </text>
-    if (User.IsInRole("admin")) {
-        @Html.ActionLink("Manage Users","List","Account",null,null)
+﻿<div class="col-md-2 text-right">
+    @if (Request.IsAuthenticated)
+    {
+        <text>
+            @User.Identity.Name | @Html.ActionLink("Edit Profile", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+            }
+        </text>
+        
     }
-
-
-} else {
-
-        @*<div class="col-md-6">@Html.ActionLink("Register", "register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</div>*@
-        <div class="col-md-6">@Html.ActionLink("Login", "login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</div>
-    
-}
+    else
+    {
+        @Html.ActionLink("Login", "login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    }
+</div>

@@ -102,6 +102,7 @@ namespace sixteenBars.Controllers
 
                 artistVM.Id = artist.ArtistId;
                 artistVM.Name = artist.Name;
+                artistVM.Image = artist.Image;
                 artistVM.Albums = _db.Albums.Where(a
                     => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.Title).ToList();
                 if (isExplicit != null)
@@ -163,6 +164,7 @@ namespace sixteenBars.Controllers
 
                     artistVM.Id = artist.ArtistId;
                     artistVM.Name = artist.Name;
+                    artistVM.Image = artist.Image;
                     artistVM.Albums = _db.Albums.Where(a => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.Title).ToList();
                     if (isExplicit != null)
                     {

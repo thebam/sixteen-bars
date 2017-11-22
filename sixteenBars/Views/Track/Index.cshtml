@@ -8,7 +8,7 @@
 
 @if (User.IsInRole("admin") || User.IsInRole("editor")) {
     <p>
-        @Html.ActionLink("Add Track", "Create","Track", new { @class = "btn btn-add" })
+        @Html.ActionLink("Add Track", "Create","Track", null,new { @class = "btn btn-add" })
     </p>
 }
 
@@ -21,17 +21,40 @@
         {
             <div class="row">
                 <div class="col-md-4">
+                    @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+                    {
+                        if (item.Enabled == false)
+                        {
+                            <div class="glyphicon glyphicon-ban-circle disabledItem"></div>
+                        }
+                    }
                     @Html.ActionLink(item.Title, URLClean.Clean(item.AlbumTitle) + "/" + URLClean.Clean(item.Title), "Tracks")
                 </div>
-                <div class="col-md-4">
-                    Album : @Html.ActionLink(item.AlbumTitle, URLClean.Clean(item.ArtistName) + "/" + URLClean.Clean(item.AlbumTitle), "Albums")
+                <div class="col-md-3">
+                    Album : 
+                    @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+                    {
+                        if (item.Album.Enabled == false)
+                        {
+                            <div class="glyphicon glyphicon-ban-circle disabledItem"></div>
+                        }
+                    }
+                    @Html.ActionLink(item.AlbumTitle, URLClean.Clean(item.ArtistName) + "/" + URLClean.Clean(item.AlbumTitle), "Albums")
                 </div>
                 <div class="col-md-3">
-                    Artist : @Html.ActionLink(item.ArtistName, URLClean.Clean(item.ArtistName), "Artists")
+                    Artist : 
+                    @if (User.IsInRole("Admin") || User.IsInRole("Editor"))
+                    {
+                        if (item.Album.Artist.Enabled == false)
+                        {
+                            <div class="glyphicon glyphicon-ban-circle disabledItem"></div>
+                        }
+                    }
+                    @Html.ActionLink(item.ArtistName, URLClean.Clean(item.ArtistName), "Artists")
 
                 </div>
 
-                <div class="col-md-1">
+                <div class="col-md-2">
 
                     @if (User.IsInRole("admin")||User.IsInRole("editor"))
                     {
@@ -40,7 +63,7 @@
 
                         if (item.IsDeleteable && User.IsInRole("admin"))
                         {
-                            @:<br />
+                            @:&nbsp;
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         }
                     }
@@ -60,20 +83,3 @@ else
     <p>No Tracks Found</p>
 
 }
-
-<hr />
-<div class="col-md-12">
-    <script type="text/javascript">
-        amzn_assoc_placement = "adunit0";
-        amzn_assoc_tracking_id = "rhy4rhy-20";
-        amzn_assoc_ad_mode = "manual";
-        amzn_assoc_ad_type = "smart";
-        amzn_assoc_marketplace = "amazon";
-        amzn_assoc_region = "US";
-        amzn_assoc_linkid = "99366fd5778d915842cc778984d7eddb";
-        amzn_assoc_search_bar = "false";
-        amzn_assoc_title = "Music Accessories";
-        amzn_assoc_asins = "B011SLD1NC,B008EQ1YUC,B008CQVSXC,B00PQWIZPY";
-    </script>
-    <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
-</div>

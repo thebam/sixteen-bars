@@ -33,7 +33,7 @@ namespace sixteenBars.Controllers
                 if (filter)
                         {
                             results = (from q in _db.Quotes
-                                       where q.Text.Contains(searchTerm) && q.Enabled == true
+                                       where q.Text.Contains(searchTerm) && q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && q.Track.Album.Artist.Enabled == true
                                        select new SearchResult
                                        {
                                            Id = q.QuoteId,
@@ -52,7 +52,7 @@ namespace sixteenBars.Controllers
                         else
                         {
                             results = (from q in _db.Quotes
-                                             where q.Text.Contains(searchTerm) && q.Enabled == true && q.Explicit == false
+                                       where q.Text.Contains(searchTerm) && q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && q.Track.Album.Artist.Enabled == true && q.Explicit == false
                                              select new SearchResult
                                              {
                                                  Id = q.QuoteId,
@@ -87,7 +87,7 @@ namespace sixteenBars.Controllers
                         {
                             
                             resultsQuotes = (from q in _db.Quotes
-                                             where q.Text.Contains(searchTerm) && q.Enabled == true
+                                             where q.Text.Contains(searchTerm) && q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && q.Track.Album.Artist.Enabled == true
                                              select new SearchResult
                                              {
                                                  Id = q.QuoteId,
@@ -99,7 +99,7 @@ namespace sixteenBars.Controllers
                         else
                         {
                             resultsQuotes = (from q in _db.Quotes
-                                             where q.Text.Contains(searchTerm) && q.Enabled == true && q.Explicit == false
+                                             where q.Text.Contains(searchTerm) && q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && q.Track.Album.Artist.Enabled == true && q.Explicit == false
                                              select new SearchResult
                                              {
                                                  Id = q.QuoteId,
@@ -110,7 +110,7 @@ namespace sixteenBars.Controllers
                         }
 
                         resultsTracks = (from t in _db.Tracks
-                                         where t.Title.Contains(searchTerm) && t.Enabled == true
+                                         where t.Title.Contains(searchTerm) && t.Enabled == true && t.Album.Enabled == true && t.Album.Artist.Enabled == true
                                          select new SearchResult
                                          {
                                              Id = t.TrackId,
@@ -119,7 +119,7 @@ namespace sixteenBars.Controllers
                                              URL = "Tracks-slash-" + t.Album.Title+ "-slash-" + t.Title
                                          }).ToList();
                         resultsAlbums = (from a in _db.Albums
-                                         where a.Title.Contains(searchTerm) && a.Enabled == true
+                                         where a.Title.Contains(searchTerm) && a.Enabled == true && a.Artist.Enabled == true
                                          select new SearchResult
                                          {
                                              Id = a.AlbumId,

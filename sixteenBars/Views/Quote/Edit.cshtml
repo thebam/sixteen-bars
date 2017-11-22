@@ -2,22 +2,28 @@
 
     @Styles.Render("~/Content/themes/base/css")
     <h1>Edit Quote</h1>
+
     <div id="trackApp">
     <div ng-controller="AlbumController">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
-
+            <h2>@ViewBag.ErrorMessage</h2>
             <div class="form">
                 
-                @Html.HiddenFor(model => model.Id)
-
+                @Html.HiddenFor(model => model.QuoteId)
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Enabled)
+                </div>
+                <div class="form-element">
+                    @Html.CheckBoxFor(model => model.Enabled)
+                </div>
                 <div class="form-label">
                     @Html.LabelFor(model => model.Text)
                 </div>
                 <div class="form-element">
-                    @Html.TextAreaFor(model => model.Text)
+                    @Html.TextAreaFor(model => model.Text,new { @class="form-control"})
                     @Html.ValidationMessageFor(model => model.Text)
                 </div>
                 <div class="form-label">
@@ -30,14 +36,14 @@
                     @Html.LabelFor(model => model.Explanation)
                 </div>
                 <div class="form-element">
-                    @Html.TextAreaFor(model => model.Explanation)
+                    @Html.TextAreaFor(model => model.Explanation, new { @class="form-control"})
                 </div>
 
                 <div class="form-label">
                     <label for="">Said By</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "saidByArtistName", ng_keyup = "autoCompleteArtist('saidByArtistName')", ng_init = string.Format("saidByArtistName = '{0}'", Model.Artist.Name) })
+                    @Html.TextBoxFor(model => model.Artist.Name, new { ng_model = "saidByArtistName", ng_keyup = "autoCompleteArtist('saidByArtistName')", ng_init = string.Format("saidByArtistName = '{0}'", Model.Artist.Name),@class = "form-control" })
                     <div class="suggestions speaker-suggestions">
                         <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -53,7 +59,7 @@
                     <label for="Track.Title">From Song</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Track.Title, new { ng_model = "trackTitle", ng_keyup = "autoCompleteTrack()", ng_init = string.Format("trackTitle = '{0}'", Model.Track.Title) })
+                    @Html.TextBoxFor(model => model.Track.Title, new { ng_model = "trackTitle", ng_keyup = "autoCompleteTrack()", ng_init = string.Format("trackTitle = '{0}'", Model.Track.Title), @class = "form-control" })
                     <div class="suggestions track-suggestions">
                         <p><strong>Suggested Track(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -70,7 +76,7 @@
                     <label for="Track.Album.Title">From Album</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Track.Album.Title, new { ng_model = "albumTitle", ng_keyup = "autoCompleteAlbum()", ng_blur="existTrack()" ,ng_init = string.Format("albumTitle = '{0}'", Model.Track.Album.Title) })
+                    @Html.TextBoxFor(model => model.Track.Album.Title, new { ng_model = "albumTitle", ng_keyup = "autoCompleteAlbum()", ng_blur="existTrack()" ,ng_init = string.Format("albumTitle = '{0}'", Model.Track.Album.Title), @class = "form-control" })
                     <div class="suggestions album-suggestions">
                         <p><strong>Suggested Album(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -86,7 +92,7 @@
                     <label for="Track.Album.Artist.Name">Album Artist</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Track.Album.Artist.Name, new { ng_model = "artistName", ng_blur = "existTrack()", ng_keyup = "autoCompleteArtist('artistName')", ng_init = string.Format("artistName = '{0}'", Model.Track.Album.Artist.Name) })
+                    @Html.TextBoxFor(model => model.Track.Album.Artist.Name, new { ng_model = "artistName", ng_blur = "existTrack()", ng_keyup = "autoCompleteArtist('artistName')", ng_init = string.Format("artistName = '{0}'", Model.Track.Album.Artist.Name), @class = "form-control" })
                     <div class="suggestions artist-suggestions">
                         <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -101,23 +107,18 @@
                     <label for="Track.Album.ReleaseDate">Album Release Date</label>
                 </div>
                 <div class="form-element">
-                    @Html.TextBoxFor(model => model.Track.Album.ReleaseDate, new { ng_model = "releaseDate", ng_blur = "existTrack()", ng_init = string.Format("releaseDate = '{0}'", Model.Track.Album.ReleaseDate != null ? Model.Track.Album.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")) })
+                    @Html.TextBoxFor(model => model.Track.Album.ReleaseDate, new { ng_model = "releaseDate", ng_blur = "existTrack()", ng_init = string.Format("releaseDate = '{0}'", Model.Track.Album.ReleaseDate != null ? Model.Track.Album.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")), @class = "form-control" })
                 </div>
-                <div style="margin:15px 0">
-                    <input type="submit" value="Save" class="btn-inverse" />
+                @Html.Hidden("previousQuote", Model.ToString())
+                <div>
+                    <input type="submit" value="Save" class="btn" />
+                    @Html.ActionLink("Cancel", "Index", "Quote",null, new { @class = "btn btn-inverse" })
                 </div>
             </div>
         }
     </div>
 </div>
-<div>
-    @Html.ActionLink("Back to List", "Index", "Quote", new { @class = "btn btn-back" })
-@if (User.IsInRole("admin") )
-            {
-    @:&nbsp;
-    @Html.ActionLink("Delete", "Delete", "Quote", new { id = Model.Id }, new { @class = "btn btn-remove" })
-}
-</div>
+
 
             @section Scripts {
                 @Scripts.Render("~/bundles/jqueryui")

@@ -12,11 +12,16 @@
             @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.Title)), style = "display:none;" })
             @Html.TextBoxFor(model => model.ArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.ArtistName)), style = "display:none;" })
             <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />
-            <div class="lower-details row">
-                <div class="col-md-3 albumArt">
-                    <img src="@Html.Raw(ViewBag.AlbumImage)" />
-                </div>
-                <div class="col-md-9">
+            <div class="row lower-details">
+                
+                    <div class="col-md-7 albumArt">
+                        <img class="img-responsive" src="@Html.Raw(Model.Image)" />
+                    </div>
+
+                
+
+
+                <div class="col-md-5">
                     <p>
                         @if (Model.ArtistId != null && Model.ArtistName !=null)
                         {
@@ -58,7 +63,7 @@
         </div>
     </div>
     <div style="margin-top:15px;">
-        @Html.ActionLink("Back to List", "Index", "Album", new { @class = "btn btn-back" })
+        @Html.ActionLink("Back to List", "Index", "Album",null, new { @class = "btn btn-back" })
         @if (User.IsInRole("admin") || User.IsInRole("editor"))
         {
             @: &nbsp;

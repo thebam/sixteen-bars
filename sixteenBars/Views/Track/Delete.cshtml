@@ -1,7 +1,7 @@
 ﻿@model sixteenBars.Library.Track
 
-
 <h1>Delete Track</h1>
+<h2>@ViewBag.ErrorMessage</h2>
 @if (Model != null)
 {
     <h3>Are you sure you want to delete the track named '@Html.Raw(Model.Title)' from the album titled '@Html.Raw(Model.Album.Title)'?</h3>
@@ -9,9 +9,8 @@
     {
         @Html.AntiForgeryToken()
         <p>
-            <input type="submit" value="Delete" class="btn btn-inverse" />
-            &nbsp;
-            @Html.ActionLink("Cancel", "Index", "Track", new { @class = "btn" })
+            <input type="submit" value="Delete" class="btn" />
+            @Html.ActionLink("Cancel", "Index", "Track",null, new { @class = "btn btn-inverse" })
         </p>
     }
 }

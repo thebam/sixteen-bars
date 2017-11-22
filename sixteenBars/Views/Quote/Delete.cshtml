@@ -12,9 +12,9 @@
 using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p style="margin-top:15px;">
-        <input type="submit" value="Delete" class="btn btn-inverse" />
-            &nbsp;
-        @Html.ActionLink("Cancel", "Index", "Quote", new { @class = "btn" })
+        <input type="submit" value="Delete" class="btn" />
+            
+        @Html.ActionLink("Cancel", "Index", "Quote",null, new { @class = "btn btn-inverse" })
     </p>
 }
 }

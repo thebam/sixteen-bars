@@ -49,6 +49,7 @@ namespace sixteenBars.Models
         public String AlbumArtistName { get; set; }
         [Display(Name = "Album By")]
         public SelectList AlbumArtists { get; set; }
-
+        public string Image { get; set; }
+        public string Video { get; set; }
     }
 }

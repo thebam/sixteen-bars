@@ -1,9 +1,6 @@
 ﻿using sixteenBars.Library;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace sixteenBars.Models
 {
@@ -19,7 +16,7 @@ namespace sixteenBars.Models
         [Display(Name="Album Title")]
         public String AlbumTitle { get; set; }
         public virtual Album Album { get; set; }
-
-        
+        public string Video { get; set; }
+        public int Order { get; set; }
     }
 }

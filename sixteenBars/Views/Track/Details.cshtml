@@ -1,6 +1,7 @@
 ﻿@model sixteenBars.Library.Track
 @using sixteenBars.Library;
-@if(Model != null){
+@if (Model != null)
+{
 
 
     <h1>
@@ -8,17 +9,41 @@
     </h1>
     <div id="trackApp">
         <div ng-controller="AlbumController">
-            <div class="row lower-details">
+            <div class="row lower-details" style="padding-top:0;">
 
-                <div class="col-md-3 albumArt">
-                    <img src="@Html.Raw(ViewBag.AlbumImage)" />
-                </div>
+                @if (!String.IsNullOrWhiteSpace(Model.Video))
+                {
+                    <div class="embed-responsive embed-responsive-16by9 col-md-7">
+                        @Html.Raw(Model.Video)
+                    </div>
+                }
+                else if (!String.IsNullOrWhiteSpace(Model.Album.Image))
+                {
+                    <div class="col-md-7 albumArt">
+                        <img src="@Html.Raw(Model.Album.Image)" />
+                    </div>
+                }
+                else if (!String.IsNullOrWhiteSpace(Model.Album.Artist.Image))
+                {
+                    <div class="col-md-7 albumArt">
+                        <img src="@Html.Raw(Model.Album.Artist.Image)" />
+                    </div>
 
-                <div class="col-md-9">
+                }
+                else
+                {
+                    <div class="col-md-7 albumArt">
+                        <img src="@Html.Raw(ViewBag.AlbumImage)" />
+                    </div>
+
+                }
+                <div class="col-md-5" style="padding-top:15px;">
                     <p>
                         <strong>
-                            Album :</strong>
-                    @Html.ActionLink(Model.Album.Title, URLClean.Clean(Model.Album.Artist.Name) + "/" + URLClean.Clean(Model.Album.Title), "Albums")</p>
+                            Album :
+                        </strong>
+                        @Html.ActionLink(Model.Album.Title, URLClean.Clean(Model.Album.Artist.Name) + "/" + URLClean.Clean(Model.Album.Title), "Albums")
+                    </p>
 
                     <p>
                         <strong>
@@ -35,45 +60,34 @@
 
                         @String.Format("{0:MM/dd/yyyy}", Model.ReleaseDate)
                     </p>
+                     <div>
+                         @Html.ActionLink("Back to List", "Index", "Track", null, new { @class = "btn btn-back" })
+                         @if (User.IsInRole("admin") || User.IsInRole("editor"))
+                         {
+                             @: &nbsp;
+                             @Html.ActionLink("Edit", "Edit", "Track", new { id = Model.TrackId }, new { @class = "btn btn-edit" })
+                             if (User.IsInRole("admin"))
+                             {
+                                 @: &nbsp;
+                                 @Html.ActionLink("Delete", "Delete", "Track", new { id = Model.TrackId }, new { @class = "btn btn-remove" })
+                             }
+                         }
+                     </div>
 
-
-                           @if (ViewBag.PurchaseLinks.Length > 0)
-                           {
-                            <div>
-                                <hr />
-                                <h4>Get This Track</h4>
-                                @Html.Raw(ViewBag.PurchaseLinks)
-                            </div>
-                           }
                 </div>
             </div>
-
-
-            @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.Title) + " " + Url.Encode(Model.Album.Title)), style = "display:none;" })
-            @Html.TextBoxFor(model => model.Album.Artist.Name, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.Album.Artist.Name)), style = "display:none;" })
-            <input type="hidden" ng-model="amzType" ng-init="amzType='track'" />
-
-
-            </div>
         </div>
-            <div>
-                @Html.ActionLink("Back to List", "Index", "Track", new { @class = "btn btn-back" })
-                @if (User.IsInRole("admin") || User.IsInRole("editor")){
-                    @: &nbsp;
-                    @Html.ActionLink("Edit", "Edit", "Track", new { id = Model.Id }, new { @class = "btn btn-edit" })
-                    if (User.IsInRole("admin"))
-                    {
-                    @: &nbsp;
-                    @Html.ActionLink("Delete", "Delete", "Track", new { id = Model.Id }, new { @class = "btn btn-remove" })
-                    }
-                }
-            </div>
+        <div class="clearfix"></div>
+    </div>
+        
             @section Scripts{
                 <script src="~/Scripts/sixteenbars-track-app.js"></script>
                 <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
                 <script src="~/Scripts/sixteenbars-exist-functions.js"></script>
                 <script src="~/Scripts/sixteenbars-album-autocomplete.js"></script>
             }
-            }else{
-            <p>Track Not Found</p>
-            }
+}
+else
+{
+    <p>Track Not Found</p>
+}

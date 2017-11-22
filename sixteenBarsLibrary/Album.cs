@@ -25,6 +25,7 @@ namespace sixteenBars.Library
         [Required]
         public Boolean Enabled { get; set; }
         public virtual List<Track> Tracks { get; set; }
+        public string Image { get; set; }
         public Album()
         { 
             DateCreated = DateTime.Now;

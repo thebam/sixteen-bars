@@ -36,7 +36,6 @@ namespace sixteenBars.Controllers
             var tracks = (from track in _db.Tracks
                           join quote in _db.Quotes on track.TrackId equals quote.Track.TrackId into quotes
                           from trackQuotes in quotes.DefaultIfEmpty()
-                          where track.Enabled == true
                           select new TrackIndexViewModel()
                           {
                               Id = track.TrackId,
@@ -45,10 +44,15 @@ namespace sixteenBars.Controllers
                               AlbumTitle = track.Album.Title,
                               ArtistId = track.Album.Artist.ArtistId,
                               ArtistName = track.Album.Artist.Name,
-                              IsDeleteable = (trackQuotes == null) ? true:false
+                              IsDeleteable = (trackQuotes == null) ? true:false,
+                              Enabled = track.Enabled,
+                              Album = track.Album
                           }).Distinct().OrderBy(t => t.Title).ToList();
 
-
+            if (!User.IsInRole("Admin") && !User.IsInRole("Editor"))
+            {
+                tracks.RemoveAll(t => t.Enabled == false || t.Album.Enabled == false || t.Album.Artist.Enabled == false);
+            }
             return View(tracks.ToPagedList(pageNumber, pageSize));
         }
 
@@ -85,25 +89,10 @@ namespace sixteenBars.Controllers
                 ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
                 ViewBag.PurchaseLinks = "";
 
-                AmazonAPIController amz = new AmazonAPIController();
-                List<AmazonProduct> amzList = new List<AmazonProduct>();
-                amzList = amz.GetProducts(track.Title, track.Album.Artist.Name, "track");
+                
 
 
-                if (amzList != null)
-                {
-                    if (amzList.Count > 0)
-                    {
-                        ViewBag.AlbumImage = amzList[0].ImageURL;
-                        ViewBag.TwitterImage = amzList[0].ImageURL;
-                        ViewBag.OGImage = amzList[0].ImageURL;
-
-                        foreach (AmazonProduct product in amzList)
-                        {
-                            ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
-                        }
-                    }
-                }
+                
             }
             return View(track);
         }
@@ -144,25 +133,7 @@ namespace sixteenBars.Controllers
                 ViewBag.AlbumImage = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
                 ViewBag.PurchaseLinks = "";
 
-                AmazonAPIController amz = new AmazonAPIController();
-                List<AmazonProduct> amzList = new List<AmazonProduct>();
-                amzList = amz.GetProducts(track.Title, track.Album.Artist.Name, "track");
-
-
-                if (amzList != null)
-                {
-                    if (amzList.Count > 0)
-                    {
-                        ViewBag.AlbumImage = amzList[0].ImageURL;
-                        ViewBag.TwitterImage = amzList[0].ImageURL;
-                        ViewBag.OGImage = amzList[0].ImageURL;
-
-                        foreach (AmazonProduct product in amzList)
-                        {
-                            ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
-                        }
-                    }
-                }
+                
 
             }
             return View("details", track);
@@ -185,6 +156,7 @@ namespace sixteenBars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         [Authorize(Roles = "Admin,editor")]
         public ActionResult Create(TrackViewModel trackVM)
         {
@@ -196,39 +168,70 @@ namespace sixteenBars.Controllers
                 Artist artist = _db.Artists.FirstOrDefault(a => a.Name.ToLower() == trackVM.ArtistName.Trim().ToLower());
                 if (artist == null)
                 {
-                    _db.Artists.Add(new Artist() { Name = trackVM.ArtistName.Trim(), DateModified = DateTime.Now });
+                    artist = new Artist();
+                    artist.Name = trackVM.ArtistName.Trim();
+                    artist.DateModified = DateTime.Now;
+                    if (User.IsInRole("admin"))
+                    {
+                        artist.Enabled = true;
+                    }
+                    _db.Artists.Add(artist);
                     _db.SaveChanges();
+                    LogUtility.Log(new ChangeLog {
+                        Type = "artist",
+                        PreviousValues = "ADD - " + artist.ToString(),
+                        UserId = WebSecurity.CurrentUserId
+                    });
                     artist = _db.Artists.FirstOrDefault(a => a.Name.ToLower() == trackVM.ArtistName.Trim().ToLower());
                 }
 
                 Album album = _db.Albums.FirstOrDefault(a => a.Title.ToLower() == trackVM.AlbumTitle.Trim().ToLower());
                 if (album == null)
                 {
-                    _db.Albums.Add(new Album() { 
-                        Title = trackVM.AlbumTitle.Trim(), 
-                        Artist = artist,
-                        ReleaseDate = trackVM.ReleaseDate,
-                        DateModified = DateTime.Now 
-                    });
+                    album = new Album();
+                    album.Title = trackVM.AlbumTitle.Trim();
+                    album.Artist = artist;
+                    album.ReleaseDate = trackVM.ReleaseDate;
+                    album.DateModified = DateTime.Now;
+                    if (User.IsInRole("admin"))
+                    {
+                        album.Enabled = true;
+                    }
+                    _db.Albums.Add(album);
                     _db.SaveChanges();
+                    LogUtility.Log(new ChangeLog
+                    {
+                        Type = "album",
+                        PreviousValues = "ADD - " + album.ToString(),
+                        UserId = WebSecurity.CurrentUserId
+                    });
                     album = _db.Albums.FirstOrDefault(a => a.Title.ToLower() == trackVM.AlbumTitle.Trim().ToLower());
                 }
 
                 Track track = new Track();
+                track.Video = trackVM.Video;
                 track.Title = trackVM.Title;
+                track.Order = trackVM.Order;
                 track.ReleaseDate = trackVM.ReleaseDate;
                 track.Album = album;
-
+                if (User.IsInRole("admin"))
+                {
+                    track.Enabled = true;
+                }
                 TrackAPIController api = new TrackAPIController(_db);
 
                 if (!api.TrackExists(track.Title, track.Album.Title, track.Album.Artist.Name, (DateTime)track.ReleaseDate))
                 {
                     _db.Tracks.Add(track);
                     _db.SaveChanges();
+                    LogUtility.Log(new ChangeLog
+                    {
+                        Type = "track",
+                        PreviousValues = "ADD - " + track.ToString(),
+                        UserId = WebSecurity.CurrentUserId
+                    });
                 }
                 else {
-
-                   
                     ViewBag.ErrorMessage = "The track titled '" + track.Title + "' on the album titled '" + track.Album.Title + "' already exists.";
                     return View(trackVM);
                 }
@@ -259,6 +262,7 @@ namespace sixteenBars.Controllers
         // POST: /Track/Edit/5
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,editor")]
         public ActionResult Edit(Track track)
@@ -269,38 +273,67 @@ namespace sixteenBars.Controllers
             if (ModelState.IsValid)
             {
                 TrackAPIController api = new TrackAPIController(_db);
-                if (!api.TrackExists(track.Title, track.Album.Title, track.Album.Artist.Name,(DateTime)track.ReleaseDate)){
+                //!api.TrackExists(track.Title, track.Album.Title, track.Album.Artist.Name,(DateTime)track.ReleaseDate
+                if (_db.Tracks.Where(t => t.Title == track.Title && t.Album.Title == track.Album.Title && t.TrackId != track.TrackId).Count() == 0)
+                {
                     Track edittedTrack = _db.Tracks.Find(track.TrackId);
                     Track previousTrack = edittedTrack;
                     edittedTrack.Title = track.Title;
                     edittedTrack.ReleaseDate = track.ReleaseDate;
+                    edittedTrack.Enabled = track.Enabled;
+                    edittedTrack.Video = track.Video;
+                    edittedTrack.Order = track.Order;
                     Album tempAlbum = _db.Albums.FirstOrDefault(album => album.Title.ToLower() == track.Album.Title.Trim().ToLower() && album.Artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
                     Artist tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
                     if (tempAlbum == null)
                     {
                         if (tempArtist == null)
                         {
-                            edittedTrack.Album = new Album()
+                            edittedTrack.Album = new Album();
+
+                            edittedTrack.Album.Title = track.Album.Title.Trim();
+                            edittedTrack.Album.ReleaseDate = track.ReleaseDate;
+                            edittedTrack.Album.DateModified = DateTime.Now;
+                            if (User.IsInRole("admin")) {
+                                edittedTrack.Album.Enabled = true;
+                            }
+                            edittedTrack.Album.Artist = new Artist();
+                            edittedTrack.Album.Artist.Name = track.Album.Artist.Name.Trim();
+                            edittedTrack.Album.Artist.DateModified = DateTime.Now;
+                            if (User.IsInRole("admin"))
                             {
-                                Title = track.Album.Title.Trim(),
-                                ReleaseDate = track.ReleaseDate,
-                                DateModified = DateTime.Now,
-                                Artist = new Artist()
-                                {
-                                    Name = track.Album.Artist.Name.Trim(),
-                                    DateModified = DateTime.Now
-                                }
-                            };
+                                edittedTrack.Album.Artist.Enabled = true;
+                            }
+                            LogUtility.Log(new ChangeLog {
+                                Type = "album",
+                                PreviousValues = "ADD - " + edittedTrack.Album.ToString(),
+                                UserId = WebSecurity.CurrentUserId
+                            });
+                            LogUtility.Log(new ChangeLog
+                            {
+                                Type = "artist",
+                                PreviousValues = "ADD - " + edittedTrack.Album.Artist.ToString(),
+                                UserId = WebSecurity.CurrentUserId
+                            });
                         }
                         else
                         {
-                            edittedTrack.Album = new Album()
+                            edittedTrack.Album = new Album();
+                            edittedTrack.Album.Title = track.Album.Title.Trim();
+                            edittedTrack.Album.ReleaseDate = track.ReleaseDate;
+                            edittedTrack.Album.DateModified = DateTime.Now;
+
+                            if (User.IsInRole("admin"))
                             {
-                                Title = track.Album.Title.Trim(),
-                                ReleaseDate = track.ReleaseDate,
-                                DateModified = DateTime.Now,
-                                Artist = tempArtist
-                            };
+                                edittedTrack.Album.Enabled = true;
+                            }
+                            edittedTrack.Album.Artist = tempArtist;
+                            LogUtility.Log(new ChangeLog
+                            {
+                                Type = "album",
+                                PreviousValues = "ADD - " + edittedTrack.Album.ToString(),
+                                UserId = WebSecurity.CurrentUserId
+                            });
                         }
                     }
                     else {
@@ -311,20 +344,12 @@ namespace sixteenBars.Controllers
                     _db.SetModified(edittedTrack);
                     _db.SaveChanges();
 
-                    try
+                    LogUtility.Log(new ChangeLog
                     {
-                        //ChangeLog log = new ChangeLog();
-                        //log.Type = "track";
-                        //log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
-                        //log.UserId = WebSecurity.CurrentUserId;
-
-                        //LogController ctrl = new LogController();
-                        //ctrl.Log(log);
-                    }
-                    catch (Exception ex)
-                    {
-                        //TO DO handle exception - email change?
-                    }
+                        Type = "track",
+                        PreviousValues = "EDIT - " + Request.Form["previousTrack"],
+                        UserId = WebSecurity.CurrentUserId
+                    });
 
 
                     return RedirectToAction("Index");
@@ -364,26 +389,30 @@ namespace sixteenBars.Controllers
             ViewBag.MetaDescription = "Hip-Hop track/song";
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, track, song, rap, music";
             Track track = _db.Tracks.Find(id);
-            Track previousTrack = track;
-            _db.Tracks.Remove(track);
-            _db.SaveChanges();
-
-
-            try
+            if (track != null)
             {
-                //ChangeLog log = new ChangeLog();
-                //log.Type = "track";
-                //log.PreviousValues = new JavaScriptSerializer().Serialize(previousTrack);
-                //log.UserId = WebSecurity.CurrentUserId;
-
-                //LogController ctrl = new LogController();
-                //ctrl.Log(log);
+                if (_db.Quotes.Where(q => q.TrackId == id).Count() == 0)
+                {
+                    LogUtility.Log(new ChangeLog
+                    {
+                        Type = "track",
+                        PreviousValues = "DELETE - " + track.ToString(),
+                        UserId = WebSecurity.CurrentUserId
+                    });
+                    //TODO - check if there is a quote associated with track
+                    _db.Tracks.Remove(track);
+                    _db.SaveChanges();
+                }else
+                {
+                    ViewBag.ErrorMessage = "The track '" + track.Title + "' can't be deleted because it has an associated quote. Delete quotes first.";
+                    return View(track);
+                }
             }
-            catch (Exception ex)
-            {
-                //TO DO handle exception - email change?
+            else {
+                ViewBag.ErrorMessage = "The track can't be deleted.";
+                return View(track);
             }
-
+            
             return RedirectToAction("Index");
         }
 

@@ -7,77 +7,55 @@
     @{ var cnt = 0; }
     @foreach (var item in Model)
     {
-        if (cnt == Math.Ceiling((decimal)Model.Count()/3))
-        {
-            cnt = 0;
-            @Html.Raw("</div>")
-            @Html.Raw("<div class=\"col-md-4\">")
-        }
-
-        <div class="quote-block">
-            <div class="artist-info">
-                @Html.ActionLink(item.Artist.Name, URLClean.Clean(item.Artist.Name),"Artists")
+        
+            if (cnt == Math.Ceiling((decimal)Model.Count() / 3))
+            {
+                cnt = 0;
+                @Html.Raw("</div>")
+                @Html.Raw("<div class=\"col-md-4\">")
+            }
+            <div class="quote-block">
+            @if (!String.IsNullOrWhiteSpace(item.Artist.Image)) {
+                <img src="@item.Artist.Image" class="img-responsive" />
+            }else{
+                <img src="@item.Track.Album.Image" class="img-responsive" />
+            }            
+                <div class="quote-info">
+                    <span class="quote">@Html.Raw(item.Text)</span><br />
+                    @Html.ActionLink(item.Artist.Name, URLClean.Clean(item.Artist.Name), "Artists")<br/>
+                    @Html.ActionLink("quote details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(Regex.Replace(item.Text, "<.*?>", string.Empty)), "Quotes", null, new { @class = "btn btn-standard" })
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="quote-info">
-                <span class="quote">@Html.Raw(item.Text)</span><br />
-                @Html.ActionLink("quote details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(Regex.Replace(item.Text, "<.*?>", string.Empty)), "Quotes",null, new { @class = "btn btn-standard" })
-            </div><div class="clearfix"></div>
-        </div>
-
-
-        cnt++;
+            cnt++;
+        
     }
     @Html.Raw("</div>")
 
-    @if (!Model.Any()) { 
-    @Html.Raw("<div class=\"col-md-4\"></div><div class=\"col-md-4\"></div>")
+    @if (!Model.Any())
+    {
+        @Html.Raw("<div class=\"col-md-4\"></div><div class=\"col-md-4\"></div>")
     }
-    
-
 </div>
-
-
-
 <div class="container" style="margin-top:15px">
     <div class="col-md-12">
         <img id="init-loading" class="loading" src="~/Images/loading.gif" alt="loading" />
         <a id="btn-more-quotes" class='btn-more-quotes btn btn-inverse' href='quote'>MORE QUOTES</a>
     </div>
-    <hr/>
-    <div class="col-md-12">
-        <script type="text/javascript">
-    amzn_assoc_placement = "adunit0";
-    amzn_assoc_search_bar = "true";
-    amzn_assoc_tracking_id = "rhyme4rhyme-20";
-    amzn_assoc_ad_mode = "manual";
-    amzn_assoc_ad_type = "smart";
-    amzn_assoc_marketplace = "amazon";
-    amzn_assoc_region = "US";
-    amzn_assoc_title = "My Amazon Picks";
-    amzn_assoc_asins = "B011SLDC6I,B008EQ1YUC,B00NVZPUZQ,B00PQWIZPY";
-    amzn_assoc_linkid = "0401c69ba9081d4756c428d2d0dd7114";
-        </script>
-        <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
-        </div>
-    </div>
-
-
-
-
-    @section Scripts {
-        <script src="~/Scripts/sixteenbars-keyword-search.js"></script>
-
-        <script>
-            $(document).ready(function () {
-                $("#init-loading").hide();
-                var queryKeyword = getParameterByName('word');
-                if (queryKeyword != undefined) {
-                    if (queryKeyword.length > 1) {
-                        getQuoteByKeyword(queryKeyword);
-                    }
-                } else {
-                    $("#btn-more-quotes").show();
+</div>
+@section Scripts {
+    <script src="~/Scripts/sixteenbars-keyword-search.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#init-loading").hide();
+            var queryKeyword = getParameterByName('word');
+            if (queryKeyword != undefined) {
+                if (queryKeyword.length > 1) {
+                    getQuoteByKeyword(queryKeyword);
                 }
-            });
-        </script>
-    }
+            } else {
+                $("#btn-more-quotes").show();
+            }
+        });
+    </script>
+}

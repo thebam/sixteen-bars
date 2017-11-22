@@ -25,11 +25,20 @@
         <div ng-controller="AlbumController">
 
             <div class="row lower-details">
-                <div class="col-md-3 albumArt">
-                    <img src="@Html.Raw(ViewBag.AlbumImage)" />
-                </div>
+                @if (!String.IsNullOrWhiteSpace(Model.Video))
+                {
+                    <div class="embed-responsive embed-responsive-16by9 col-md-7">
+                        @Html.Raw(Model.Video)
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-7 albumArt">
+                        <img src="@Html.Raw(Model.Image)" />
+                    </div>
+                }
 
-                <div class="col-md-9">
+                <div class="col-md-5">
                     <p>
                         <strong>
                             Album :
@@ -45,7 +54,7 @@
                         </strong>
 
 
-                        @Html.ActionLink(Model.ArtistName, URLClean.Clean(Model.ArtistName), "Artists")
+                        @Html.ActionLink(Model.AlbumArtistName, URLClean.Clean(Model.AlbumArtistName), "Artists")
                     </p>
                 
                     <p>
@@ -55,26 +64,14 @@
 
                         @Html.ActionLink(Model.TrackName, URLClean.Clean(Model.AlbumName) + "/" + URLClean.Clean(Model.TrackName), "Tracks")
                     </p>
-                    @if (ViewBag.PurchaseLinks.Length>0)
-                    { 
-                    <div>
-                        <hr />
-                        <h4>Get This Track</h4>
-                        @Html.Raw(ViewBag.PurchaseLinks)
-                    </div>
-                    }
                 </div>
             </div>
 
-
-            @Html.TextBoxFor(model => model.TrackName, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.TrackName) + " " + Url.Encode(Model.AlbumName)), style = "display:none;" })
-            @Html.TextBoxFor(model => model.AlbumArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.AlbumArtistName)), style = "display:none;" })
-            <input type="hidden" ng-model="amzType" ng-init="amzType='track'" />
         </div>
     </div>
 
     <div>
-        @Html.ActionLink("Back to List", "Index", "Quote", new { @class = "btn btn-back" })
+        @Html.ActionLink("Back to List", "Index", "Quote",null, new { @class = "btn btn-back" })
         @if (User.IsInRole("admin") || User.IsInRole("editor"))
         {
             @: &nbsp;

@@ -9,8 +9,6 @@
     <meta name="description" content="@ViewBag.MetaDescription" />
     <meta name="keywords" content="@ViewBag.MetaKeywords" />
     <meta name="author" content="@ViewBag.MetaAuthor" />
-
-
     <meta property="fb:app_id" content="@ViewBag.OGAppID" />
 
     <!-- Facebook, LinkedIn, Pinterest Open Graph data -->
@@ -21,20 +19,12 @@
     <meta property="og:url" content="@ViewBag.OGURL" />
     <meta property="og:image" content="@ViewBag.OGImage" />
 
-
-
     <!-- Twitter data -->
     <meta name="twitter:card" content="summary_large_image" />
     @Html.Raw("<meta name=\"twitter:site\" content=\"@rhyme4rhymeweb\" />")
     <meta name="twitter:title" content="@ViewBag.TwitterTitle" />
     <meta name="twitter:description" content="@ViewBag.TwitterDescription" />
     <meta name="twitter:image" content="@ViewBag.TwitterImage" />
-
-
-
-
-
-
 
     <link rel="icon" type="image/png" href="http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-favicon.png">
 
@@ -56,16 +46,10 @@
     </style>
    
 </head>
-
-
-
 <body>
     <header>
         <nav>
             <div class="container">
-
-                
-                
                     <div id="searchApp" ng-app="SearchApp">
                         <div ng-controller="SearchController">
                             <div class="col-md-3">
@@ -74,6 +58,7 @@
                             <div class="col-md-6">
                                 <div class="search-bar" role="search">
                                     <div class="input-group">
+                                        <label for="srch-term" class="hidden">search</label>
                                         <input type="text" class="form-control" placeholder="Search quotes, tracks, albums, or artists" ng-model="searchTerm" name="srch-term" id="srch-term" ng-keyup="$event.keyCode == 13 && search()" />
                                         <span class="ng-cloak" ng-cloak style="color:red" ng-show="myForm.searchTerm.$dirty&&myForm.searchTerm.$isvalid">
                                             <span ng-show="myForm.searchTerm.$error.required">Search term is required</span>
@@ -105,46 +90,40 @@
                                 <div class="pull-right ng-cloak" ng-cloak ng-click="closeSearch()" ng-show="searchtermTitle"><i class="glyphicon glyphicon-remove-circle"></i> CLOSE</div>
                             </div>
                         </div>
-                    </div>
-                    
+                    </div>        
             </div>
         </nav>
     </header>
     <div class="main-container-wrapper">
         <div class="container">
             @RenderSection("featured", required: false)
-
             <div class="main-content">
                 @RenderBody()
             </div>
         </div>
     </div>
     <footer>
-
         <div class="container">
-            <ul>
-                <li id="quote-nav-item">@Html.ActionLink("Quotes", "Index", "Quote")</li>
-                <li id="artist-nav-item">@Html.ActionLink("Artists", "Index", "Artist")</li>
-                <li id="album-nav-item">@Html.ActionLink("Albums", "Index", "Album")</li>
-                <li id="track-nav-item">@Html.ActionLink("Tracks", "Index", "Track")</li>
-            </ul>
+            <div class="col-md-10">
+                <ul class="footerPageList">
+                    <li id="quote-nav-item">@Html.ActionLink("Quotes", "Index", "Quote")</li>
+                    <li id="artist-nav-item">@Html.ActionLink("Artists", "Index", "Artist")</li>
+                    <li id="album-nav-item">@Html.ActionLink("Albums", "Index", "Album")</li>
+                    <li id="track-nav-item">@Html.ActionLink("Tracks", "Index", "Track")</li>
+                </ul>
+            </div>
             @Html.Partial("_LoginPartial")
+        </div>
+        <div class="col-md-12 text-center">
             <p>&copy; @DateTime.Now.Year</p>
-
+            <p><em>Rhyme 4 Rhyme makes no claim of ownership to artist photos, album artwork, music videos, and song lyrics. All content copyright their respective owners.</em></p>
         </div>
     </footer>
-
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
     @Scripts.Render("~/Scripts/sixteenbars-utilities.js")
     @Scripts.Render("~/Scripts/angular.min.js")
     @Scripts.Render("~/Scripts/sixteenBars-search.js")
-
-
-
-
     @RenderSection("scripts", required: false)
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-563e10cde2a16f18" async="async"></script>
     <script>
@@ -154,13 +133,8 @@
             }, i[r].l = 1 * new Date(); a = s.createElement(o),
             m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
         ga('create', 'UA-69874315-1', 'auto');
         ga('send', 'pageview');
-
     </script>
-
 </body>
-
-
 </html>

@@ -15,7 +15,7 @@
                     @Html.LabelFor(model => model.Text)
                 </div>
                 <div class="form-element">
-                    @Html.TextAreaFor(model => model.Text)
+                    @Html.TextAreaFor(model => model.Text,new { @class="form-control"})
                     @Html.ValidationMessageFor(model => model.Text)
                 </div>
                 <div class="form-label">
@@ -28,14 +28,14 @@
                     @Html.LabelFor(model => model.Explanation)
                 </div>
                 <div class="form-element">
-                    @Html.TextAreaFor(model => model.Explanation)
+                    @Html.TextAreaFor(model => model.Explanation, new { @class = "form-control" })
                 </div>
 
                 <div class="form-label">
                     <label for="">Said By</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="saidByArtistName" required ng-keyup="autoCompleteArtist('saidByArtistName')" />
+                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="saidByArtistName" required ng-keyup="autoCompleteArtist('saidByArtistName')" class="form-control" />
 
                     <div class="suggestions speaker-suggestions">
                         <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
@@ -50,7 +50,7 @@
                     <label for="Track.Title">From Song</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Track_Title" name="Track.Title" ng-model="trackTitle" required ng-keyup="autoCompleteTrack()" />
+                    <input type="text" id="Track_Title" name="Track.Title" ng-model="trackTitle" required ng-keyup="autoCompleteTrack()"  class="form-control"/>
                     <div class="suggestions track-suggestions">
                         <p><strong>Suggested Track(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -66,7 +66,7 @@
                     <label for="Track.Album.Title">From Album</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Track_Album_Title" name="Track.Album.Title" ng-model="albumTitle" required ng-keyup="autoCompleteAlbum()" ng-blur="existTrack()" />
+                    <input type="text" id="Track_Album_Title" name="Track.Album.Title" ng-model="albumTitle" required ng-keyup="autoCompleteAlbum()" ng-blur="existTrack()" class="form-control" />
                     <div class="suggestions album-suggestions">
                         <p><strong>Suggested Album(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -81,7 +81,7 @@
                     <label for="Track.Album.Artist.Name">Album Artist</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Track_Album_Artist_Name" ng-model="artistName" name="Track.Album.Artist.Name" required ng-blur="existTrack()" ng-keyup="autoCompleteArtist('artistName')" />
+                    <input type="text" id="Track_Album_Artist_Name" ng-model="artistName" name="Track.Album.Artist.Name" required ng-blur="existTrack()" ng-keyup="autoCompleteArtist('artistName')" class="form-control" />
                     <div class="suggestions artist-suggestions">
                         <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -96,19 +96,18 @@
                     <label for="Track.Album.ReleaseDate">Album Release Date</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Track_Album_ReleaseDate" ng-model="releaseDate" name="Track.Album.ReleaseDate" required ng-blur="existTrack()" />
+                    <input type="text" id="Track_Album_ReleaseDate" ng-model="releaseDate" name="Track.Album.ReleaseDate" required ng-blur="existTrack()" class="form-control" />
                 </div>
 
-                <p style="margin-top:15px;">
-                    <input type="submit" value="Add Quote" class="btn-inverse" />
+                <p>
+                    <input type="submit" value="Add Quote" class="btn" />
+                    @Html.ActionLink("Cancel", "Index", "Quote",null, new { @class = "btn btn-inverse" })
                 </p>
             </div>
         }
     </div>
 </div>
-<div>
-    @Html.ActionLink("Back to List", "Index", "Quote", new { @class = "btn btn-back" })
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")

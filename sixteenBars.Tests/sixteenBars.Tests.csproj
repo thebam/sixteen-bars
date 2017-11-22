@@ -150,10 +150,6 @@
       <Project>{3ea10d4f-4e0b-42e0-b406-c11d5edd9083}</Project>
       <Name>sixteenBarsLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\sixteenBars\sixteenBars.csproj">
-      <Project>{F0FEEDAF-4734-48FE-BC84-A04CD656C353}</Project>
-      <Name>sixteenBars</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

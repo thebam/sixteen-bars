@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -216,7 +217,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlbumAPIController.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
-    <Compile Include="Controllers\AmazonAPIController.cs" />
     <Compile Include="Controllers\ArtistAPIController.cs" />
     <Compile Include="Controllers\ArtistController.cs" />
     <Compile Include="Controllers\LogController.cs" />
@@ -224,6 +224,19 @@
     <Compile Include="Controllers\SearchAPIController.cs" />
     <Compile Include="Controllers\SitemapController.cs" />
     <Compile Include="Controllers\TrackAPIController.cs" />
+    <Compile Include="Migrations\201709061923469_newMigration.cs" />
+    <Compile Include="Migrations\201709061923469_newMigration.Designer.cs">
+      <DependentUpon>201709061923469_newMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710181649413_Add-Images.cs" />
+    <Compile Include="Migrations\201710181649413_Add-Images.Designer.cs">
+      <DependentUpon>201710181649413_Add-Images.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710191753229_addVideo.cs" />
+    <Compile Include="Migrations\201710191753229_addVideo.Designer.cs">
+      <DependentUpon>201710191753229_addVideo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AlbumDetailsViewModel.cs" />
     <Compile Include="Models\ArtistDetailViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -336,10 +349,13 @@
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\invisiblefury.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\rhyme4rhyme - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\rhyme4rhyme - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\SmarterASP.pubxml" />
+    <None Include="Properties\PublishProfiles\SmarterASP.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1198,6 +1214,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709061923469_newMigration.resx">
+      <DependentUpon>201709061923469_newMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710181649413_Add-Images.resx">
+      <DependentUpon>201710181649413_Add-Images.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710191753229_addVideo.resx">
+      <DependentUpon>201710191753229_addVideo.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

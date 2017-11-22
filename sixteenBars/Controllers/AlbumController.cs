@@ -60,13 +60,14 @@ namespace sixteenBars.Controllers
                                    ArtistName = album.Artist.Name,
                                    ArtistId = album.Artist.ArtistId,
                                    Enabled = album.Enabled,
-                                   IsDeleteable = (albumQuote == null) ? true : false
+                                   IsDeleteable = (albumQuote == null) ? true : false,
+                                   Artist = album.Artist
                                }).Distinct().OrderBy(a => a.Title).ToList();
 
             //TODO - remove enabled == false if not admin or editor
             if (!User.IsInRole("Admin") && !User.IsInRole("Editor"))
             {
-                albumQuotes.RemoveAll(a => a.Enabled == false);
+                albumQuotes.RemoveAll(a => a.Enabled == false || a.Artist.Enabled == false);
             }
             return View(albumQuotes.ToPagedList(pageNumber, pageSize));
         }
@@ -124,25 +125,10 @@ namespace sixteenBars.Controllers
                     {
                     }
 
-                    AmazonAPIController amz = new AmazonAPIController();
-                    List<AmazonProduct> amzList = new List<AmazonProduct>();
-                    amzList = amz.GetProducts(album.Title, album.Artist.Name, "album");
+                    
 
 
-                    if (amzList != null)
-                    {
-                        if (amzList.Count > 0)
-                        {
-                            ViewBag.AlbumImage = amzList[0].ImageURL;
-                            ViewBag.TwitterImage = amzList[0].ImageURL;
-                            ViewBag.OGImage = amzList[0].ImageURL;
-
-                            foreach (AmazonProduct product in amzList)
-                            {
-                                ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
-                            }
-                        }
-                    }
+                    
 
                 }
             }
@@ -183,33 +169,25 @@ namespace sixteenBars.Controllers
                 albumViewModel.ArtistId = album.Artist.ArtistId;
                 albumViewModel.ArtistName = album.Artist.Name;
                 albumViewModel.ReleaseDate = (DateTime)album.ReleaseDate;
+                albumViewModel.Image = album.Image;
+                if (String.IsNullOrWhiteSpace(album.Image)) {
+                    if (String.IsNullOrWhiteSpace(album.Artist.Image))
+                    {
+                        albumViewModel.Image = "http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png";
+                    }
+                    else {
+                        albumViewModel.Image = album.Artist.Image;
+                    }
+                }
                 try
                 {
-                    albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.AlbumId == album.AlbumId).OrderBy(t => t.Title).ToList();
+                    albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.AlbumId == album.AlbumId).OrderBy(t => t.Order).ToList();
                 }
                 catch (Exception ex)
                 {
                 }
 
-                AmazonAPIController amz = new AmazonAPIController();
-                List<AmazonProduct> amzList = new List<AmazonProduct>();
-                amzList = amz.GetProducts(album.Title, album.Artist.Name, "album");
-
-
-                if (amzList != null)
-                {
-                    if (amzList.Count > 0)
-                    {
-                        ViewBag.AlbumImage = amzList[0].ImageURL;
-                        ViewBag.TwitterImage = amzList[0].ImageURL;
-                        ViewBag.OGImage = amzList[0].ImageURL;
-
-                        foreach (AmazonProduct product in amzList)
-                        {
-                            ViewBag.PurchaseLinks += "<p><a href=\"" + product.URL + "\" target=\"_blank\">" + product.Title + "<br /><img src=\"http://www.rhyme4rhyme.com/Images/buy2._V192207737_.gif\" alt=\"buy from amazon.com\" /></a></p>";
-                        }
-                    }
-                }
+                
             }
             return View("details", albumViewModel);
         }
@@ -317,7 +295,7 @@ namespace sixteenBars.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,editor")]
-        public ActionResult Edit([Bind(Include = "Id,Enabled,Title,Artist,ReleaseDate")] Album album)
+        public ActionResult Edit([Bind(Include = "AlbumId,Enabled,Title,Artist,ReleaseDate,Image")] Album album)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Edit Album";
             ViewBag.MetaDescription = "Hip-Hop album";
@@ -347,7 +325,8 @@ namespace sixteenBars.Controllers
                         UserId = WebSecurity.CurrentUserId
                     });
                 }
-                //TO DO - artist will not update
+                
+                album.ArtistId = tempArtist.ArtistId;
                 album.Artist = tempArtist;
                 _db.SetModified(album);
                 _db.SaveChanges();
@@ -356,12 +335,7 @@ namespace sixteenBars.Controllers
                     PreviousValues = "EDIT - " + Request["previousAlbum"],
                     UserId = WebSecurity.CurrentUserId
                 });
-
-                
-
                 return RedirectToAction("Index");
-
-
             }
 
             else

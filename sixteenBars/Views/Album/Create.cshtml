@@ -16,7 +16,7 @@
                     @Html.LabelFor(model => model.Title)
                 </div>
                 <div class="form-element">
-                    @Html.EditorFor(model => model.Title)
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Title)
                 </div>
 
@@ -24,7 +24,7 @@
                     <label for="Artist.Name">Artist Name</label>
                 </div>
                 <div class="form-element">
-                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="artistName" required ng-keyup="autoCompleteArtist('artistName')" />
+                    <input type="text" id="Artist_Name" name="Artist.Name" ng-model="artistName" required ng-keyup="autoCompleteArtist('artistName')" class="form-control" />
                     <div class="suggestions artist-suggestions">
                         <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                         <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -39,21 +39,27 @@
                     @Html.LabelFor(model => model.ReleaseDate)
                 </div>
                 <div class="form-element">
-                    @Html.EditorFor(model => model.ReleaseDate, new { })
+                    @Html.TextBoxFor(model => model.ReleaseDate, new {@class="form-control" })
                     @Html.ValidationMessageFor(model => model.ReleaseDate)
                 </div>
 
-                <p style="margin-top:15px;">
-                    <input type="submit" value="Add Album" class="btn-inverse" />
-                </p>
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Image)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.Image, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Image)
+                </div>
+
+                <div>
+                    <input type="submit" value="Add Album" class="btn" />
+                    @Html.ActionLink("Cancel", "Index", "Album", null, new { @class = "btn btn-inverse" })
+                </div>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index", "Album", new { @class = "btn btn-back" })
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")

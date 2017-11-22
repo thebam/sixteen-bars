@@ -21,9 +21,9 @@ namespace sixteenBars.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            //base.OnModelCreating(modelBuilder);
+            Database.SetInitializer<SixteenBarsDb>(null);
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
     }
 }

@@ -49,9 +49,12 @@ nav a:link, nav a:active, nav a:visited {
 
 
 a:link, a:active, a:visited {
-    color: #37B8EB;
+    color: #0a4860;
 }
-
+.disabledItem {
+    color: #0a4860 !important;
+    font-size:large;
+}
 .quote {
     font-style: italic;
 }
@@ -125,10 +128,10 @@ background-color:transparent !important;
 
 
 .btn, a.btn {
-    border: solid 1px #37B8EB;
+    border: solid 1px #0a4860;
     padding: 5px 10px;
     color: #fff;
-    background-color: #37B8EB;
+    background-color: #0a4860;
     text-decoration: none;
     text-transform: uppercase;
     margin-right: 4px;
@@ -136,11 +139,11 @@ background-color:transparent !important;
 
 .btn-on {
     color: #fff;
-    background-color: #37B8EB;
+    background-color: #0a4860;
     border-top:solid 1px #fff;
-    border-right:solid 1px #37B8EB;
+    border-right:solid 1px #0a4860;
     border-bottom:solid 2px #2783a7;
-    border-left:solid 1px #37B8EB;
+    border-left:solid 1px #0a4860;
 }
 
 .btn-off {
@@ -154,23 +157,22 @@ background-color:transparent !important;
 
     .btn:hover, a.btn:hover {
         background-color: #fff;
-        color: #37B8EB;
+        color: #0a4860;
     }
 
 
 .btn-inverse, a.btn-inverse {
-    border: solid 1px #37B8EB;
+    border: solid 1px #0a4860;
     padding: 5px 10px;
-    color: #37B8EB;
+    color: #0a4860;
     background-color: #fff;
     text-decoration: none;
-    border-radius: 0;
     text-transform: uppercase;
     margin-right: 4px;
 }
 
     .btn-inverse:hover, a.btn-inverse:hover {
-        background-color: #37B8EB;
+        background-color: #0a4860;
         color: #fff;
     }
 
@@ -296,7 +298,7 @@ display:none;
 .quote-blocks .quote-block{
     margin-top:30px;
     padding:0;
-    background-color:#ddd;
+    background-color:#fff;
     border:solid 1px #ddd;
 }
 
@@ -308,7 +310,7 @@ display:none;
 }
 .quote-blocks .quote-block .quote-info{
     background-color:#fff;
-    width:70%;
+    width:100%;
     padding:2%;
     float:left;
     line-height:2em;
@@ -324,10 +326,10 @@ display:none;
 }
 
 .word:hover{
-    background-color: #37B8EB;
+    background-color: #0a4860;
     color:#fff;
-    border-left:solid 4px #37B8EB;
-    border-right:solid 4px #37B8EB;
+    border-left:solid 4px #0a4860;
+    border-right:solid 4px #0a4860;
 }
 
 .main-search-results {
@@ -380,6 +382,18 @@ background-color:#ccc;
 padding-top:15px;
 padding-bottom:5em;
 }
+
+    footer .footerPageList {
+        list-style:none;
+        padding:0;
+    }
+    footer .footerPageList li{
+        display:inline;
+        font-size:110%;
+        padding:0 15px 0 0;
+        text-transform:uppercase;
+        font-weight:bold;
+    }
 @media screen and (max-width:768px) {
     .index-list > .row > div:first-of-type {
         margin-bottom: 10px;

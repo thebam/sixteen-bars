@@ -16,7 +16,7 @@
                         @Html.LabelFor(model => model.Title)
                     </div>
                     <div class="form-element">
-                        <input type="text" id="title" name="Title" ng-model="title" required ng-blur="existTrack()" />
+                        <input type="text" id="title" name="Title" ng-model="title" required ng-blur="existTrack()" class="form-control" />
                     </div>
 
 
@@ -24,7 +24,7 @@
                         @Html.LabelFor(model => model.AlbumTitle)
                     </div>
                     <div class="form-element">
-                        <input type="text" id="albumTitle" name="AlbumTitle" ng-model="albumTitle" required ng-keyup="autoCompleteAlbum()" ng-blur="existTrack()" />
+                        <input type="text" id="albumTitle" name="AlbumTitle" ng-model="albumTitle" required ng-keyup="autoCompleteAlbum()" ng-blur="existTrack()" class="form-control" />
                         <div class="suggestions album-suggestions">
                             <p><strong>Suggested Album(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                             <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -39,7 +39,7 @@
                         @Html.LabelFor(model => model.ArtistName)
                     </div>
                     <div class="form-element">
-                        <input type="text" id="artistName" ng-model="artistName" name="ArtistName" required ng-blur="existTrack()" ng-keyup="autoCompleteArtist('artistName')" />
+                        <input type="text" id="artistName" ng-model="artistName" name="ArtistName" required ng-blur="existTrack()" ng-keyup="autoCompleteArtist('artistName')" class="form-control" />
                         <div class="suggestions artist-suggestions">
                             <p><strong>Suggested Artist(s)</strong><span style="float:right;" class="close glyphicon glyphicon-remove-circle"></span></p>
                             <img class="loading" src="~/Images/loading.gif" alt="loading" />
@@ -53,11 +53,29 @@
                         <label for="ReleaseDate">Track Release Date</label>
                     </div>
                     <div class="form-element">
-                        <input type="text" id="releaseDate" ng-model="releaseDate" name="ReleaseDate" required ng-blur="existTrack()" />
+                        <input type="text" id="releaseDate" ng-model="releaseDate" name="ReleaseDate" required ng-blur="existTrack()"  class="form-control"/>
+                    </div>
+
+                    <div class="form-label">
+                        <label for="trackVideo">Track Video</label>
+                    </div>
+                    <div class="form-element">
+                        @Html.TextAreaFor(model => model.Video, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Video)
+                    </div>
+
+
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.Order)
+                    </div>
+                    <div class="form-element">
+                        @Html.TextBoxFor(model => model.Order, new { @class = "form-control", @type = "number", @min = "1",@Value="1" })
+                        @Html.ValidationMessageFor(model => model.Order)
                     </div>
 
                     <p style="margin-top:15px;">
-                        <input type="submit" value="Add Track" ng-hide="blnTrackExists" ng-init="false" class="btn-inverse" />
+                        <input type="submit" value="Add Track" ng-hide="blnTrackExists" ng-init="false" class="btn" />
+                        @Html.ActionLink("Cancel", "Index", "Track",null, new { @class = "btn btn-inverse" })
                     </p>
 
 
@@ -70,10 +88,6 @@
     </form>
 
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index", "Track", new { @class = "btn btn-back" })
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryui")

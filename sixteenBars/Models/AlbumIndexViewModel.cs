@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sixteenBars.Library;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace sixteenBars.Models
@@ -13,6 +14,7 @@ namespace sixteenBars.Models
         public Int32 ArtistId { get; set; }
         public Boolean IsDeleteable { get; set; }
         public bool Enabled { get; set; }
+        public Artist Artist { get; set; }
         public AlbumIndexViewModel() {
             IsDeleteable = false;
         }

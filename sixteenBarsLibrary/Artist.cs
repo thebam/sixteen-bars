@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web;
 
 namespace sixteenBars.Library
 {
@@ -17,8 +15,7 @@ namespace sixteenBars.Library
         public DateTime DateModified { get; set; }
         [Required]
         public Boolean Enabled { get; set; }
-        public virtual List<Album> Albums { get; set; }
-        public virtual List<Quote> Quotes { get; set; }
+        public string Image { get; set; }
         public Artist()
         { 
             DateCreated = DateTime.Now;

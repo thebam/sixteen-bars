@@ -1,6 +1,4 @@
 ﻿@model sixteenBars.Library.Artist
-
-
 <h1>Edit Artist</h1>
 @if (Model != null)
 {
@@ -9,7 +7,7 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.ArtistId)
         <div class="form">
             <div class="form-label">
                 @Html.LabelFor(model => model.Enabled)
@@ -28,27 +26,24 @@
                     @Html.LabelFor(model => model.Name)
                 </div>
                 <div class="form-element">
-                    @Html.TextBox("Name",Model.Name)
+                    @Html.TextBox("Name",Model.Name, new { @class="form-control"})
                     @Html.Hidden("previousArtist",Model.ToString())
                     @Html.ValidationMessageFor(model => model.Name)
                 </div>
-           
+            <div class="form-label">
+                @Html.LabelFor(model => model.Image)
+            </div>
+            <div class="form-element">
+                @Html.TextBoxFor(model => model.Image, new { @class = "form-control", @type = "url" })
+            </div>
 
-            <div style="margin:15px 0">
-                <input type="submit" value="Save" class="btn-inverse" />
+            <div>
+                <input type="submit" value="Save" class="btn btn-back" />
+                
+                @Html.ActionLink("Cancel", "Index", "Artist",null, new { @class = "btn btn-inverse" })
             </div>
         </div>
     }
-
-    <div>
-        @Html.ActionLink("Back to List", "Index", "Artist", new { @class = "btn btn-back" })
-@if (User.IsInRole("admin"))
-        {
-        @:&nbsp;
-        @Html.ActionLink("Delete", "Delete", "Artist", new { id = Model.Id }, new { @class = "btn btn-remove" })
-}
-    </div>
-
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }

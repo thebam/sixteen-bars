@@ -19,11 +19,12 @@ namespace sixteenBars.Library
         public DateTime DateModified { get; set; }
         [Required]
         public Boolean Enabled { get; set; }
-        
+        [Required]
         public int AlbumId { get; set; }
         [ForeignKey("AlbumId")]
         public virtual Album Album { get; set; }
-
+        public int Order { get; set; }
+        public string Video { get; set; }
         public Track() { 
             DateCreated = DateTime.Now;
             DateModified = DateTime.Now;
