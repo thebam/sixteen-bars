@@ -5,7 +5,26 @@ namespace sixteenBars
     {
         public static void Register(HttpConfiguration config)
         {
-
+            config.Routes.MapHttpRoute(
+                name: "ArtistApi",
+                routeTemplate: "api/Artists/{action}",
+                defaults: new { controller="ArtistAPI", name = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "AlbumApi",
+                routeTemplate: "api/Albums/{action}",
+                defaults: new { controller = "AlbumAPI", name = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "TrackApi",
+                routeTemplate: "api/Tracks/{action}",
+                defaults: new { controller = "TrackAPI", name = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "QuoteApi",
+                routeTemplate: "api/Quotes/{action}",
+                defaults: new { controller = "QuoteAPI", name = RouteParameter.Optional }
+            );
             config.Routes.MapHttpRoute(
                 name:"CustomApi",
                 routeTemplate:"api/{controller}/{action}/{name}",

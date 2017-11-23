@@ -21,10 +21,6 @@
     };
 
 
-    obj.amazonInfo = function (title, artist,type) {
-        var baseUrl = siteURL + "/api/AmazonAPI/GetProductInformation?title=" + title + "&artist=" + artist+"&type="+type;
-        return $http.get(baseUrl);
-    }
 
     return obj;
 });

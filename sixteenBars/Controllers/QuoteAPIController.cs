@@ -48,6 +48,14 @@ namespace sixteenBars.Controllers
             return result;
         }
 
-        
+        [System.Web.Http.HttpGet]
+        public JsonResult GetQuotes()
+        {
+            List<Quote> quotes = _db.Quotes.Where(q => q.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && q.Track.Album.Artist.Enabled == true && q.Artist.Enabled == true).OrderBy(q=>q.Artist.Name).OrderBy(q => q.Text).ToList();
+            JsonResult result = new JsonResult();
+            result.Data = quotes;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return result;
+        }
     }
 }

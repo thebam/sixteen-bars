@@ -49,5 +49,15 @@ namespace sixteenBars.Controllers
             results.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return results;
         }
+
+        [System.Web.Http.HttpGet]
+        public JsonResult GetAlbums()
+        {
+            List<Album> albums = _db.Albums.Where(a => a.Enabled == true && a.Artist.Enabled==true).OrderBy(a=>a.Artist.Name).OrderBy(a => a.Title).ToList();
+            JsonResult result = new JsonResult();
+            result.Data = albums;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return result;
+        }
     }
 }
