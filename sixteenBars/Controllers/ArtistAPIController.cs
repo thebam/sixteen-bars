@@ -45,12 +45,8 @@ namespace sixteenBars.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public JsonResult GetArtists() {
-            List<Artist> artists = _db.Artists.Where(a=>a.Enabled==true).OrderBy(a=>a.Name).ToList();
-            JsonResult result = new JsonResult();
-            result.Data = artists;
-            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            return result;
+        public List<Artist> GetArtists() {
+            return _db.Artists.Where(a=>a.Enabled==true).OrderBy(a=>a.Name).ToList();
         }
     }
 }
