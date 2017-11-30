@@ -250,6 +250,7 @@
     <Compile Include="Models\AlbumViewModel.cs" />
     <Compile Include="Models\ArtistIndexViewModel.cs" />
     <Compile Include="Models\ISixteenBarsDb.cs" />
+    <Compile Include="Models\QuoteAPIViewModel.cs" />
     <Compile Include="Models\QuoteViewModel.cs" />
     <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Models\SixteenBarsDb.cs" />

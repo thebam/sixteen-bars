@@ -49,9 +49,29 @@ namespace sixteenBars.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public List<Quote> GetQuotes()
+        public List<QuoteAPIViewModel> GetQuotes()
         {
-            return _db.Quotes.Where(q => q.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && q.Track.Album.Artist.Enabled == true && q.Artist.Enabled == true).OrderBy(q=>q.Artist.Name).OrderBy(q => q.Text).ToList();
+            var quotes = (from quote in _db.Quotes
+                          where quote.Enabled == true && quote.Track.Enabled == true && quote.Track.Album.Enabled == true && quote.Track.Album.Artist.Enabled == true && quote.Artist.Enabled == true
+                          select new QuoteAPIViewModel
+                          {
+                              QuoteId = quote.QuoteId,
+                              Text = quote.Text,
+                              Explanation = quote.Explanation,
+                              Explicit = quote.Explicit,
+                              ArtistId = quote.Artist.ArtistId,
+                              ArtistName = quote.Artist.Name,
+                              TrackId = quote.Track.TrackId,
+                              TrackName = quote.Track.Title,
+                              AlbumId = quote.Track.Album.AlbumId,
+                              AlbumName = quote.Track.Album.Title,
+                              AlbumArtistId = quote.Track.Album.Artist.ArtistId,
+                              AlbumArtistName = quote.Track.Album.Artist.Name,
+                              ArtistImage = quote.Artist.Image,
+                              AlbumImage = quote.Track.Album.Image,
+                                Video = quote.Track.Video
+    }).ToList<QuoteAPIViewModel>();
+            return quotes;
         }
     }
 }
