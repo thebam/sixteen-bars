@@ -80,7 +80,12 @@
                     @Html.TextBoxFor(model => model.Video, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Video)
                 </div>
-
+                <div class="form-label">
+                    @Html.LabelFor(model => model.VideoCopyright)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.VideoCopyright, new { @class = "form-control" })
+                </div>
 
                 <div class="form-label">
                     @Html.LabelFor(model => model.Order)

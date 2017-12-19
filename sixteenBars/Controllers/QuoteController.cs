@@ -253,6 +253,7 @@ namespace sixteenBars.Controllers
         // POST: /Quote/Create
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,editor")]
         public ActionResult Create(Quote quote)
@@ -411,6 +412,7 @@ namespace sixteenBars.Controllers
         // POST: /Quote/Edit/5
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,editor")]
         public ActionResult Edit(Quote quote)

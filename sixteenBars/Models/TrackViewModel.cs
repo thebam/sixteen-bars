@@ -17,6 +17,8 @@ namespace sixteenBars.Models
         public String AlbumTitle { get; set; }
         public virtual Album Album { get; set; }
         public string Video { get; set; }
+        [Display(Name = "Video Copyright")]
+        public string VideoCopyright { get; set; }
         public int Order { get; set; }
     }
 }

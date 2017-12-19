@@ -69,8 +69,11 @@ namespace sixteenBars.Controllers
                               AlbumArtistName = quote.Track.Album.Artist.Name,
                               ArtistImage = quote.Artist.Image,
                               AlbumImage = quote.Track.Album.Image,
-                                Video = quote.Track.Video
-    }).ToList<QuoteAPIViewModel>();
+                              Video = quote.Track.Video,
+                              ArtistImageCopyRight = quote.Artist.ImageCopyright,
+                              AlbumImageCopyRight = quote.Track.Album.ImageCopyright,
+                              VideoCopyRight = quote.Track.VideoCopyright
+                          }).ToList();
             return quotes;
         }
     }

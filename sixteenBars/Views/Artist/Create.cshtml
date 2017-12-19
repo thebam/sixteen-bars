@@ -15,10 +15,34 @@
                     <input class="form-control" type="text" id="Name" ng-blur="existsArtistName()" ng-model="artistName" name="Name" placeholder="Artist Name" required />
                 </div>
                 <div class="form-label">
+                    @Html.LabelFor(model => model.RealName)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.RealName, new { @class = "form-control" })
+                </div>
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Location)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.Location, new { @class = "form-control" })
+                </div>
+                <div class="form-label">
+                    @Html.LabelFor(model => model.Biography)
+                </div>
+                <div class="form-element">
+                    @Html.TextAreaFor(model => model.Biography, new { @class = "form-control" })
+                </div>
+                <div class="form-label">
                     @Html.LabelFor(model=>model.Image)
                 </div>
                 <div class="form-element">
                     @Html.TextBoxFor(model=>model.Image,new { @class="form-control", @type="url"})
+                </div>
+                <div class="form-label">
+                    @Html.LabelFor(model => model.ImageCopyright)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.ImageCopyright, new { @class = "form-control" })
                 </div>
                 <div ng-show="artistExists">
                     This artist already exists.
@@ -26,6 +50,8 @@
                 <span ng-show="artistExistsSubmit">
                     <input type="submit" value="Add Artist" class="btn btn-back" />
                 </span>
+                
+
                 @Html.ActionLink("Cancel", "Index", "Artist", new { @class = "btn btn-inverse" })
             </div>
         }

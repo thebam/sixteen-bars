@@ -70,7 +70,12 @@
                         @Html.TextBoxFor(model => model.Image, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Image)
                     </div>
-
+                    <div class="form-label">
+                        @Html.LabelFor(model => model.ImageCopyright)
+                    </div>
+                    <div class="form-element">
+                        @Html.TextBoxFor(model => model.ImageCopyright, new { @class = "form-control" })
+                    </div>
                     <div style="margin:15px 0">
                         <input type="submit" value="Save" class="btn" />
                         @Html.ActionLink("Cancel", "Index", "Album",null, new { @class = "btn btn-inverse" })

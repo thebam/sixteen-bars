@@ -16,6 +16,13 @@ namespace sixteenBars.Library
         [Required]
         public Boolean Enabled { get; set; }
         public string Image { get; set; }
+        [Display(Name ="Image Copyright")]
+        public string ImageCopyright { get; set; }
+        [Display(Name ="Real Name")]
+        public String RealName { get; set; }
+        public string Location { get; set; }
+        public string Biography { get; set; }
+
         public Artist()
         { 
             DateCreated = DateTime.Now;
@@ -25,7 +32,7 @@ namespace sixteenBars.Library
 
         public override string ToString()
         {
-            return "Id: " + this.ArtistId.ToString() + ",Name: " + this.Name + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
+            return "Id: " + this.ArtistId.ToString() + ",Name: " + this.Name + ",RealName: " + this.RealName + ",Image: " + this.Image + ",ImageCopyright: " + this.ImageCopyright + ",Location: " + this.Location + ",Biography: " + this.Biography + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
         }
     }
 }

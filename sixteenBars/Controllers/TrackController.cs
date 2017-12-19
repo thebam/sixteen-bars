@@ -210,6 +210,7 @@ namespace sixteenBars.Controllers
 
                 Track track = new Track();
                 track.Video = trackVM.Video;
+                track.VideoCopyright = trackVM.VideoCopyright;
                 track.Title = trackVM.Title;
                 track.Order = trackVM.Order;
                 track.ReleaseDate = trackVM.ReleaseDate;
@@ -282,6 +283,7 @@ namespace sixteenBars.Controllers
                     edittedTrack.ReleaseDate = track.ReleaseDate;
                     edittedTrack.Enabled = track.Enabled;
                     edittedTrack.Video = track.Video;
+                    edittedTrack.VideoCopyright = track.VideoCopyright;
                     edittedTrack.Order = track.Order;
                     Album tempAlbum = _db.Albums.FirstOrDefault(album => album.Title.ToLower() == track.Album.Title.Trim().ToLower() && album.Artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());
                     Artist tempArtist = _db.Artists.FirstOrDefault(artist => artist.Name.ToLower() == track.Album.Artist.Name.Trim().ToLower());

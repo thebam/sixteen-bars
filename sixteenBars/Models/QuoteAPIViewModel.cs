@@ -19,5 +19,8 @@ namespace sixteenBars.Models
         public string ArtistImage { get; set; }
         public string AlbumImage { get; set; }
         public string Video { get; set; }
+        public string ArtistImageCopyRight { get; set; }
+        public string AlbumImageCopyRight { get; set; }
+        public string VideoCopyRight { get; set; }
     }
 }

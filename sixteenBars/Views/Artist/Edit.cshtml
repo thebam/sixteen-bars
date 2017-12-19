@@ -31,12 +31,35 @@
                     @Html.ValidationMessageFor(model => model.Name)
                 </div>
             <div class="form-label">
+                @Html.LabelFor(model => model.RealName)
+            </div>
+            <div class="form-element">
+                @Html.TextBoxFor(model => model.RealName, new { @class = "form-control" })
+            </div>
+            <div class="form-label">
+                @Html.LabelFor(model => model.Location)
+            </div>
+            <div class="form-element">
+                @Html.TextBoxFor(model => model.Location, new { @class = "form-control" })
+            </div>
+            <div class="form-label">
+                @Html.LabelFor(model => model.Biography)
+            </div>
+            <div class="form-element">
+                @Html.TextAreaFor(model => model.Biography, new { @class = "form-control" })
+            </div>
+            <div class="form-label">
                 @Html.LabelFor(model => model.Image)
             </div>
             <div class="form-element">
                 @Html.TextBoxFor(model => model.Image, new { @class = "form-control", @type = "url" })
             </div>
-
+            <div class="form-label">
+                @Html.LabelFor(model => model.ImageCopyright)
+            </div>
+            <div class="form-element">
+                @Html.TextBoxFor(model => model.ImageCopyright, new { @class = "form-control" })
+            </div>
             <div>
                 <input type="submit" value="Save" class="btn btn-back" />
                 

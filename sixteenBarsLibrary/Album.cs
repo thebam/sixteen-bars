@@ -26,6 +26,8 @@ namespace sixteenBars.Library
         public Boolean Enabled { get; set; }
         public virtual List<Track> Tracks { get; set; }
         public string Image { get; set; }
+        [Display(Name ="Image Copyright")]
+        public string ImageCopyright { get; set; }
         public Album()
         { 
             DateCreated = DateTime.Now;
@@ -35,7 +37,7 @@ namespace sixteenBars.Library
 
         public override string ToString()
         {
-            return "Id: "+this.AlbumId.ToString()+",Title: "+ this.Title+",{ Artist: "+this.Artist.ToString()+"},ReleaseDate: "+this.ReleaseDate.ToString()+", DateCreated: "+this.DateCreated.ToString()+",DateModified: "+this.DateModified.ToString()+",Enabled: " + this.Enabled;
+            return "Id: "+this.AlbumId.ToString()+",Title: "+ this.Title+",{ Artist: "+this.Artist.ToString()+ "},Image: " + this.Image + ",ImageCopyright: " + this.ImageCopyright + ",ReleaseDate: " + this.ReleaseDate.ToString()+", DateCreated: "+this.DateCreated.ToString()+",DateModified: "+this.DateModified.ToString()+",Enabled: " + this.Enabled;
         }
     }
 }

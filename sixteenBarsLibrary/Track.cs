@@ -25,6 +25,8 @@ namespace sixteenBars.Library
         public virtual Album Album { get; set; }
         public int Order { get; set; }
         public string Video { get; set; }
+        [Display(Name ="Video Copyright")]
+        public string VideoCopyright { get; set; }
         public Track() { 
             DateCreated = DateTime.Now;
             DateModified = DateTime.Now;
@@ -33,7 +35,7 @@ namespace sixteenBars.Library
 
         public override string ToString()
         {
-            return "Id: " + this.TrackId.ToString() + ",Title: " + this.Title + ",{ Album: " + this.Album.ToString() + "},ReleaseDate: " + this.ReleaseDate.ToString() + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
+            return "Id: " + this.TrackId.ToString() + ",Title: " + this.Title + ",{ Album: " + this.Album.ToString() + "},Video: " + this.Video + ",VideoCopyright: " + this.VideoCopyright + ",ReleaseDate: " + this.ReleaseDate.ToString() + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
         }
     }
 }

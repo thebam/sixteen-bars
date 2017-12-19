@@ -295,7 +295,7 @@ namespace sixteenBars.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,editor")]
-        public ActionResult Edit([Bind(Include = "AlbumId,Enabled,Title,Artist,ReleaseDate,Image")] Album album)
+        public ActionResult Edit([Bind(Include = "AlbumId,Enabled,Title,Artist,ReleaseDate,Image,ImageCopyright")] Album album)
         {
             ViewBag.Title = "Rhyme 4 Rhyme : Edit Album";
             ViewBag.MetaDescription = "Hip-Hop album";

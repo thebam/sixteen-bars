@@ -51,6 +51,15 @@
                     @Html.ValidationMessageFor(model => model.Image)
                 </div>
 
+                <div class="form-label">
+                    @Html.LabelFor(model => model.ImageCopyright)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.ImageCopyright, new { @class = "form-control" })
+                </div>
+
+
+
                 <div>
                     <input type="submit" value="Add Album" class="btn" />
                     @Html.ActionLink("Cancel", "Index", "Album", null, new { @class = "btn btn-inverse" })
