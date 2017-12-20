@@ -11,6 +11,7 @@ namespace sixteenBars.Library
         [Required]
         [Display(Name = "Quote")]
         public String Text { get; set; }
+        public String FormattedText { get; set; }
         public String Explanation { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }

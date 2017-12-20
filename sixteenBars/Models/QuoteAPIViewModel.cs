@@ -6,6 +6,7 @@ namespace sixteenBars.Models
     {
         public Int32 QuoteId { get; set; }
         public String Text { get; set; }
+        public String FormattedText { get; set; }
         public String Explanation { get; set; }
         public Boolean Explicit { get; set; }
         public Int32 ArtistId { get; set; }

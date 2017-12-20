@@ -57,6 +57,7 @@ namespace sixteenBars.Controllers
                           {
                               QuoteId = quote.QuoteId,
                               Text = quote.Text,
+                              FormattedText = quote.FormattedText,
                               Explanation = quote.Explanation,
                               Explicit = quote.Explicit,
                               ArtistId = quote.Artist.ArtistId,

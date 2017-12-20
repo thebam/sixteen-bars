@@ -263,20 +263,11 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, quote, lyric, rhyme, line, rap, music";
             if (ModelState.IsValid)
             {
+                quote.FormattedText = quote.Text;
+                quote.Text = quote.Text.Replace("<br/>","").Replace("<br />", "");
                 if (_db.Quotes.Where(q => q.Text == quote.Text.Trim() && q.Artist.Name == quote.Artist.Name.Trim()).Count() == 0)
                 {
-
-
-
-
-
-
-
-
-
-
-
-
+                    
                     if (User.IsInRole("admin"))
                     {
                         quote.Enabled = true;
@@ -430,7 +421,8 @@ namespace sixteenBars.Controllers
 
                 if (matchingQuotes == 0)
                 {
-
+                    quote.FormattedText = quote.Text;
+                    quote.Text = quote.Text.Replace("<br/>", "").Replace("<br />", "");
                     Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
                     if (tempArtist == null)
                     {
