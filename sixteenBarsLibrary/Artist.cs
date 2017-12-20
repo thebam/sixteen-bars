@@ -22,6 +22,8 @@ namespace sixteenBars.Library
         public String RealName { get; set; }
         public string Location { get; set; }
         public string Biography { get; set; }
+        [Display(Name ="Date of Birth")]
+        public DateTime BirthDate { get; set; }
 
         public Artist()
         { 
@@ -32,7 +34,7 @@ namespace sixteenBars.Library
 
         public override string ToString()
         {
-            return "Id: " + this.ArtistId.ToString() + ",Name: " + this.Name + ",RealName: " + this.RealName + ",Image: " + this.Image + ",ImageCopyright: " + this.ImageCopyright + ",Location: " + this.Location + ",Biography: " + this.Biography + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
+            return "Id: " + this.ArtistId.ToString() + ",Name: " + this.Name + ",RealName: " + this.RealName + ",BirthDate: " + this.BirthDate + ",Image: " + this.Image + ",ImageCopyright: " + this.ImageCopyright + ",Location: " + this.Location + ",Biography: " + this.Biography + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
         }
     }
 }

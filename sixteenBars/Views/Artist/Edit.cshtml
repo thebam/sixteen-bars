@@ -37,6 +37,12 @@
                 @Html.TextBoxFor(model => model.RealName, new { @class = "form-control" })
             </div>
             <div class="form-label">
+                @Html.LabelFor(model => model.BirthDate)
+            </div>
+            <div class="form-element">
+                @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control" })
+            </div>
+            <div class="form-label">
                 @Html.LabelFor(model => model.Location)
             </div>
             <div class="form-element">

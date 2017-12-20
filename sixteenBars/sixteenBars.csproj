@@ -240,6 +240,10 @@
     <Compile Include="Migrations\201712192020019_Copyright.Designer.cs">
       <DependentUpon>201712192020019_Copyright.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712200126288_DOBandTimestamp.cs" />
+    <Compile Include="Migrations\201712200126288_DOBandTimestamp.Designer.cs">
+      <DependentUpon>201712200126288_DOBandTimestamp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AlbumDetailsViewModel.cs" />
     <Compile Include="Models\ArtistDetailViewModel.cs" />
@@ -1232,6 +1236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712192020019_Copyright.resx">
       <DependentUpon>201712192020019_Copyright.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712200126288_DOBandTimestamp.resx">
+      <DependentUpon>201712200126288_DOBandTimestamp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

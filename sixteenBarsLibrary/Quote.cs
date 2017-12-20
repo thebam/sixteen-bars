@@ -31,6 +31,7 @@ namespace sixteenBars.Library
         [Display(Name="From Song")]
         [ForeignKey("TrackId")]
         public virtual Track Track { get; set; }
+        public string Timestamp { get; set; }
         public Quote()
         {
             Enabled = false;
@@ -41,7 +42,7 @@ namespace sixteenBars.Library
 
         public override string ToString()
         {
-            return "Id: " + this.QuoteId.ToString() + ",Text: " + this.Text + ",Explanation: "+ this.Explanation+",{ Artist: " + this.Artist.ToString() + "},{Track: "+this.Track.ToString()+"},Explicit: " + this.Explicit.ToString() + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
+            return "Id: " + this.QuoteId.ToString() + ",Text: " + this.Text + ",Explanation: "+ this.Explanation+",{ Artist: " + this.Artist.ToString() + "},{Track: "+this.Track.ToString()+"},Explicit: " + this.Explicit.ToString() + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled + ",Timestamp: " + this.Timestamp;
         }
     }
 

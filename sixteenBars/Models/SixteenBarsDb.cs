@@ -23,7 +23,7 @@ namespace sixteenBars.Models
         {
             Database.SetInitializer<SixteenBarsDb>(null);
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
     }
 }

@@ -33,6 +33,12 @@
                     @Html.CheckBoxFor(model => model.Explicit)
                 </div>
                 <div class="form-label">
+                    @Html.LabelFor(model => model.Timestamp)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.Timestamp, new { @class = "form-control" })
+                </div>
+                <div class="form-label">
                     @Html.LabelFor(model => model.Explanation)
                 </div>
                 <div class="form-element">
@@ -109,7 +115,7 @@
                 <div class="form-element">
                     @Html.TextBoxFor(model => model.Track.Album.ReleaseDate, new { ng_model = "releaseDate", ng_blur = "existTrack()", ng_init = string.Format("releaseDate = '{0}'", Model.Track.Album.ReleaseDate != null ? Model.Track.Album.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")), @class = "form-control" })
                 </div>
-                @Html.Hidden("previousQuote", Model.ToString())
+                @Html.Hidden("previousQuote",Server.HtmlEncode(Model.ToString()))
                 <div>
                     <input type="submit" value="Save" class="btn" />
                     @Html.ActionLink("Cancel", "Index", "Quote",null, new { @class = "btn btn-inverse" })

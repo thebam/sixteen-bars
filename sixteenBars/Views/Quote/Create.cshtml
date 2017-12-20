@@ -25,6 +25,12 @@
                     @Html.CheckBoxFor(model => model.Explicit)
                 </div>
                 <div class="form-label">
+                    @Html.LabelFor(model => model.Timestamp)
+                </div>
+                <div class="form-element">
+                    @Html.TextBoxFor(model => model.Timestamp, new { @class = "form-control" })
+                </div>
+                <div class="form-label">
                     @Html.LabelFor(model => model.Explanation)
                 </div>
                 <div class="form-element">
