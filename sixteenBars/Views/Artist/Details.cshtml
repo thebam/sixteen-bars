@@ -10,15 +10,22 @@
         <div id="artistInfo" class="col-md-5 artist-block">
             @if (!String.IsNullOrWhiteSpace(Model.Image))
             {
-                <img class="img-responsive" src="@Model.Image" />
+                <img class="img-responsive" style="padding-bottom:0;" src="@Model.Image" />
+                <br/>
+                <em style="font-size:small;">&copy; @Model.ImageCopyright</em>
             }
             else
             {
                 <img class="img-responsive" src="http://www.rhyme4rhyme.com/Images/rhyme-4-rhyme-logo.png" />
             }
             <div style="clear:both"></div>
+            <h2>Information</h2>
+            <p><strong>Real Name</strong> : @Model.RealName</p>
+            <p><strong>Date of Birth</strong> : @Model.BirthDate.ToString("MM/dd/yyyy")</p>
+            <p><strong>Origin</strong> : @Model.Location</p>
         </div>
         <div class="col-md-7">
+            
             <h2>Quotes</h2>
             @if (Model.Quotes.Count < 1)
             {
@@ -60,6 +67,9 @@
             </div>
             }
             </div>
+            <h2>Biography</h2>
+
+            <p>@Model.Biography</p>
         </div>
     </div>
         <div>

@@ -103,6 +103,12 @@ namespace sixteenBars.Controllers
                 artistVM.Id = artist.ArtistId;
                 artistVM.Name = artist.Name;
                 artistVM.Image = artist.Image;
+                artistVM.Biography = artist.Biography;
+                artistVM.BirthDate = artist.BirthDate;
+                artistVM.Location = artist.Location;
+                artistVM.RealName = artist.RealName;
+                artistVM.ImageCopyright = artist.ImageCopyright;
+
                 artistVM.Albums = _db.Albums.Where(a
                     => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.Title).ToList();
                 if (isExplicit != null)
@@ -165,6 +171,11 @@ namespace sixteenBars.Controllers
                     artistVM.Id = artist.ArtistId;
                     artistVM.Name = artist.Name;
                     artistVM.Image = artist.Image;
+                    artistVM.Biography = artist.Biography;
+                    artistVM.BirthDate = artist.BirthDate;
+                    artistVM.Location = artist.Location;
+                    artistVM.RealName = artist.RealName;
+                    artistVM.ImageCopyright = artist.ImageCopyright;
                     artistVM.Albums = _db.Albums.Where(a => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.Title).ToList();
                     if (isExplicit != null)
                     {

@@ -46,7 +46,7 @@ namespace sixteenBars.Controllers
                 
                 foreach (Quote quote in quotes)
                 {
-                    quote.Text = WordLink.CreateLinks(quote.Text);    
+                    quote.FormattedText = WordLink.CreateLinks(quote.FormattedText);    
                 }
             }
             return quotes;
@@ -148,8 +148,8 @@ namespace sixteenBars.Controllers
                 ViewBag.PurchaseLinks = "";
 
                 quoteVM.Id = quote.QuoteId;
-                quoteVM.Text = WordLink.CreateLinks(quote.Text);
-
+                quoteVM.Text = WordLink.CreateLinks(quote.FormattedText);
+                
                 quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
                 quoteVM.ArtistId = quote.Artist.ArtistId;
@@ -159,8 +159,8 @@ namespace sixteenBars.Controllers
                 quoteVM.AlbumId = quote.Track.Album.AlbumId;
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
                 quoteVM.AlbumArtistId = quote.Track.Album.Artist.ArtistId;
+                quoteVM.Timestamp = quote.Timestamp;
 
-                
             }
             return View(quoteVM);
         }
@@ -200,7 +200,7 @@ namespace sixteenBars.Controllers
 
 
                 quoteVM.Id = quote.QuoteId;
-                quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.Text));
+                quoteVM.Text = LanguageFilter.Filter(WordLink.CreateLinks(quote.FormattedText));
 
                 quoteVM.Explanation = quote.Explanation;
                 quoteVM.ArtistName = quote.Artist.Name;
@@ -231,6 +231,7 @@ namespace sixteenBars.Controllers
                 {
                     quoteVM.Video = quote.Track.Video;
                 }
+                quoteVM.Timestamp = quote.Timestamp;
 
                 
             }
@@ -264,7 +265,8 @@ namespace sixteenBars.Controllers
             if (ModelState.IsValid)
             {
                 quote.FormattedText = quote.Text;
-                quote.Text = quote.Text.Replace("<br/>","").Replace("<br />", "");
+                quote.Text = quote.Text.Replace("<br/>", " ").Replace("<br />", " ").Replace("\r", " ").Replace("\n", " ");
+                quote.Text = quote.Text.Replace("  ", " ");
                 if (_db.Quotes.Where(q => q.Text == quote.Text.Trim() && q.Artist.Name == quote.Artist.Name.Trim()).Count() == 0)
                 {
                     
@@ -422,7 +424,8 @@ namespace sixteenBars.Controllers
                 if (matchingQuotes == 0)
                 {
                     quote.FormattedText = quote.Text;
-                    quote.Text = quote.Text.Replace("<br/>", "").Replace("<br />", "");
+                    quote.Text = quote.Text.Replace("<br/>", " ").Replace("<br />", " ").Replace("\r", " ").Replace("\n", " ");
+                    quote.Text = quote.Text.Replace("  ", " ");
                     Artist tempArtist = _db.Artists.SingleOrDefault(a => a.Name.ToLower() == quote.Artist.Name.Trim().ToLower());
                     if (tempArtist == null)
                     {

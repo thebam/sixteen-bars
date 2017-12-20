@@ -21,7 +21,7 @@
                 <img src="@item.Track.Album.Image" class="img-responsive" />
             }            
                 <div class="quote-info">
-                    <span class="quote">@Html.Raw(item.Text)</span><br />
+                    <span class="quote">@Html.Raw(item.FormattedText)</span><br />
                     @Html.ActionLink(item.Artist.Name, URLClean.Clean(item.Artist.Name), "Artists")<br/>
                     @Html.ActionLink("quote details", URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(Regex.Replace(item.Text, "<.*?>", string.Empty)), "Quotes", null, new { @class = "btn btn-standard" })
                 </div>
