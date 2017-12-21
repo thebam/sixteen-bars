@@ -15,18 +15,24 @@
                 {
                     <div class="embed-responsive embed-responsive-16by9 col-md-7">
                         @Html.Raw(Model.Video)
+                        <br/>
+                        <em style="font-size:small;">&copy; @Model.VideoCopyright</em>
                     </div>
                 }
                 else if (!String.IsNullOrWhiteSpace(Model.Album.Image))
                 {
                     <div class="col-md-7 albumArt">
                         <img src="@Html.Raw(Model.Album.Image)" />
+                        <br />
+                        <em style="font-size:small;">&copy; @Model.Album.ImageCopyright</em>
                     </div>
                 }
                 else if (!String.IsNullOrWhiteSpace(Model.Album.Artist.Image))
                 {
                     <div class="col-md-7 albumArt">
                         <img src="@Html.Raw(Model.Album.Artist.Image)" />
+                        <br />
+                        <em style="font-size:small;">&copy; @Model.Album.Artist.ImageCopyright</em>
                     </div>
 
                 }

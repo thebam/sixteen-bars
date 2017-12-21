@@ -52,5 +52,7 @@ namespace sixteenBars.Models
         public string Image { get; set; }
         public string Video { get; set; }
         public string Timestamp { get; set; }
+        public string ImageCopyright { get; set; }
+        public string VideoCopyright { get; set; }
     }
 }

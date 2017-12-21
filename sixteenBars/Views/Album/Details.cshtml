@@ -14,14 +14,15 @@
             <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />
             <div class="row lower-details">
                 
-                    <div class="col-md-7 albumArt">
-                        <img class="img-responsive" src="@Html.Raw(Model.Image)" />
+                    <div class="col-md-6 albumArt">
+                        <img class="img-responsive" src="@Html.Raw(Model.Image)" /><br/>
+                        <em style="font-size:small;">&copy; @Model.ImageCopyright</em>
                     </div>
 
                 
 
 
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <p>
                         @if (Model.ArtistId != null && Model.ArtistName !=null)
                         {

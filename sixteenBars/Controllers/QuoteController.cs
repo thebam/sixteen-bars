@@ -160,6 +160,8 @@ namespace sixteenBars.Controllers
                 quoteVM.AlbumArtistName = quote.Track.Album.Artist.Name;
                 quoteVM.AlbumArtistId = quote.Track.Album.Artist.ArtistId;
                 quoteVM.Timestamp = quote.Timestamp;
+                quoteVM.VideoCopyright = quote.Track.VideoCopyright;
+                quoteVM.ImageCopyright = quote.Track.Album.ImageCopyright;
 
             }
             return View(quoteVM);

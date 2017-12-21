@@ -29,12 +29,17 @@
                 {
                     <div class="embed-responsive embed-responsive-16by9 col-md-7">
                         @Html.Raw(Model.Video)
+                        <div style="clear:both;">
+                            <em style="font-size:small;">&copy; @Model.VideoCopyright</em>
+                        </div>
                     </div>
                 }
                 else
                 {
                     <div class="col-md-7 albumArt">
                         <img src="@Html.Raw(Model.Image)" />
+                        <br />
+                        <em style="font-size:small;">&copy; @Model.ImageCopyright</em>
                     </div>
                 }
 

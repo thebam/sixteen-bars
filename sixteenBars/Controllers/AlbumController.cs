@@ -117,6 +117,7 @@ namespace sixteenBars.Controllers
                     albumViewModel.ArtistId = album.Artist.ArtistId;
                     albumViewModel.ArtistName = album.Artist.Name;
                     albumViewModel.ReleaseDate = (DateTime)album.ReleaseDate;
+                    albumViewModel.ImageCopyright = album.ImageCopyright;
                     try
                     {
                         albumViewModel.Tracks = _db.Tracks.Where(t => t.Album.AlbumId == album.AlbumId).OrderBy(t => t.Title).ToList();
@@ -169,6 +170,7 @@ namespace sixteenBars.Controllers
                 albumViewModel.ArtistId = album.Artist.ArtistId;
                 albumViewModel.ArtistName = album.Artist.Name;
                 albumViewModel.ReleaseDate = (DateTime)album.ReleaseDate;
+                albumViewModel.ImageCopyright = album.ImageCopyright;
                 albumViewModel.Image = album.Image;
                 if (String.IsNullOrWhiteSpace(album.Image)) {
                     if (String.IsNullOrWhiteSpace(album.Artist.Image))
