@@ -29,6 +29,7 @@ namespace sixteenBars.Library
         { 
             DateCreated = DateTime.Now;
             DateModified = DateTime.Now;
+            BirthDate = DateTime.Now;
             Enabled = false;
         }
 
