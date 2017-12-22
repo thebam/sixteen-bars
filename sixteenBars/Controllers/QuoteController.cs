@@ -1,16 +1,14 @@
-﻿using System;
+﻿using PagedList;
+using sixteenBars.Library;
+using sixteenBars.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using sixteenBars.Library;
-using sixteenBars.Models;
-using PagedList;
 using WebMatrix.WebData;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
 
 namespace sixteenBars.Controllers
 {

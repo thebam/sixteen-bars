@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Web.Mvc;
+﻿using PagedList;
 using sixteenBars.Library;
 using sixteenBars.Models;
-using PagedList;
-using System.Web;
+using System;
+using System.Data;
+using System.Linq;
+using System.Web.Mvc;
 using WebMatrix.WebData;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 
 namespace sixteenBars.Controllers
 {

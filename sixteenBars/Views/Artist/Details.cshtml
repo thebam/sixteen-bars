@@ -1,6 +1,5 @@
 ﻿@model sixteenBars.Models.ArtistDetailViewModel
 @using sixteenBars.Library;
-
 <h1>
     @Model.Name
 </h1>
@@ -25,7 +24,6 @@
             <p><strong>Origin</strong> : @Model.Location</p>
         </div>
         <div class="col-md-7">
-            
             <h2>Quotes</h2>
             @if (Model.Quotes.Count < 1)
             {
@@ -33,7 +31,7 @@
             }
             else
             {
-            <div >
+            <div>
                 @foreach (var item in Model.Quotes)
                     {
                     <div class="row">
@@ -44,31 +42,27 @@
                     }
             </div>
             }
-
-
             <div style="clear:both;margin-bottom:15px;">
                 <h2>Albums</h2>
-
                 @if (Model.Albums.Count < 1)
-            {
-            <p>No Albums Found</p>
-            }
-            else
-            {
-            <div>
-                @foreach (var item in Model.Albums)
-                    {
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.ActionLink(item.Title, URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(item.Title), "Albums")
+                {
+                <p>No Albums Found</p>
+                }
+                else
+                {
+                <div>
+                    @foreach (var item in Model.Albums)
+                        {
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.ActionLink(item.Title, URLClean.Clean(item.Artist.Name) + "/" + URLClean.Clean(item.Title), "Albums")
+                            </div>
                         </div>
-                    </div>
-                    }
-            </div>
-            }
+                        }
+                </div>
+                }
             </div>
             <h2>Biography</h2>
-
             <p>@Model.Biography</p>
         </div>
     </div>
@@ -84,11 +78,8 @@
             }
 
         </div>
-
-
         @section Scripts{
             @Scripts.Render("~/bundles/sixteenbars")
-
         }
 }
 else

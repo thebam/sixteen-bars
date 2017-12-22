@@ -1,29 +1,22 @@
 ﻿@model sixteenBars.Models.QuoteViewModel
 @using sixteenBars.Library;
-
+@using System.Text.RegularExpressions;
 @if (Model.Id > 0)
 {
     <h1>
         "@Html.Raw(Model.Text)" -
         @Html.ActionLink(Model.ArtistName, URLClean.Clean(Model.ArtistName), "Artists")
     </h1>
-
-
-
-
     if (!String.IsNullOrEmpty(Model.Explanation))
     {
         <p>
-            <strong>
-                Meaning
-            </strong>
+            <strong>Meaning</strong>
             <br />
             @Html.DisplayFor(model => model.Explanation)
         </p>
     }
     <div id="trackApp">
         <div ng-controller="AlbumController">
-
             <div class="row lower-details">
                 @if (!String.IsNullOrWhiteSpace(Model.Video))
                 {
@@ -42,47 +35,35 @@
                         <em style="font-size:small;">&copy; @Model.ImageCopyright</em>
                     </div>
                 }
-
                 <div class="col-md-5">
                     <p>
                         <strong>
                             Timestamp :
                         </strong>
-
-
                         @Model.Timestamp
                     </p>
                     <p>
                         <strong>
                             Album :
                         </strong>
-
-
                         @Html.ActionLink(Model.AlbumName, URLClean.Clean(Model.AlbumArtistName) + "/" + URLClean.Clean(Model.AlbumName), "Albums")
                     </p>
-                
                     <p>
                         <strong>
                             Artist :
                         </strong>
-
-
                         @Html.ActionLink(Model.AlbumArtistName, URLClean.Clean(Model.AlbumArtistName), "Artists")
                     </p>
-                
                     <p>
                         <strong>
                             Track :
                         </strong>
-
                         @Html.ActionLink(Model.TrackName, URLClean.Clean(Model.AlbumName) + "/" + URLClean.Clean(Model.TrackName), "Tracks")
                     </p>
                 </div>
             </div>
-
         </div>
     </div>
-
     <div>
         @Html.ActionLink("Back to List", "Index", "Quote",null, new { @class = "btn btn-back" })
         @if (User.IsInRole("admin") || User.IsInRole("editor"))
@@ -96,13 +77,12 @@
             }
         }
     </div>
-
+    <div class="fb-comments" data-width="100%" data-href="http://rhyme4rhyme.com/Quotes/@URLClean.Clean(Model.ArtistName)/@URLClean.Clean(Regex.Replace(Model.Text, "<.*?>", string.Empty))" data-numposts="5"></div>
 }
 else
 {
     <p>No Quote Found.</p>
 }
-
 @section Scripts {
     <script src="~/Scripts/sixteenbars-track-app.js"></script>
     <script src="~/Scripts/sixteenbars-autocomplete-functions.js"></script>
@@ -117,9 +97,14 @@ else
             }
             window.location.href = siteURL + "?word=" + txt;
         });
-
-
-
-
     </script>
+<div id="fb-root"></div>
+<script>
+(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 }

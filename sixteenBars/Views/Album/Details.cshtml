@@ -11,16 +11,13 @@
             </h1>
             @Html.TextBoxFor(model => model.Title, new { ng_model = "amzTitle", ng_init = string.Format("amzTitle = '{0}'", Url.Encode(Model.Title)), style = "display:none;" })
             @Html.TextBoxFor(model => model.ArtistName, new { ng_model = "amzArtistName", ng_init = string.Format("amzArtistName = '{0}'", Url.Encode(Model.ArtistName)), style = "display:none;" })
-            <input type="hidden" ng-model="amzType" ng-init="amzType='album'" />
+
             <div class="row lower-details">
                 
                     <div class="col-md-6 albumArt">
                         <img class="img-responsive" src="@Html.Raw(Model.Image)" /><br/>
                         <em style="font-size:small;">&copy; @Model.ImageCopyright</em>
                     </div>
-
-                
-
 
                 <div class="col-md-6">
                     <p>

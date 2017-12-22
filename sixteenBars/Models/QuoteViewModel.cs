@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -32,7 +29,6 @@ namespace sixteenBars.Models
         public DateTime TrackReleaseDate { get; set; }
         [Display(Name="From Song")]
         public SelectList Tracks { get; set; }
-
         [Required(ErrorMessage = "Select or add the album this track is a part of.")]
         public Int32 AlbumId { get; set; }
         [Display(Name = "Album Name")]
@@ -42,7 +38,6 @@ namespace sixteenBars.Models
         public DateTime AlbumReleaseDate { get; set; }
         [Display(Name = "From Album")]
         public SelectList Albums { get; set; }
-
         [Required(ErrorMessage = "Select or add the artist that made this album.")]
         public Int32 AlbumArtistId { get; set; }
         [Display(Name = "Artist Name")]
