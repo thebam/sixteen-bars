@@ -176,7 +176,7 @@ namespace sixteenBars.Controllers
                     artistVM.Location = artist.Location;
                     artistVM.RealName = artist.RealName;
                     artistVM.ImageCopyright = artist.ImageCopyright;
-                    artistVM.Albums = _db.Albums.Where(a => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.Title).ToList();
+                    artistVM.Albums = _db.Albums.Where(a => a.Artist.ArtistId == artist.ArtistId).OrderBy(a => a.ReleaseDate).ToList();
                     if (isExplicit != null)
                     {
                         if (isExplicit.Value == "explicit")
