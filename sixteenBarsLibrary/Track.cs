@@ -35,7 +35,7 @@ namespace sixteenBars.Library
 
         public override string ToString()
         {
-            return "Id: " + this.TrackId.ToString() + ",Title: " + this.Title + ",{ Album: " + this.Album.ToString() + "},Video: " + this.Video + ",VideoCopyright: " + this.VideoCopyright + ",ReleaseDate: " + this.ReleaseDate.ToString() + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
+            return "Id: " + this.TrackId.ToString() + ",Title: " + this.Title + ",{ Album: " + this.Album.ToString() + "},VideoCopyright: " + this.VideoCopyright + ",ReleaseDate: " + this.ReleaseDate.ToString() + ", DateCreated: " + this.DateCreated.ToString() + ",DateModified: " + this.DateModified.ToString() + ",Enabled: " + this.Enabled;
         }
     }
 }

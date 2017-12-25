@@ -1,5 +1,5 @@
 ﻿@model sixteenBars.Library.Quote
-@{Model.Text = Model.FormattedText; }
+
     @Styles.Render("~/Content/themes/base/css")
     <h1>Edit Quote</h1>
 
@@ -11,8 +11,9 @@
             @Html.ValidationSummary(true)
             <h2>@ViewBag.ErrorMessage</h2>
             <div class="form">
-                
+                @Html.Hidden("previousQuote", Model.ToString())
                 @Html.HiddenFor(model => model.QuoteId)
+                @{Model.Text = Model.FormattedText; }
                 <div class="form-label">
                     @Html.LabelFor(model => model.Enabled)
                 </div>
@@ -115,7 +116,7 @@
                 <div class="form-element">
                     @Html.TextBoxFor(model => model.Track.Album.ReleaseDate, new { ng_model = "releaseDate", ng_blur = "existTrack()", ng_init = string.Format("releaseDate = '{0}'", Model.Track.Album.ReleaseDate != null ? Model.Track.Album.ReleaseDate.Value.ToString("MM/dd/yyyy") : DateTime.Now.ToString("MM/dd/yyyy")), @class = "form-control" })
                 </div>
-                @Html.Hidden("previousQuote",Server.HtmlEncode(Model.ToString()))
+                
                 <div>
                     <input type="submit" value="Save" class="btn" />
                     @Html.ActionLink("Cancel", "Index", "Quote",null, new { @class = "btn btn-inverse" })
