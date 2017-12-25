@@ -28,20 +28,24 @@ namespace sixteenBars.Controllers
         public List<Quote> RandomQuotes(Boolean allowExplicit = false, Int32 numberOfResults = 1)
         {
             List<Quote> quotes = null;
+            List<Quote> distinctArtistQuotes = new List<Quote>();
+                List<Quote> eligibleQuotes = new List<Quote>();
             if (_db.Quotes.Count() > 0)
             {
                 if (allowExplicit)
                 {
                     //TODO - check if artist, album artist, track, and album are enabled
-                    quotes = _db.Quotes.Where(q=>q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image !=null) ).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                    eligibleQuotes = _db.Quotes.Where(q=>q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image !=null) ).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
 
                     
                 }
                 else {
                     //TODO - check if artist, album artist, track, and album are enabled
-                    quotes = _db.Quotes.Where(q => q.Explicit == false && q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image != null)).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                    eligibleQuotes = _db.Quotes.Where(q => q.Explicit == false && q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image != null)).OrderBy(q => Guid.NewGuid()).ToList();
+                    
                 }
-                
+                distinctArtistQuotes = eligibleQuotes.GroupBy(x => x.Artist.ArtistId).Select(y => y.First()).ToList();
+                quotes = distinctArtistQuotes;
                 foreach (Quote quote in quotes)
                 {
                     quote.FormattedText = WordLink.CreateLinks(quote.FormattedText);    
