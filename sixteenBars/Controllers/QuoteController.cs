@@ -45,7 +45,7 @@ namespace sixteenBars.Controllers
                     
                 }
                 distinctArtistQuotes = eligibleQuotes.GroupBy(x => x.Artist.ArtistId).Select(y => y.First()).ToList();
-                quotes = distinctArtistQuotes;
+                quotes = distinctArtistQuotes.Take(numberOfResults).ToList();
                 foreach (Quote quote in quotes)
                 {
                     quote.FormattedText = WordLink.CreateLinks(quote.FormattedText);    
