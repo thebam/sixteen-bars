@@ -35,7 +35,7 @@ namespace sixteenBars.Controllers
                 if (allowExplicit)
                 {
                     //TODO - check if artist, album artist, track, and album are enabled
-                    eligibleQuotes = _db.Quotes.Where(q=>q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image !=null) ).OrderBy(q => Guid.NewGuid()).Take(numberOfResults).ToList();
+                    eligibleQuotes = _db.Quotes.Where(q=>q.Enabled == true && q.Artist.Enabled == true && q.Track.Enabled == true && q.Track.Album.Enabled == true && (q.Artist.Image != null || q.Track.Album.Image !=null) ).OrderBy(q => Guid.NewGuid()).ToList();
 
                     
                 }

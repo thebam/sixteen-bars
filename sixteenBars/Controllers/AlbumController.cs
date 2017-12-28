@@ -2,6 +2,7 @@
 using sixteenBars.Library;
 using sixteenBars.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
@@ -45,6 +46,9 @@ namespace sixteenBars.Controllers
             ViewBag.MetaKeywords = "Hip-Hop, hip hop, album, record, rap, music";
             int pageSize = 10;
             int pageNumber = (page ?? 1);
+
+            List<Album> randomAlbums = RandomAlbums(4);
+            ViewBag.RandomAlbums = randomAlbums;
             var albumQuotes = (from album in _db.Albums
                                join quote in _db.Quotes on album.AlbumId equals quote.Track.Album.AlbumId into quotes
                                from albumQuote in quotes.DefaultIfEmpty()
@@ -388,5 +392,17 @@ namespace sixteenBars.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [ChildActionOnly]
+        public List<Album> RandomAlbums(Int32 numberOfResults = 1)
+        {
+            List<Album> albums = null;
+            if (_db.Albums.Count() > 0)
+            {
+                albums = _db.Albums.Where(a => a.Enabled == true && a.Artist.Enabled == true && a.Image != null).OrderBy(a => Guid.NewGuid()).Take(numberOfResults).ToList();   
+            }
+            return albums;
+        }
+
     }
 }
