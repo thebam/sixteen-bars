@@ -7,7 +7,7 @@ using PagedList;
 using System.Web.Script.Serialization;
 using WebMatrix.WebData;
 using System.Web;
-
+using System.Collections.Generic;
 
 namespace sixteenBars.Controllers
 {
@@ -52,6 +52,8 @@ namespace sixteenBars.Controllers
             if (!User.IsInRole("Admin") && !User.IsInRole("Editor")) {
                 ArtistTrackAlbum.RemoveAll(a => a.Enabled == false);
             }
+
+            ViewBag.RandomArtists = RandomArtists(4);
 
             return View(ArtistTrackAlbum.ToPagedList(pageNumber, pageSize));
         }
@@ -377,6 +379,17 @@ namespace sixteenBars.Controllers
                 ((IDisposable)_db).Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [ChildActionOnly]
+        public List<Artist> RandomArtists(Int32 numberOfResults = 1)
+        {
+            List<Artist> artists = null;
+            if (_db.Artists.Count() > 0)
+            {
+                artists = _db.Artists.Where(a => a.Enabled && a.Image != null).OrderBy(a => Guid.NewGuid()).Take(numberOfResults).ToList();
+            }
+            return artists;
         }
     }
 }

@@ -5,17 +5,31 @@
 
 <h2>Albums</h2>
 
-<div>
-@foreach (Album album in ViewBag.RandomAlbums)
-{
-    <div class="col-md-3">
-        <img src="@album.Image" class="img-responsive"/>
-        <br/>
-        @Html.ActionLink(album.Title, URLClean.Clean(album.Artist.Name) + "/" + URLClean.Clean(album.Title), "Albums")
-        <br/>
-        @Html.ActionLink(album.Artist.Name, URLClean.Clean(album.Artist.Name), "Artists")<br />
-    </div>
-}
+<div class="row lower-details">
+    @{ int randomAlbumCnt = 0;
+        foreach (Album album in ViewBag.RandomAlbums)
+        {
+            randomAlbumCnt++;
+            if (randomAlbumCnt > 1)
+            {
+                <div class="col-md-3 hidden-sm hidden-xs">
+                    <img src="@album.Image" class="img-responsive"/>
+                    <strong>@Html.ActionLink(album.Title, URLClean.Clean(album.Artist.Name) + "/" + URLClean.Clean(album.Title), "Albums")</strong>
+                    <br/>
+                    Artist: @Html.ActionLink(album.Artist.Name, URLClean.Clean(album.Artist.Name), "Artists")<br />
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3">
+                    <img src="@album.Image" class="img-responsive" />
+                    <strong>@Html.ActionLink(album.Title, URLClean.Clean(album.Artist.Name) + "/" + URLClean.Clean(album.Title), "Albums")</strong>
+                    <br />
+                    Artist: @Html.ActionLink(album.Artist.Name, URLClean.Clean(album.Artist.Name), "Artists")<br />
+                </div>
+            }
+        }
+    }
 </div>
 <div class="clearfix"></div>
 

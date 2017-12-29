@@ -4,6 +4,30 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <h2>Artists</h2>
 
+<div class="row lower-details">
+    @{ int randomArtistsCnt = 0;
+        foreach (Artist artist in ViewBag.RandomArtists)
+        {
+            randomArtistsCnt++;
+            if (randomArtistsCnt > 1)
+            {
+                <div class="col-md-3 hidden-sm hidden-xs">
+                    <img src="@artist.Image" class="img-responsive" />
+                    <strong>@Html.ActionLink(artist.Name, URLClean.Clean(artist.Name), "Artists")</strong>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3">
+                    <img src="@artist.Image" class="img-responsive" />
+                    <strong>@Html.ActionLink(artist.Name, URLClean.Clean(artist.Name), "Artists")</strong>
+                </div>
+            }
+        }
+    }
+</div>
+<div class="clearfix"></div>
+
 @if (User.IsInRole("admin") || User.IsInRole("editor"))
 {
     <p>
